@@ -38,7 +38,7 @@ if (!isset($_SESSION['id'])) {
     
     echo '<section id="contenu">';
         if($get){
-            $router->rt($get);
+            $router->rt(htmlentites($get));
         }else{
             $router->rt('CP');
         }
