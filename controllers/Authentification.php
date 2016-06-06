@@ -12,7 +12,7 @@ Class Authentification extends Controller{
     }
     
     Public function index($id = NULL){
-		$this->erreur->index($id);
+	$this->erreur->index($id);
         $this->traitements();
         $this->authentification();
     }
