@@ -14,9 +14,16 @@ class Auth extends Controller{
             case 'app':
                 $this->AppAuth($get);
                 break;
+			case 'public':
+                $this->NoAuth();
+                break;
         }    
     }
     
+	public function NoAuth(){
+		$_SESSION['id'] = 0;
+	}
+	
     public function AppAuth($get){
         $router = New Router();
         $router->rt($get,false);

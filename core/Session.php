@@ -26,6 +26,14 @@ class Session extends Controller {
     }   
     
     Public function Session(){
+		if($this->id == 0){
+            $this->prenom = "invité";
+            $this->nom = "";
+            //$this->identifiant = $data['identifiant'];
+            $this->mail = "";
+			return "";
+		}
+		
         $DonneesUtilisateur = $this->model->lecture('*',array('id'=>$this->id));
         foreach($DonneesUtilisateur as $data){
             $this->id = $data['id'];
