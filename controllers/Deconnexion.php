@@ -6,7 +6,6 @@ Class Deconnexion extends Controller{
         $this->app_autoload();
     }
     public function index(){
-        session_start();
         $_SESSION=array();
         session_destroy();
         $this->model->log($this->utilisateur,get_class($this),LOG_DECONNEXION."[".$this->date_du_jour."]");

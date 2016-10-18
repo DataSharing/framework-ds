@@ -9,6 +9,10 @@ class DB {
     protected $passbdd;
     Public $base_url;
     
+    public function __construct(){
+        $this->DB();
+    }
+
     Private function infosBDD(){
         include dirname(__FILE__).'/../config/database.php';
         include dirname(__FILE__).'/../config/config.php';

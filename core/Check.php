@@ -21,14 +21,14 @@ Class Check {
 		if(file_exists(dirname(__FILE__).'/../config/config.php')){
 			return 0;
 		}
-		return 1;
+		return "";
 	}
 	
 	public static function FileDatabase(){
 		if(file_exists(dirname(__FILE__).'/../config/database.php')){
 			return 0;
 		}
-		return 1;
+		return 0;
 	}
 	
 	public static function DossierInstallation(){

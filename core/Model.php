@@ -6,6 +6,7 @@ Class Model extends DB{
     Public $table;
     Public $limite;
     Public $ordre;
+    Public $prefixebdd;
     /**
      *	Insère une nouvelle ligne dans la base de données.
      */
@@ -153,7 +154,7 @@ Class Model extends DB{
         return $this->db->lastinsertid();
     }
     
-    public function log($utilisateur,$controller,$action,$id = ''){
+    public function log($utilisateur,$controller,$action,$id = 0){
         $controller = strtolower($controller);
         $query = 'insert into '.$this->prefixebdd.'logs(id_element,controller,modifie_par,date_modification,action) '
                 . 'values(:id_element,:controller,:modifier_par,:date_modification,:action)';
