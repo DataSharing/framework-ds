@@ -77,25 +77,6 @@ Class Formulaire extends Controller{
         }
     }
     
-    public function recherche(){
-        $dpt = "";
-        $region = "";
-        if(isset($_GET['dpt'])) $dpt = $_GET['dpt'];
-        if(isset($_GET['region'])) $region  = $_GET['region'];
-         
-        if(!$region == ""){
-            $this->model->table = "departements";
-            $data['dpts'] = $this->model->lecture('*',array('id_region'=>$region));
-        }else{
-            $data['dpts'] = "";
-        }
-        
-        $this->model->table = "regions";
-        $data['regions'] = $this->model->lecture('*');
-        
-        $this->view("recherche",$data);
-    }
-    
     public function autocompletion($get){
         $array = array();
         $term = $get;

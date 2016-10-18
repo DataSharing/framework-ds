@@ -3,7 +3,7 @@
 Class Accueil extends Controller{
 
     function index($id = ""){
-		$this->view('app');
+		$this->view('app/app');
 	}
 }
 

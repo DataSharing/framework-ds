@@ -1,5 +1,5 @@
 <?php
-include_once 'core/Db.php';
+include_once(dirname(__FILE__).'/../core/Db.php');
 
 Class Authentification extends Controller{
     
@@ -18,7 +18,7 @@ Class Authentification extends Controller{
     }
     
     public function authentification(){
-        $this->view('authentification/index');
+        $this->view('app/authentification/index');
     }
     
     Private function traitements(){       

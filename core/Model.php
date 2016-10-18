@@ -116,12 +116,17 @@ Class Model extends DB{
     }
 
     public function auth($mail,$password,$mode = "app"){
+		if($mode == "public"){
+			$controller_connexion = "connexion/";
+		}else{
+			$controller_connexion = "erreur/";
+		}
         $y = $this->db->prepare('SELECT COUNT(*) FROM ' . $this->prefixebdd . 'utilisateurs WHERE mail = ?');
         $y->execute(array($mail));
         $x = $y->fetch();
 
         if ($x[0] == 0){
-            header('location:' . $this->base_url . 'erreur/login');
+            header('location:' . $this->base_url . $controller_connexion .'login');
         }else{
             //Si adresse email existe alors on vérifie la combinaison
             $e = $this->db->prepare('SELECT id,password,salage,active,nom,prenom FROM ' . $this->prefixebdd . 'utilisateurs WHERE mail = ?');
@@ -132,14 +137,14 @@ Class Model extends DB{
             if ($passe == $rep['password']){
                 //COMPTE DESACTIVE
                  if($rep['active'] == 0){
-                    header('location:' . $this->base_url . 'erreur/activation');
+                    header('location:' . $this->base_url . $controller_connexion . 'activation');
                 }else{
                     $_SESSION['id'] = $rep['id'];
                      $this->log($rep['nom'].' '.$rep['prenom'],'auth',LOG_CONNEXION."[".$this->date_du_jour."]");
-                    header('Location:' . $this->base_url . $this->ControllerPrincipal);
+                    header('Location:' . $this->base_url . $this->controller_principal);
                 }
             }else{
-                header('location:' . $this->base_url . 'erreur/pwd');
+                header('location:' . $this->base_url . $controller_connexion . 'pwd');
             }
         }
     }

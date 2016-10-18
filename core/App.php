@@ -1,17 +1,35 @@
 <?php
 Class App extends Controller{
    
-    /*
-    public function includes_top(){
-        include dirname(__FILE__)."/../core/db.php";
-        include dirname(__FILE__).'/../core/model.php';
-        include dirname(__FILE__).'/../includes/doctype.php'; 
+   public function __construct(){
+        $this->load('core/menu');
+        $this->load('core/Auth');
+        $this->load('core/Router');
     }
-    
-    public function includes_footer(){
-        include dirname(__FILE__).'/../includes/footer.php'; 
+    public function __run(){
+        include dirname(__FILE__).'/../config/styles.php';
+        include dirname(__FILE__).'/../config/config.php';
+        $data['base_url'] = $config['base_url'];
+        $data['css'] = $css;
+        $data['js'] = $js;
+        $get = '';
+        if(isset($_GET['p'])) $get = htmlentities($_GET['p']);
+        $this->view('app/header',$data);
+        $this->auth->CasLogout();
+        if (!isset($_SESSION['id'])) {
+            $this->auth->CheckAuth($get);
+        }else{
+            $this->menu->MenuPrincipal();    
+            if($get){
+                $this->router->rt($get);
+            }else{
+                $this->router->rt('CP');
+            }
+        }
+        $data['js'] = $jsBottom;
+        $data['css'] = ''; 
+        $this->view('app/footer',$data);
     }
-    */
     
     public function chargement_modals(){
         //Tous les modals
@@ -25,23 +43,5 @@ Class App extends Controller{
         }
     }
         
-    public function __run(){            
-        //Menu principal
-        echo '<section id="menu">';
-            $this->view('menu');
-            //include dirname(__FILE__).'/../elements/menu.php';
-        echo '</section>';
-
-        //Contenu central
-        echo '<section id="tuiles">';
-            $this->view('tuiles',$data);
-            //include dirname(__FILE__).'/../elements/tuiles.php';
-        echo '</section>';
-
-        $this->chargement_modals($data);
-
-        include dirname(__FILE__).'/../elements/volet.php';			
-        echo '<div id="notif-block"></div>';
-    }
 }
 

@@ -34,7 +34,7 @@ class Controller{
         $this->date_du_jour = $config['date_du_jour'];
         $this->base_url = $config['base_url'];
         $this->nom_du_site = $config['nom_du_site'];
-	$this->controller_principal = $config['controller_principal'];	
+	    $this->controller_principal = $config['controller_principal'];
         $this->langage = $config['langage'];      
         
         //AUTH.PHP
@@ -122,12 +122,44 @@ class Controller{
 	}
 	
 	public function viewPrivate($path,$data = false, $error = false){      
-		require "views/private/$path.php";
+		if(!isset($_SESSION['id'])){
+			header('location:'.$this->base_url.'erreur/404');
+		}else{
+			require "views/private/$path.php";
+		}
 	}
         
     Public function redirection($url = NULL){
         header('location:' . $this->base_url . $url);
     }
+
+    /*
+    Public function add_css($path = NULL,$place = 'header'){
+        $array = array();
+        if(is_array($path)){
+            foreach($path as $css){
+                $array = array($css);
+            }
+            $data['css'] = $array;
+            this->view('app/'.$place,$data);
+        }else{
+            $data['css'] = $path;
+            this->view('app/'.$place,$data);
+        }
+    }
+
+    Public function add_js($path = NULL){
+        if(is_array($path)){
+            foreach($path as $js){
+               echo '<script type="text/javascript" ';
+               echo 'src="'.$this->base_url.'template/bootstrap/js/'.$js.'" >';
+            }
+        }else{
+            echo '<script type="text/javascript" ';
+               echo 'src="'.$this->base_url.'template/bootstrap/js/'.$path.'" >';
+        }
+    }
+    */
     
 }
 

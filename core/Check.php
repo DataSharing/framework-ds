@@ -1,7 +1,7 @@
 <?php
 
 Class Check {
-	public static function run(){
+	public static function __run(){
 		Check::DossierInstallation();
 		if(Check::FileConfig() == 1){
 			echo "<i>Fichier config.php manquant!</i><br>";
