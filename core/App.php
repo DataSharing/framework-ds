@@ -1,6 +1,6 @@
 <?php
 Class App extends Controller{
-
+   
    public function __construct(){
         $this->load('core/menu');
         $this->load('core/Auth');
@@ -19,7 +19,7 @@ Class App extends Controller{
         if (!isset($_SESSION['id'])) {
             $this->auth->CheckAuth($get);
         }else{
-            $this->menu->MenuPrincipal();
+            $this->menu->MenuPrincipal();    
             if($get){
                 $this->router->rt($get);
             }else{
@@ -27,10 +27,10 @@ Class App extends Controller{
             }
         }
         $data['js'] = $jsBottom;
-        $data['css'] = '';
+        $data['css'] = ''; 
         $this->view('app/footer',$data);
     }
-
+    
     public function chargement_modals(){
         //Tous les modals
         $dossier = dirname(__FILE__)."/../views/modals";
@@ -42,5 +42,6 @@ Class App extends Controller{
             echo "</form>";
         }
     }
-
+        
 }
+
