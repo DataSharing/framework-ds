@@ -3,9 +3,9 @@ class Auth extends Controller{
     
     Public function __construct(){
         parent::__construct();
-        $this->app_autoload();
+        $this->load('core/Model');
     }
-    
+
     public function CheckAuth($get){      
         switch ($this->mode_authentification) {
             case 'cas':

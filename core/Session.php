@@ -10,7 +10,7 @@ class Session extends Controller {
     
     Public function __construct() {
         parent::__construct();
-        $this->load('core/Model','model');
+        $this->load('core/Model');
         $this->model->table = 'utilisateurs';
         if(isset($_SESSION['id'])){
             $this->id = $_SESSION['id'];
@@ -41,6 +41,7 @@ class Session extends Controller {
             $this->nom = $data['nom'];
             //$this->identifiant = $data['identifiant'];
             $this->mail = $data['mail'];
+            $this->acces = $data['acces'];
         }
     }
     

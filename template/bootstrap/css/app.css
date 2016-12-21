@@ -3,3 +3,52 @@
 	padding:1em;
 	width:350px;
 }
+
+
+#notif-block{
+    position:absolute;
+    bottom:0;
+    z-index: 9999;
+}
+
+.notif{
+    background: rgba(0, 0, 0, 0) url("../images/opacity.png") repeat scroll 0 0;
+    bottom: 0;
+    box-shadow: 0 1px 5px #999;
+    height: auto;
+    margin-bottom: 1em;
+    margin-left: 1em;
+    padding: 0/*1.5em 1em 0*/;
+    width: 100%;
+}
+
+.notif-ok{
+    float:right;
+    color:#5cb85c;
+    font-size:2em;
+}
+
+.notif-close{
+    float:right;
+    font-size:2em;
+    margin-top: -4px;
+}
+
+.zoneClick:hover {
+	cursor: pointer;
+    box-shadow: 0 1px 5px #ddd;
+}
+
+@media screen and (max-width: 640px) {
+  .btn {
+    width: 100%
+  }
+
+  .form-signin{
+    width:100%;
+  }
+
+  .container,.col-md-9,.col-md-3,.col-md-12,.col-md-6,.col-md-10,.col-md-11,.col-md-1,.col-md-2 {
+    padding:0.3em;
+  }
+}

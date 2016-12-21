@@ -3,14 +3,13 @@ class Router extends Controller{
 
     Public function __construct(){
         parent::__construct();
-        $this->load('core/Session','session');
     }
     
     public function rt($get, $session = TRUE){
         $params = $this->params($get);
         $action = strtolower($params['action']);
         $id = $params['id'];
-		
+
 		if(isset($params['arg'])){
 			$arg = $params['arg'];
 		}else{
@@ -28,9 +27,9 @@ class Router extends Controller{
             }  
         }else{
             if($action == 'authentification' || $action == 'erreur' || $action == ''){
-                $this->load('authentification');
-                $this->load('erreur');
-                return $this->authentification->index() . $this->erreur->index($id);
+                $this->load('Authentification','ctrl_auth');
+                $this->load('Erreur','ctrl_erreur');
+                return $this->ctrl_auth->index() . $this->ctrl_erreur->index($id);
             }else{
                 $this->redirection();
             }

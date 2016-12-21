@@ -9,14 +9,19 @@
       <a class="navbar-brand" href="#"><b style="color:#f7464a">D</b>S Framework</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Accueil</a></li>
-      </ul>
+        <ul class="nav navbar-nav">
+          <li class=""><a href="<?php echo $this->base_url;?>accueil"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Accueil</a></li>
+        </ul>
       <ul class="nav navbar-nav navbar-right" style="margin-right: 0em">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->mail;?> <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="deconnexion"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion</a></li>
+              <!-- MENU ADMIN -->
+              <?php if($this->session->acces == "admin"):?>
+              <li><a href="<?php echo$this->base_url;?>utilisateurs"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Utilisateurs</a></li>
+              <?php endif;?>
+              <!-- END ADMIN -->
+              <li><a href="<?php echo $this->base_url;?>deconnexion"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion</a></li>
             </ul>
         </li>
       </ul>

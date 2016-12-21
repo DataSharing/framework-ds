@@ -44,6 +44,9 @@ class Controller{
         $this->url_cas = $auth['url_cas'];
         $this->get_cas = $auth['get_cas'];
         $this->port_cas = $auth['port_cas'];
+
+        //AUTOLOAD CHARGEMENT
+        //include(dirname(__FILE__).'/../core/Db.php');
     }
     
     public function app_autoload(){
@@ -52,7 +55,10 @@ class Controller{
         if(!$class == ''){
             foreach($class as $al=>$alias){
                 if($alias == ''){$alias = NULL;}
-                $this->load('core/'.$al,$alias);
+                if(!class_exists($al)){
+                    //echo $al." / ".$alias."<br>";
+                    $this->load('core/'.$al,$alias);
+                }
             }
         }
         
@@ -61,7 +67,9 @@ class Controller{
         if(!$class == ''){
             foreach($class as $al=>$alias){
                 if($alias == ''){$alias = NULL;}
-                $this->load('models/'.$al,$alias);
+                if(!class_exists($al)){
+                    $this->load('models/'.$al,$alias);
+                }
             }
         }
         
@@ -70,7 +78,10 @@ class Controller{
         if(!$class == ''){
             foreach($class as $al=>$alias){
                 if($alias == ''){$alias = NULL;}
-                $this->load('controllers/'.$al,$alias);
+                if(!class_exists($al)){
+                    //echo $al." / ".$alias."<br>";
+                    $this->load('controllers/'.$al,$alias);
+                }
             }
         }
         
@@ -101,11 +112,17 @@ class Controller{
             $controller = ucwords($controller);
             $repertoire = 'controllers';            
         }
+        /*
+        if(is_a($this->$controller,$controller)){
+            return "";
+        }*/
+        //echo dirname(__FILE__).'/../' . $repertoire . '/' . $controller . '.php<br>';
         if(file_exists(dirname(__FILE__).'/../' . $repertoire . '/' . $controller . '.php')){
             include_once(dirname(__FILE__).'/../' . $repertoire . '/' . $controller.'.php');
             if(!$alias){
                 $controller = strtolower($controller);
                 $this->$controller = New $controller();
+                //echo $controller."<br>";
                 return $this->$controller;
             }else{
                 $alias = strtolower($alias);

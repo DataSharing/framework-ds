@@ -2,17 +2,21 @@
 
 class DB {
 
-    protected $db;
-    protected $hostname;
-    protected $namebdd;
-    protected $userbdd;
-    protected $passbdd;
+    private $db = null;
+    private static $instance = null;
+    private $prefixebdd;
+    private $hostname;
+    private $namebdd;
+    private $userbdd;
+    private $passbdd;
     Public $base_url;
-    
+
     public function __construct(){
-        $this->DB();
+        //$this->PdoConnection();
     }
 
+	private function __clone() {}
+	
     Private function infosBDD(){
         include dirname(__FILE__).'/../config/database.php';
         include dirname(__FILE__).'/../config/config.php';
@@ -27,21 +31,30 @@ class DB {
         $this->date_du_jour = $config['date_du_jour'];	
     }
     
-    public function DB(){
+    public function PdoConnection(){
         $this->infosBDD();
-        $conn = NULL;
-    
+        $connection = NULL;
         try{
             //"mysql:host=localhost;dbname=planning", 'root', ''
-            $conn = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->namebdd . "", "" . $this->userbdd . "", "" . $this->passbdd . "");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $connection = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->namebdd . ";charset=utf8", "" . $this->userbdd . "", "" . $this->passbdd . "",array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch(PDOException $e){
                 echo 'ERROR: ' . $e->getMessage();
-                }   
-            $this->db = $conn;
+            }   
+            $this->db = $connection;
     }
    
-    
+    public function getInstance() {
+    	$this->infosBDD();
+    	self::infosBDD();
+      if (!isset(self::$instance)) {
+        $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+        self::$instance = new PDO("mysql:host=" . $this->hostname . ";dbname=" . $this->namebdd . ";charset=utf8", "" . $this->userbdd . "", "" . $this->passbdd . "", $pdo_options);
+      }
+      return self::$instance;
+    }
+
+
     public function getConnection(){
         return $this->db;
     }
@@ -52,12 +65,14 @@ class DB {
     }
     
     Public function query($query,$donnees = '',$countAction = 0){
+    	$this->db = $this->getInstance();
         $type_requete = explode(' ',$query);
         //Requête préparée
         $req = $this->db->prepare($query); 
         if(!$donnees == ''){
             //Protection injection
-            foreach($donnees as $key=>$value){               
+            foreach($donnees as $key=>$value){     
+                //echo "key : ".$key." | value : ".$value."<br>"; 
                 if(is_array($donnees[$key])){
                     $this->query($query,$donnees[$key],$countAction);
                 }else{
@@ -119,7 +134,16 @@ class DB {
         return 'insert into ' . $table . '(' . $colonnes . ') VALUES(' . $colonnesValues . ')';
     }
     
-    Public function where($where = null,$operateur = NULL){
+    Public function prepare($query,$where = array()){
+    	$this->db = $this->getInstance();
+        return $this->db->prepare($query,$where);
+    }
+
+    Public function dernierID(){
+        return $this->db->lastinsertid();
+    }
+
+    Public function where($where = null,$operateur = NULL,$groupBy = ""){
         $conditions = '';
         $ope = $operateur;
         $explode_ope = explode("+",$ope);
@@ -157,7 +181,7 @@ class DB {
         return ' where ' . $conditions;
     }
     
-    Public function update($donnees,$table,$where){
+    Public function update($donnees,$table,$where,$operateur = NULL){
         $dataset = '';
         foreach($donnees as $id => $value){
             $virgule = ',';
@@ -168,7 +192,7 @@ class DB {
             }
             $dataset = $dataset . $virgule . $id . "=:".$id ;
         }
-        return 'update ' . $table . ' SET ' . $dataset . ' '.$this->where($where);
+        return 'update ' . $table . ' SET ' . $dataset . ' '.$this->where($where,$operateur);
     }
     
     Public function leftjoin($tables = array()){

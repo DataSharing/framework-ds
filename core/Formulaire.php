@@ -6,7 +6,7 @@ Class Formulaire extends Controller{
         $this->load('core/Model','model');
     }
     
-    public function ProtectionFormulaire($data) {
+    public function ProtectionFormulaire($data = array()) {
         if (is_array($data)) {
             foreach ($data AS $cle => $valeur) {
                 if (is_array($data[$cle])) {
@@ -89,23 +89,26 @@ Class Formulaire extends Controller{
         return json_encode($array);
     }
     
-    public function pagination($table = '',$page,$par_page,$where = array()){
-        echo "<ul class='pagination pagination-sm'>";
-            $this->model->table = $table;
-            $total_records = $this->model->count($where); 
-            $total_pages = ceil($total_records / $par_page); 
-            if($total_records <= $par_page){return '';}
+    public function pagination($table = '',$page,$par_page,$where = array(),$operateur = NULL){
+        echo "<div class='container'>";
+            echo "<div class='col-md-12'>";
+                echo "<ul class='pagination pagination-sm'>";
+                    $this->model->table = $table;
+                    $total_records = $this->model->count($where,$operateur); 
+                    $total_pages = ceil($total_records / $par_page); 
+                    if($total_records <= $par_page){return '';}
 
-            for ($i=1; $i<=$total_pages; $i++) { 
-                echo "<li ";
-                    if($page == $i){
-                        echo "class='active'";
-                    }
-                echo ">";
-                    echo "<a href='?page=".$i."'>".$i."</a>";
-                echo "</li>";
-            }   
-       echo "</ul>";
+                    for ($i=1; $i<=$total_pages; $i++) { 
+                        echo "<li ";
+                            if($page == $i){
+                                echo "class='active'";
+                            }
+                        echo ">";
+                            echo "<a href='?page=".$i."'>".$i."</a>";
+                        echo "</li>";
+                    }   
+               echo "</ul>";
+            echo "</div>";
+       echo "</div>";
     }
-
 }
