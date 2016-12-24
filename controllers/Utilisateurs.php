@@ -123,8 +123,4 @@ Class Utilisateurs extends Controller{
 		$this->viewPrivate('utilisateurs/utilisateur',$data);
 	}
 
-	public function SupprimerUtilisateur($id){
-
-	}
-
 }
