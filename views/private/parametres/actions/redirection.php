@@ -8,6 +8,6 @@
             <i class="icon icon-refresh icon-spin"></i>
             <b>Modification du contenu en cours ...</b>
         </a></br>
-        <img src="<?php echo $this->base_url; ?>template/bootstrap/img/engrenage.gif" style="margin-top:7em;opacity:0.1;width: 21em;" />
+        <img src="<?php echo $this->base_url; ?>template/bootstrap/images/engrenage.gif" style="margin-top:7em;opacity:0.1;width: 21em;" />
     </center>
 </FORM>

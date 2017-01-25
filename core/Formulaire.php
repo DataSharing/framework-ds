@@ -10,7 +10,7 @@ Class Formulaire extends Controller{
         if (is_array($data)) {
             foreach ($data AS $cle => $valeur) {
                 if (is_array($data[$cle])) {
-                    $data[$cle] = ProtectionFormulaire($data[$cle]);
+                    $data[$cle] = $this->ProtectionFormulaire($data[$cle]);
                 } else {
                     if (is_numeric($valeur)) {
                         //cast pour les nombres
