@@ -63,7 +63,7 @@ class DB {
         $DateFormatBdd = new DateTime($date);
         return $DateFormatBdd->format('Y-m-d');
     }
-    
+
     Public function query($query,$donnees = '',$countAction = 0){
     	$this->db = $this->getInstance();
         $type_requete = explode(' ',$query);

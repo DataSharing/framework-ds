@@ -10,7 +10,7 @@ Class Utilisateurs extends Controller{
 		$this->load('core/Security');
 		/* Restriction pour accès ADMIN */
 		if($this->session->acces != 'admin'){
-			header('location:'.$this->base_url);
+                    $this->redirect();
 		}
 		$this->model->table = "utilisateurs";
 	}
@@ -35,7 +35,7 @@ Class Utilisateurs extends Controller{
 							  'telephone'=>$post['telephone']);
 				if($this->model->maj(array('id'=>$id),$data)){
 					if($submit == "enregistrerEtFermer"){
-						header('location:'.$this->base_url."utilisateurs");
+                                            $this->redirect("utilisateurs");
 					}
 					$this->view('app/succes/notification','Les données sont bien enregistrées!');
 				}else{
@@ -81,11 +81,11 @@ Class Utilisateurs extends Controller{
 			//SUPPRIMER UTILISATEUR
 			}elseif($submit == 'supprimer'){
 				if($this->model->delete(array('id'=>$id))){
-					header('location:'.$this->base_url."utilisateurs");
+                                    $this->redirect('utilisateurs');
 				}
 			//FERMER, REVENIR A LA LISTE USERS
 			}elseif($submit == 'fermer'){
-				header('location:'.$this->base_url."utilisateurs");
+                            $this->redirect('utilisateurs');
 			}
 			//FORMULAIRE PRINCIPAL
 			$this->FormUtilisateur($id);

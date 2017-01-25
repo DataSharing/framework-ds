@@ -10,7 +10,7 @@ Class Deconnexion extends Controller{
         $this->model->log($this->utilisateur,get_class($this),LOG_DECONNEXION."[".$this->date_du_jour."]",0,$_SESSION['id']);
         $_SESSION=array();
         session_destroy();
-        header("location: " . $this->base_url . "login" ) ;
+        $this->redirect("login");
     }
 }
 

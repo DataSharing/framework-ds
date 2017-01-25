@@ -23,7 +23,7 @@ class Router extends Controller{
             }elseif($this->load($action)){
                 return $this->$action->index($id,$arg);
             }else{
-                header('location:' . $this->base_url . 'erreur/404');
+                $this->redirect('erreur/404');
             }  
         }else{
             if($action == 'authentification' || $action == 'erreur' || $action == ''){
@@ -31,7 +31,7 @@ class Router extends Controller{
                 $this->load('Erreur','ctrl_erreur');
                 return $this->ctrl_auth->index() . $this->ctrl_erreur->index($id);
             }else{
-                $this->redirection();
+                $this->redirect();
             }
         }
     }

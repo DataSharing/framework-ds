@@ -9,12 +9,12 @@ Class Authentification extends Controller{
         $this->load('core/Model');
         $this->load('Erreur','ctrl_erreur');
         if (isset($_SESSION['id'])) {
-           header('Location:' . $this->base_url . ' index.php');
+           $this->redirect();
         }
     }
     
     Public function index($id = NULL){
-		$this->ctrl_erreur->index($id);
+        $this->ctrl_erreur->index($id);
         $this->traitements();
         $this->authentification();
     }

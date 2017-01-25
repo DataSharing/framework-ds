@@ -118,7 +118,7 @@ Class Model extends DB{
     }
     
     public function libre($query){
-        return $this->db->query($query);
+        return $this->query($query);
     }
 
     public function auth($mail,$password,$mode = "app"){
@@ -147,7 +147,7 @@ Class Model extends DB{
                 }else{
                     $_SESSION['id'] = $rep['id'];
                      $this->log($rep['nom'].' '.$rep['prenom'],'auth',LOG_CONNEXION."[".$this->date_du_jour."]",0,$rep['id']);
-                    header('Location:' . $this->base_url . $this->controller_principal);
+                    header('Location:' . $this->base_url /*. $this->controller_principal*/);
                 }
             }else{
                 header('location:' . $this->base_url . $controller_connexion . 'pwd');

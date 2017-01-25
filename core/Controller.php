@@ -7,7 +7,6 @@ class Controller{
     Public $ControllerPrincipal;
     Public $nom_du_site;
     Public $langage;
-    Public $utilisateur;
     
     Public $autoload_C;
     Public $autoload_M;
@@ -34,8 +33,9 @@ class Controller{
         $this->date_du_jour = $config['date_du_jour'];
         $this->base_url = $config['base_url'];
         $this->nom_du_site = $config['nom_du_site'];
-	    $this->controller_principal = $config['controller_principal'];
-        $this->langage = $config['langage'];      
+	$this->controller_principal = $config['controller_principal'];
+        $this->langage = $config['langage'];  
+        $this->rewrite = $config['rewrite'];
         
         //AUTH.PHP
         $this->mode_authentification = $auth['mode'];
@@ -47,9 +47,11 @@ class Controller{
 
         //AUTOLOAD CHARGEMENT
         //include(dirname(__FILE__).'/../core/Db.php');
+        $this->app_autoload();
     }
     
     public function app_autoload(){
+        /*
         //CORE CLASS
         $class = $this->autoload_C;
         if(!$class == ''){
@@ -84,7 +86,7 @@ class Controller{
                 }
             }
         }
-        
+        */
         //Chargement de la librairie CAS si Auth activé
         if($this->mode_authentification == 'cas'){
             include_once(dirname(__FILE__)."/../lib/cas/CAS.php");
@@ -99,7 +101,6 @@ class Controller{
         require './locales/'.$this->langage.'/succes.php';
         require './locales/'.$this->langage.'/erreurs.php';
         require './locales/'.$this->langage.'/logs.php';
-        $this->utilisateur = $this->session->nom." ".$this->session->prenom;
     }
     
     Public function load($controller, $alias = NULL){
@@ -146,10 +147,21 @@ class Controller{
 		}
 	}
         
-    Public function redirection($url = NULL){
-        header('location:' . $this->base_url . $url);
+    Public function redirect($url = NULL){
+        if($this->rewrite == 'on'){
+            header('location:' . $this->base_url . $url);
+        }else{
+            header('location:' . $this->base_url . "?p=" . $url);
+        }
     }
 
+    Public function echoRedirect($url = NULL){
+        if($this->rewrite == 'on'){
+            echo $this->base_url . $url;
+        }else{
+            echo $this->base_url . "?p=" . $url;
+        }
+    }
     /*
     Public function add_css($path = NULL,$place = 'header'){
         $array = array();

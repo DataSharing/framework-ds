@@ -7,6 +7,7 @@ class Session extends Controller {
     Public $prenom;
     Public $identifiant;
     Public $mail;
+    Public $utilisateur;
     
     Public function __construct() {
         parent::__construct();
@@ -26,7 +27,7 @@ class Session extends Controller {
     }   
     
     Public function Session(){
-		if($this->id == 0){
+        if($this->id == 0){
             $this->prenom = "invité";
             $this->nom = "";
             //$this->identifiant = $data['identifiant'];
@@ -43,6 +44,7 @@ class Session extends Controller {
             $this->mail = $data['mail'];
             $this->acces = $data['acces'];
         }
+        $this->utilisateur = $this->nom . " " . $this->prenom;
     }
     
 }
