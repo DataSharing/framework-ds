@@ -19,6 +19,7 @@ class Parametres extends Controller{
         $this->load('core/Session');
         $this->load('core/Security');
         $this->load('helpers/Serveur');
+        $this->session->CheckRight('parametres',LECTURE);
     }
 
     public function index($id = NULL,$arg = NULL){
@@ -41,7 +42,10 @@ class Parametres extends Controller{
     
     public function traitements(){
         $submit = '';
-        if(isset($_POST['submit'])) $submit = $_POST['submit'];
+        if(isset($_POST['submit'])){
+            $this->session->CheckRight('parametres',MODIFICATION);
+            $submit = $_POST['submit'];
+        }
         $post = $this->form->ProtectionFormulaire($_POST);
         if($submit == 'modifierGeneral'){
             $data = array('nom_du_site'=>$post['nom_du_site'],
@@ -64,7 +68,7 @@ class Parametres extends Controller{
                               'prefixebdd'=>$post['prefixebdd']);
                 if($this->majFichier($data,'database')){
                     $this->model->log($this->utilisateur,get_class($this),FORM_ENREGISTRER."[database.php]");
-                    header('location:'.$this->base_url.'parametres/succes');
+                    $this->redirect('parametres/succes');
                 }else{
                     $this->model->log($this->utilisateur,get_class($this),FORM_ENREGISTREMENT_DONNEES_ERREUR."[database.php]");
                     $this->view('app/erreurs/notification',FORM_ENREGISTREMENT_DONNEES_ERREUR);
@@ -80,16 +84,16 @@ class Parametres extends Controller{
                 $this->view('app/erreurs/notification',FORM_CONNEXION_BDD_ERREUR." [".$this->msgerror."]");
             }
         }elseif($submit == 'modifierAuth'){
-            $data = array('url_cas'=>$post['url_cas'],
-                          'get_cas'=>$post['get_cas'],
-                          'mode'=>$post['mode'][0],
-                          'port_cas'=>$post['port_cas']);
+            $data = array('url_cas'=>isset($post['url_cas']),
+                          'get_cas'=>isset($post['get_cas']),
+                          'mode'=>isset($post['mode'][0]),
+                          'port_cas'=>isset($post['port_cas']));
             if($this->majFichier($data,'auth')){
                 $this->model->log($this->utilisateur,get_class($this),FORM_ENREGISTRER."[auth.php]");
-                header('location:'.$this->base_url.'parametres/succes');
+                $this->redirect('parametres/succes');
             }else{
                 $this->model->log($this->utilisateur,get_class($this),FORM_ENREGISTREMENT_DONNEES_ERREUR."[auth.php]");
-                $this->view('aap/erreurs/notification',FORM_ENREGISTREMENT_DONNEES_ERREUR);
+                $this->view('app/erreurs/notification',FORM_ENREGISTREMENT_DONNEES_ERREUR);
             }
         }
     }

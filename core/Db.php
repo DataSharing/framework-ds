@@ -70,11 +70,18 @@ class DB {
         //Requête préparée
         $req = $this->db->prepare($query); 
         if(!$donnees == ''){
+            //Gestion signe supérieur
+            $newDonnees = array();
+            foreach($donnees as $key=>$value):  
+                $key = str_replace('>', '',$key);
+                $key = str_replace('<', '',$key);
+                $newDonnees[$key] = $value;
+            endforeach;
             //Protection injection
-            foreach($donnees as $key=>$value){     
+            foreach($newDonnees as $key=>$value){ 
                 //echo "key : ".$key." | value : ".$value."<br>"; 
-                if(is_array($donnees[$key])){
-                    $this->query($query,$donnees[$key],$countAction);
+                if(is_array($newDonnees[$key])){
+                    $this->query($query,$newDonnees[$key],$countAction);
                 }else{
                     if(is_numeric($value)){
                         $req->bindValue(":".$key,$value,PDO::PARAM_INT);
@@ -136,7 +143,13 @@ class DB {
     
     Public function prepare($query,$where = array()){
     	$this->db = $this->getInstance();
-        return $this->db->prepare($query,$where);
+        $newWhere = array();
+        foreach($where as $key=>$value):  
+            $key = str_replace('>', '',$key);
+            $key = str_replace('<', '',$key);
+            $newWhere[$key] = $value;
+        endforeach;
+        return $this->db->prepare($query,$newWhere);
     }
 
     Public function dernierID(){
@@ -150,7 +163,10 @@ class DB {
         $nb_ope = count($explode_ope);
         $count = 0;
         $verif_like = "";
+        $verif_superieur = "";
+        $verif_inferieur = "";
         $signe = "";
+        //var_dump($where);
         if($where == NULL){
             return '';
         }
@@ -168,15 +184,22 @@ class DB {
                         $operateur = $explode_ope[$multi_ope];
                     }
                 }
-                $verif_like = explode('%',$value);
-                if(count($verif_like) == 1){
-                    $signe = "=";
+                $verif_like = strpos($value,'%');
+                $verif_superieur = strpos($key,'>');
+                $verif_inferieur = strpos($key,'<');
+                if($verif_superieur !== false){
+                    $signe = ">";
+                }elseif($verif_inferieur !== false){
+                    $signe = "<";
+                }elseif($verif_like !== false){
+                   $signe = "LIKE";
                 }else{
-                    //VOIR POUR LE LIKE COMMENT JE PEUX GERER
-                    $signe = "LIKE";
+                    $signe = "=";
                 }
+                $key = str_replace('>', '',$key);
+                $key = str_replace('<', '',$key);
                 $conditions =  $conditions . ' ' . $operateur . ' ' . $key ." ". $signe . " :".$key;
-                $count = $count + 1;
+                $count++;
             }
         return ' where ' . $conditions;
     }

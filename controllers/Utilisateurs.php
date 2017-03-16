@@ -9,9 +9,7 @@ Class Utilisateurs extends Controller{
 		$this->load('core/Session');
 		$this->load('core/Security');
 		/* Restriction pour accès ADMIN */
-		if($this->session->acces != 'admin'){
-                    $this->redirect();
-		}
+		$this->session->CheckRight('utilisateurs',LECTURE);
 		$this->model->table = "utilisateurs";
 	}
 					
@@ -24,23 +22,28 @@ Class Utilisateurs extends Controller{
 	public function traitement($id,$arg){
 		$submit = "";
 		$post = $this->form->ProtectionFormulaire($_POST);
-		if(isset($_POST['submit'])) $submit = $_POST['submit'];
+		if(isset($_POST['submit'])){
+			$this->session->CheckRight('utilisateurs',MODIFICATION);
+			$submit = $_POST['submit'];
+		}
 
-		if(!$id == NULL){
+		if($id == "archives"){
+			$this->FormListeUtilisateurs($id);
+		}elseif(!$id == NULL){
 			//ENREGISTRER FORMULAIRE UTILISATEUR
 			if($submit == "enregistrer" || $submit == "enregistrerEtFermer"){
-				$data = array('nom'=>$post['nom'],
-							  'prenom'=>$post['prenom'],
-							  'mail'=>$post['email'],
-							  'telephone'=>$post['telephone']);
-				if($this->model->maj(array('id'=>$id),$data)){
-					if($submit == "enregistrerEtFermer"){
-                                            $this->redirect("utilisateurs");
-					}
-					$this->view('app/succes/notification','Les données sont bien enregistrées!');
-				}else{
-					$this->view('app/erreurs/erreur','Erreur lors de l\'enregistrement des données');
-				}
+                            $data = array('nom'=>$post['nom'],
+                                                      'prenom'=>$post['prenom'],
+                                                      'mail'=>$post['email'],
+                                                      'telephone'=>$post['telephone']);
+                            if($this->model->maj(array('id'=>$id),$data)){
+                                if($submit == "enregistrerEtFermer"){
+                                    $this->redirect("utilisateurs");
+                                }
+                                $this->view('app/succes/notification','Les données sont bien enregistrées!');
+                            }else{
+                                $this->view('app/erreurs/erreur','Erreur lors de l\'enregistrement des données');
+                            }
 			//REINITIALISER MOT DE PASSE
 			}elseif($submit == 'reinitialiser'){
 				if($post['pwd'] == $post['pwd2'] && !$post['pwd'] == "" && !$post['pwd2'] == ""){
@@ -64,13 +67,13 @@ Class Utilisateurs extends Controller{
 			}elseif($submit == 'acces'){
 				$mdp = $this->model->onerow('password',array('id'=>$id));
 				if(!$mdp == NULL){
-					if($this->model->maj(array('id'=>$id),array('active'=>$post['etatcompte'],'acces'=>$post['droits']))){
+					if($this->model->maj(array('id'=>$id),array('active'=>$post['etatcompte'],'id_groupe'=>$post['groupes']))){
 						if($post['etatcompte'] == 0){
 							$active = "désactivé";
 						}else{
 							$active = "activé";
 						}
-						$notif = array('Accès '.$post['droits' ]. ' a bien été enregistré.','Le compte à bien été '.$active);
+						$notif = array('Accès '.$post['groupes' ]. ' a bien été enregistré.','Le compte à bien été '.$active);
 						$this->view('app/succes/notification',$notif);
 					}else{
 						//ERREUR
@@ -80,8 +83,9 @@ Class Utilisateurs extends Controller{
 				}
 			//SUPPRIMER UTILISATEUR
 			}elseif($submit == 'supprimer'){
+				$this->session->CheckRight('utilisateurs',SUPPRESSION);
 				if($this->model->delete(array('id'=>$id))){
-                                    $this->redirect('utilisateurs');
+                    $this->redirect('utilisateurs');
 				}
 			//FERMER, REVENIR A LA LISTE USERS
 			}elseif($submit == 'fermer'){
@@ -96,7 +100,7 @@ Class Utilisateurs extends Controller{
 							  'prenom'=>$post['prenom'],
 							  'mail'=>$post['email'],
 							  'telephone'=>$post['telephone'],
-							  'acces'=>$post['droits'],
+							  'id_groupe'=>$post['groupes'],
 							  'date_creation'=>$this->date_du_jour,
 							  'active'=>0);
 				if($this->model->insertion($data)){
@@ -107,20 +111,47 @@ Class Utilisateurs extends Controller{
 				}
 			}
 			//TOUJOURS AFFICHER LE FORMULAIRE PRINCIPAL
-			$this->FormListeUtilisateurs();
+			$this->FormListeUtilisateurs($id);
 		}
 	}
 
-	public function FormListeUtilisateurs(){
-		$data['all'] = $this->model->lecture('*');
+	public function FormListeUtilisateurs($archives){
+		$operateur  = "";
+        $data['r'] = "";
+        $operateur = "";
+        $get = $this->form->ProtectionFormulaire($_GET);
+		if($archives == "archives"){
+            $data['archives'] = 1;
+            $recherche['est_archive'] = 1;
+        }else{
+            $data['archives'] = 0;
+            $recherche['est_archive'] = 0;
+        }
+     	if(isset($get['r'])){
+            $data['r'] = $get['r'];
+            $recherche['nom'] = "%".$get['r']."%";
+            //$recherche['prenom'] = "%".$get['r']."%";
+            $operateur  = "AND";
+        }
+		$data['all'] = $this->model->lecture(array('*'),$recherche,$operateur);
+		$this->model->table = "groupes";
+		$data['groupes'] = $this->model->lecture();
 		$this->viewPrivate('utilisateurs/liste',$data);
 	}
 
-	public function FormUtilisateur($id){
+	public function FormUtilisateur(int $id){
 		$data['utilisateur'] = $this->model->lecture('*',array('id'=>$id));
 		$this->model->table = "logs";
 		$data['historique'] = $this->model->lecture('*',array('id_utilisateur'=>$id),'',array('id'=>'desc'),array('debut'=>5,'fin'=>0));
+		$this->model->table = "groupes";
+		$data['groupes'] = $this->model->lecture();
 		$this->viewPrivate('utilisateurs/utilisateur',$data);
+	}
+
+	public function nomGroupe(int $id){
+		$this->model->table = "groupes";
+		$nom = $this->model->onerow('nom',array('id'=>$id));
+		return $nom;
 	}
 
 }

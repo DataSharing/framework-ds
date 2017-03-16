@@ -11,7 +11,7 @@ foreach($data['fichiers'] as $fichier){
         echo "<option value='$file'>".$file."</option>";
     }
 }
-echo "</select></br>";
+echo "</select>";
 echo "<select name='langues' class='form-control'>";
     echo "<option value=''>Choisir un langage</option>";
     echo "<option value='fr-FR'";
@@ -20,5 +20,5 @@ echo "<select name='langues' class='form-control'>";
     echo "<option value='en-EN'";
     if($config['langage'] == 'en-EN'){ echo "selected='selected'";}
     echo ">Anglais</option>";
-echo "</select></br>";
+echo "</select>";
 $this->ActionsGeneral();

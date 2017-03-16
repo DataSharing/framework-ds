@@ -6,7 +6,7 @@ $auth['code'] = 'no';
 //app ou cas
 $auth['mode'] = 'app';
 //mode CAS
-//cas.univ-lyon3.fr /cas 443
+//cas.exemple.fr /cas 443
 $auth['url_cas'] = '';
 $auth['get_cas'] = '';
 $auth['port_cas'] = '';

@@ -7,7 +7,8 @@
 
             // *** CSS *** //
             echo '<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">';
-            echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+            //echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+            echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">';
             if(is_array($data['css'])){
                 foreach($data['css'] as $css){
                     echo '<link rel="stylesheet" ';

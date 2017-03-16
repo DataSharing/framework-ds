@@ -1,5 +1,5 @@
 <?php
-include_once './core/Db.php';
+include_once dirname(__FILE__).'/../core/Db.php';
 
 Class Model extends DB{
     
@@ -28,6 +28,14 @@ Class Model extends DB{
      *              array('id'=>'ASC'),
      *              array('suivant'=>0,'fin'=>5),
                     'id');
+
+        Fonction recherche LIKE '%%'
+        $this->lecture(array('id','nom','prenom'),
+     *              array('id'=>1,'nom'=>'%nom%'),
+     *              'AND',
+     *              array('id'=>'ASC'),
+     *              array('suivant'=>0,'fin'=>5),
+                    'id');
      */
     public function lecture($select = array('*'), $where = array(), $operateur = null,$order = array(),$limit = array())
     {
@@ -35,7 +43,7 @@ Class Model extends DB{
                 . $this->where($where,$operateur)    
                 .' ' . $this->orderby($order)
                 .' ' . $this->limit($limit));      
-       //echo $query;
+        //echo $query."<br/>";
         return $this->query($query,array_merge($where,$limit));
     }
 
@@ -117,6 +125,26 @@ Class Model extends DB{
         }
     }
     
+    /*
+
+        Verification pour éviter les doublons
+
+    */
+
+    public function verificationDoublons($where = array(),$operateur = ""){
+        $query = 'select id from ' . $this->prefixebdd . $this->table
+                . $this->where($where,$operateur);
+        $nb = $this->prepare($query,$where);
+        foreach($where as $key=>$value){
+            $nb->bindValue(':'.$key,$value);
+        }
+        $nb->execute();
+        if($nb->rowCount() >= 1){
+            return true;
+        }
+        return false;
+    }
+
     public function libre($query){
         return $this->query($query);
     }
@@ -146,7 +174,7 @@ Class Model extends DB{
                     header('location:' . $this->base_url . $controller_connexion . 'activation');
                 }else{
                     $_SESSION['id'] = $rep['id'];
-                     $this->log($rep['nom'].' '.$rep['prenom'],'auth',LOG_CONNEXION."[".$this->date_du_jour."]",0,$rep['id']);
+                    $this->log($rep['nom'].' '.$rep['prenom'],'auth',LOG_CONNEXION."[".$this->date_du_jour."]",0,$rep['id']);
                     header('Location:' . $this->base_url /*. $this->controller_principal*/);
                 }
             }else{

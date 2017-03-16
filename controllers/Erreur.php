@@ -21,17 +21,17 @@ Class Erreur extends Controller{
     }
     
     public function errorLogin(){  
-        echo "<div class='container' style='width:350px'>";
-        echo "<div class='alert alert-danger'>Ce login n'existe pas!</div></div>";
+        echo "<div class='container' style='width:350px;background:transparent'>";
+        echo "<div class='alert alert-danger'>Login ou mot de passe incorrect!</div></div>";
     }
     
     public function errorPwd(){
-        echo "<div class='container' style='width:350px'>";
-        echo "<div class='alert alert-danger'>Mot de passe incorrect!</div></div>";
+        echo "<div class='container' style='width:350px;background:transparent'>";
+        echo "<div class='alert alert-danger'>Login ou mot de passe incorrect!</div></div>";
     }
     
     public function errorActivation(){
-        echo "<div class='container' style='width:350px'>";
+        echo "<div class='container' style='width:350px;background:transparent'>";
         echo "<div class='alert alert-danger'>Votre compte est désactivé, veuillez contacter l'administrateur du site!</div></div>";
     }
 }

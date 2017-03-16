@@ -18,7 +18,6 @@ Class App extends Controller{
         $get = '';
         if(isset($_GET['p'])) $get = htmlentities($_GET['p']);
         $this->view('app/header',$data);
-        $this->auth->CasLogout();
         if (!isset($_SESSION['id'])) {
             $this->auth->CheckAuth($get);
         }else{

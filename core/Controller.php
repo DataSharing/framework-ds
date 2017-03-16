@@ -33,7 +33,7 @@ class Controller{
         $this->date_du_jour = $config['date_du_jour'];
         $this->base_url = $config['base_url'];
         $this->nom_du_site = $config['nom_du_site'];
-	$this->controller_principal = $config['controller_principal'];
+	    $this->controller_principal = $config['controller_principal'];
         $this->langage = $config['langage'];  
         $this->rewrite = $config['rewrite'];
         
@@ -51,42 +51,11 @@ class Controller{
     }
     
     public function app_autoload(){
-        /*
-        //CORE CLASS
-        $class = $this->autoload_C;
-        if(!$class == ''){
-            foreach($class as $al=>$alias){
-                if($alias == ''){$alias = NULL;}
-                if(!class_exists($al)){
-                    //echo $al." / ".$alias."<br>";
-                    $this->load('core/'.$al,$alias);
-                }
-            }
-        }
-        
-        //MODELS CLASS
-        $class = $this->autoload_M;
-        if(!$class == ''){
-            foreach($class as $al=>$alias){
-                if($alias == ''){$alias = NULL;}
-                if(!class_exists($al)){
-                    $this->load('models/'.$al,$alias);
-                }
-            }
-        }
-        
-        //CONTROLLERS CLASS
-        $class = $this->autoload_Ctr;
-        if(!$class == ''){
-            foreach($class as $al=>$alias){
-                if($alias == ''){$alias = NULL;}
-                if(!class_exists($al)){
-                    //echo $al." / ".$alias."<br>";
-                    $this->load('controllers/'.$al,$alias);
-                }
-            }
-        }
-        */
+        if (!defined('LECTURE')) define('LECTURE',7);
+        if (!defined('MODIFICATION')) define('MODIFICATION',77);
+        if (!defined('SUPPRESSION')) define('SUPPRESSION',777);
+        if (!defined('ADMINISTRATEUR')) define('ADMINISTRATEUR',7777);
+       
         //Chargement de la librairie CAS si Auth activé
         if($this->mode_authentification == 'cas'){
             include_once(dirname(__FILE__)."/../lib/cas/CAS.php");
@@ -97,10 +66,10 @@ class Controller{
             require  './locales/'.$this->langage.'/'.strtolower(get_class($this)).'.php';
         }
         
-        require './locales/'.$this->langage.'/formulaire.php';
-        require './locales/'.$this->langage.'/succes.php';
-        require './locales/'.$this->langage.'/erreurs.php';
-        require './locales/'.$this->langage.'/logs.php';
+        require dirname(__FILE__).'/../locales/'.$this->langage.'/formulaire.php';
+        require dirname(__FILE__).'/../locales/'.$this->langage.'/succes.php';
+        require dirname(__FILE__).'/../locales/'.$this->langage.'/erreurs.php';
+        require dirname(__FILE__).'/../locales/'.$this->langage.'/logs.php';
     }
     
     Public function load($controller, $alias = NULL){
@@ -157,9 +126,10 @@ class Controller{
 
     Public function echoRedirect($url = NULL){
         if($this->rewrite == 'on'){
-            echo $this->base_url . $url;
+            return $this->base_url . $url;
         }else{
-            echo $this->base_url . "?p=" . $url;
+            $url = str_replace('?','&',$url);
+            return $this->base_url . "?p=" . $url;
         }
     }
     /*

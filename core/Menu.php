@@ -11,7 +11,49 @@ class Menu extends Controller{
         header('location:index.php'); 
     }
 
+    Public function EnFrJoursMois($date, $type){
+        $jours = array(
+            'Mon'=>'Lundi',
+            'Tue'=>'Mardi',
+            'Wed'=>'Mercredi',
+            'Thu'=>'Jeudi',
+            'Fri'=>'Vendredi',
+            'Sat'=>'Samedi',
+            'Sun'=>'Dimanche'
+            );
+                $mois = array(
+            'Jan'=>'Janvier',
+            'Feb'=>'Février',
+            'Mar'=>'Mars',
+            'Apr'=>'Avril',
+            'May'=>'Mai',
+            'Jun'=>'Juin',
+            'Jul'=>'Juillet',
+                        'Aug'=>'Août',
+                        'Sep'=>'Septembre',
+                        'Oct'=>'Octobre',
+                        'Nov'=>'Novembre',
+                        'Dec'=>'Décembre',
+            );
+                
+            if($type == 'j') {
+                return $jours[$date];
+            }else{
+                return $mois[$date];
+            }
+                
+    }
+
+    public function date_du_jour_menu(){
+        $jour = $this->EnFrJoursMois(date('D'),'j');
+        $mois = $this->EnFrJoursMois(date('M'),'m');
+        return $jour. " " . date('j') . " " . $mois;
+    }
+
     public function MenuPrincipal(){
+        if(isset($_POST['changerProfil'])){
+            $_SESSION['id_groupe'] = $_POST['changerProfil'];
+        }
         $data['page_active'] = '';
         //$data['logout'] = $this->mode_authentification;
         if(isset($_GET['p'])) $data['page_active'] = $_GET['p'];

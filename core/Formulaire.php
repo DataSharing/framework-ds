@@ -46,7 +46,7 @@ Class Formulaire extends Controller{
         . $input2
         . $input3
         . $option
-        . '/></br>';
+        . '/>';
         echo $input1;
     }
     
@@ -104,7 +104,8 @@ Class Formulaire extends Controller{
                                 echo "class='active'";
                             }
                         echo ">";
-                            echo "<a href='?page=".$i."'>".$i."</a>";
+                            $url = str_replace('/?p=','',$_SERVER['REQUEST_URI']);
+                            echo "<a href='".$this->echoRedirect($url.'?page='.$i)."'>".$i."</a>";
                         echo "</li>";
                     }   
                echo "</ul>";

@@ -18,6 +18,7 @@ class Session extends Controller {
             $this->Session();
         }
     }
+
     Public function VerifSession(){ 
         if(!isset($_SESSION['id'])){
             header("Location : " . $this->base_url . "login");
@@ -42,9 +43,53 @@ class Session extends Controller {
             $this->nom = $data['nom'];
             //$this->identifiant = $data['identifiant'];
             $this->mail = $data['mail'];
-            $this->acces = $data['acces'];
+            if(!isset($_SESSION['id_groupe'])){
+                $_SESSION['id_groupe'] = $data['id_groupe'];
+            }
+            if(!isset($_SESSION['vue'])){
+                if($data['vue'] == ""){
+                    $data['vue'] = "jour";
+                }
+                $_SESSION['vue'] = $data['vue'];
+            }
         }
         $this->utilisateur = $this->nom . " " . $this->prenom;
     }
-    
+    /*
+        7       : Lecture
+        77      : Mise à jour
+        777     : Suppression
+        7777    : Administrateur/Big BOSS
+
+    */
+    public function CheckRight(string $controller, int $right){
+        $id_groupe = $_SESSION['id_groupe'];
+        $this->model->table = "droits";
+        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+        if(!count($data['verification']) == 1){
+            $this->view('app/erreurs/index','Vous n\'avez pas les droits nécessaire!');
+            exit;
+        }
+        return true;
+    }
+
+     public function CheckRightType(string $controller, int $right){
+        $id_groupe = $_SESSION['id_groupe'];
+        $this->model->table = "droits";
+        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+        if(!count($data['verification']) == 1){
+            return false;
+        }
+        return true;
+    }
+
+    public function CheckRightMain(string $controller, int $right){
+        $id_groupe = $_SESSION['id_groupe'];
+        $this->model->table = "droits";
+        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+        if(!count($data['verification']) == 1){
+            return false;
+        }
+        return true;
+    }
 }
