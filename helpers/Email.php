@@ -32,7 +32,7 @@ Class Email Extends PHPMailer{
         ###description###     : Si un champs dans la bdd est prevu pour les mails
 
     */
-    public function envoyer($destinataires = array(),$sujet,$action,$id_reservation = 0){
+    public function envoyer($destinataires = array(),$sujet,$action = ""){
         /* Utilisation par la BDD
 
         $model = New Model();
