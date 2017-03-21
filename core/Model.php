@@ -29,15 +29,14 @@ Class Model extends DB{
      *              '',
      *              array('id'=>'ASC'),
      *              array('suivant'=>0,'fin'=>5),
-                    'id');
-
-        Fonction recherche LIKE '%%'
-        $this->lecture(array('id','nom','prenom'),
+     *               'id');
+     *  Fonction recherche LIKE '%%'
+     *  $this->lecture(array('id','nom','prenom'),
      *              array('id'=>1,'nom'=>'%nom%'),
      *              'AND',
      *              array('id'=>'ASC'),
      *              array('suivant'=>0,'fin'=>5),
-                    'id');
+     *              'id');
      */
     
     /**

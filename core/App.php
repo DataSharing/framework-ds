@@ -1,6 +1,7 @@
 <?php
 /*
  * Class App : Traitement du lancement de l'application
+ * 
  */
 Class App extends Controller{
    
