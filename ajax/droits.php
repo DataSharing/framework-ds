@@ -1,7 +1,9 @@
 <?php
 include_once '../core/Model.php';
+include_once '../config/database.php';
+
 $model = New Model();
-$model->table = "droits";
+$model->table = $database['prefixe']."droits";
 
 if(isset($_POST['controller']) && isset($_POST['id_groupe'])){
 	$lecture = array('id_groupe'=>$_POST['id_groupe'],'droit'=>7,'controller'=>$_POST['controller']);
@@ -23,7 +25,7 @@ if(isset($_POST['controller']) && isset($_POST['id_groupe'])){
 	    echo '</div>';
 	}
 	$droits = array();
-	$model->table = "droits_groupes";
+	$model->table = $database['prefixe']."droits_groupes";
 	$droits = $model->lecture(array('*'),array('id_groupe'=>$_POST['id_groupe']));
 
 	echo '<table class="table table-striped">';
@@ -133,7 +135,7 @@ if(isset($_POST['nom_type']) && isset($_POST['id_groupe'])){
 	    echo '</div>';
 	}
 	$droits = array();
-	$model->table = "droits_groupes";
+	$model->table = $database['prefixe']."droits_groupes";
 	$droits = $model->lecture(array('*'),array('id_groupe'=>$_POST['id_groupe']));
 	foreach($droits as $droit):
 		$selectType = strpos($droit['controller'],'type_');
