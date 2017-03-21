@@ -44,7 +44,7 @@ Class Email Extends PHPMailer{
      * voir ci-dessous
      */
     public function envoyer($destinataires = array(),$sujet = "",$message = ""){
-        /* Utilisation par la BDD
+        /** Utilisation par la BDD
 
         $model = New Model();
         $model->table = 'mails';
@@ -57,11 +57,13 @@ Class Email Extends PHPMailer{
             $description = $model->onerow('commentaire',array('id'=>$id_reservation));
             $message = str_replace('###description###',$description,$message);
         }
-        */
-        
-        // enables SMTP debug information (for testing)
+         * 
+         *  enables SMTP debug information (for testing)
                        // 1 = errors and messages
                        // 2 = messages only
+         * 
+         */
+       
     	//$this->SMTPDebug = 1;
     	$this->SetFrom($this->expediteur,$this->alias);
         foreach($destinataires as $destinataire){
