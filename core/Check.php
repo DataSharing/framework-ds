@@ -1,40 +1,46 @@
 <?php
-
+/**
+ * Class Check : VÃ©rification au lancement de l'application pour l'installation de celle-ci
+ */
 Class Check {
-	public static function __run(){
-		Check::DossierInstallation();
-		if(Check::FileConfig() == 1){
-			echo "<i>Fichier config.php manquant!</i><br>";
-		}
-		if(Check::FileDatabase() == 1){
-			echo "<i>Fichier database.php manquant!</i><br>";
-		}
-		if(Check::FileConfig() == 1 || Check::FileDatabase() == 1){
-			echo "<b>Dans l'ordre:</b><br>";
-			echo "<i>-- Vérifier les droits d'écriture sur le repertoire</i><br>";
-			echo "<i>-- Renommer ou copier le dossier d'installation à la racine du site et relancer l'installation en rafraichissant la page...</i><br>";
-			exit;
-		}	
-	}
-	
-	public static function FileConfig(){
-		if(file_exists(dirname(__FILE__).'/../config/config.php')){
-			return 0;
-		}
-		return "";
-	}
-	
-	public static function FileDatabase(){
-		if(file_exists(dirname(__FILE__).'/../config/database.php')){
-			return 0;
-		}
-		return 0;
-	}
-	
-	public static function DossierInstallation(){
-		if(file_exists(dirname(__FILE__).'/../installation/install.php')){
-			header('location:installation/index.php');
-		}
-		return '';
-	}
+    /*
+     * Si dossier installation existe
+     * VÃ©rification des dossiers manquant & des droits d'Ã©criture sur le rÃ©pertoire
+     */
+    public static function __run(){
+        Check::DossierInstallation();
+        if(Check::FileConfig() == 1){
+            echo "<i>Fichier config.php manquant!</i><br>";
+        }
+        if(Check::FileDatabase() == 1){
+            echo "<i>Fichier database.php manquant!</i><br>";
+        }
+        if(Check::FileConfig() == 1 || Check::FileDatabase() == 1){
+            echo "<b>Dans l'ordre:</b><br>";
+            echo "<i>-- Vï¿½rifier les droits d'ï¿½criture sur le repertoire</i><br>";
+            echo "<i>-- Renommer ou copier le dossier d'installation ï¿½la racine du site et relancer l'installation en rafraichissant la page...</i><br>";
+            exit;
+        }	
+    }
+
+    public static function FileConfig(){
+        if(file_exists(dirname(__FILE__).'/../config/config.php')){
+            return 0;
+        }
+        return "";
+    }
+
+    public static function FileDatabase(){
+        if(file_exists(dirname(__FILE__).'/../config/database.php')){
+            return 0;
+        }
+        return 0;
+    }
+
+    public static function DossierInstallation(){
+        if(file_exists(dirname(__FILE__).'/../installation/install.php')){
+            header('location:installation/index.php');
+        }
+        return '';
+    }
 }

@@ -2,11 +2,18 @@
 require_once dirname(__FILE__).'/../lib/PHPMailer/PHPMailerAutoload.php';
 include_once dirname(__FILE__).'/../core/Model.php';
 
+/**
+ * Class Email : Gestion des envoies de mail avec la libraire PHPMailer
+ */
 Class Email Extends PHPMailer{
 
     Private $expediteur;
     Private $alias;
-
+    
+    /**
+     * Configuration des informations SMTP
+     * Fichier ./config/mail.php contient les informations de connexion
+     */
     function __construct(){
         parent::__construct();
         include dirname(__FILE__).'/../config/mail.php';        
@@ -23,16 +30,20 @@ Class Email Extends PHPMailer{
         $this->expediteur	= $mail['expediteur'];
         $this->alias        = $mail['alias'];
     }
-
-    /*
-        $action (ajouter,non_restitue,restitue)
-        $destinataires = array(mail,mail,mail,...)
+    
+    /**
+     * Envoyer un mail à une ou plusieur personne 
+     * @param array     $destinataires : array('mail@mail.fr','mail2@mail.fr')
+     * @param string    $sujet  : Sujet du mail
+     * @return boolean
      * 
-     * Personnaliser le mail 
-        ###description###     : Si un champs dans la bdd est prevu pour les mails
-
-    */
-    public function envoyer($destinataires = array(),$sujet,$action,$id_reservation = 0){
+     * Si l'on passe par une BDD, on peut imaginer remplacer certains mot clé
+     * Exemple : 
+     *      -    ###description###
+     * Dans ce cas, il nous faut un paramètre suplémentaire, un id unique et on remplace ###exemple### par le champs BDD
+     * voir ci-dessous
+     */
+    public function envoyer($destinataires = array(),$sujet = "",$message = ""){
         /* Utilisation par la BDD
 
         $model = New Model();
@@ -46,11 +57,8 @@ Class Email Extends PHPMailer{
             $description = $model->onerow('commentaire',array('id'=>$id_reservation));
             $message = str_replace('###description###',$description,$message);
         }
-		*/
-
-        if($active == 0){
-            return true;
-        }
+        */
+        
         // enables SMTP debug information (for testing)
                        // 1 = errors and messages
                        // 2 = messages only
@@ -65,30 +73,6 @@ Class Email Extends PHPMailer{
             return true;
     	}
     	return false;
-    }
-    
-    public function affichage_heure($heure){
-        $exHeure = explode('.',$heure);
-        if(isset($exHeure[1])){
-            return $exHeure[0]."h30";
-        }else{
-            return $heure."h00";
-        }
-    }
-    
-    public function afficher_date($date, $affichage = 'date'){
-        $date_sans_time = explode(' ',$date);
-        if($affichage == 'date'){
-            if($date == '0000-00-00'){
-                return '0000-00-00';
-            }else{
-                $datetimeformat = new DateTime($date_sans_time[0]);
-                return $datetimeformat->format('d-m-Y');
-            }
-        }elseif($affichage == 'dateheure'){
-            $datetimeformat = new DateTime($date);
-            return $datetimeformat->format('d-m-Y H:i');
-        }
     }
     
 }

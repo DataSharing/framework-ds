@@ -1,7 +1,9 @@
 <?php
-
+/**
+ * Class Security : securiser le code
+ */
 Class Security extends Controller{
-
+    
     function input_token($nom,$token = ''){
         echo '<input type="hidden" name="'.$nom.'_token" id="'.$nom.'_token" value="'.$token.'" />';
     }
@@ -28,6 +30,12 @@ Class Security extends Controller{
         return false;
     }
     
+    /**
+     * Générer salage pour le mot de passe
+     * 
+     * @param int $nb_caractere
+     * @return string
+     */
     function generer_salage($nb_caractere = 50){
         $salage = "";     
         $chaine = "abcdefghjkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ023456789+@!$%?&";

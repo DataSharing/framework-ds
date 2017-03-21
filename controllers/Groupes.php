@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Page groupes
+ * vue : views/Private/groupes/...
+ *
+ * @author walid.heddaji
+ */
 class Groupes extends Controller {
 
     Public function __construct() {

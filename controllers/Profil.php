@@ -1,4 +1,9 @@
 <?php
+/**
+ * Page Profil
+ * vue : views/Private/profil/...
+ * @author Walid Heddaji
+ */
 
 class Profil extends Controller {
 

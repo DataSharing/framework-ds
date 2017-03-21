@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Deconnexion de l'application
+ * @author Walid Heddaji
+ */
 Class Deconnexion extends Controller{
     function __construct() {
         parent::__construct();

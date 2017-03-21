@@ -1,4 +1,7 @@
 <?php
+/**
+ * Class Auth : Traitement de l'authentification de l'application
+ */
 class Auth extends Controller{
     
     Public function __construct(){
@@ -6,7 +9,11 @@ class Auth extends Controller{
         $this->load('core/Model');
         $this->load('core/Security');
     }
-
+    
+    /**
+     * Vérification du mode d'authenfication
+     * @param string $get
+     */
     public function CheckAuth($get){      
         switch ($this->mode_authentification) {
             case 'cas':
@@ -21,15 +28,22 @@ class Auth extends Controller{
         }    
     }
     
-	public function NoAuth(){
-		$_SESSION['id'] = 0;
-	}
+    public function NoAuth(){
+        $_SESSION['id'] = 0;
+    }
 	
+    /**
+     * Authentification par le mode APPLICATION
+     * @param string $get
+     */
     public function AppAuth($get){
         $router = New Router();
         $router->rt($get,false);
     }
     
+    /**
+     * Chargement des informations Client CAS
+     */
     public function CasClient(){
         phpCAS::setDebug();
         phpCAS::setVerbose(true);
@@ -38,6 +52,9 @@ class Auth extends Controller{
         phpCAS::forceAuthentication();
     }
     
+    /**
+     * Authenfication par le mode CAS
+     */
     public function CasAuth(){
         $this->CasClient();
         $attributes = phpCas::getAttributes();
@@ -73,13 +90,18 @@ class Auth extends Controller{
         }
     }
     
+    /**
+     * Verification de l'existence de l'utilisateur dans la BDD via l'adresse mail
+     *
+     * @param string $utilisateur : adresse mail de l'utilisateur
+     * @return boolean : True => utilisateur existe ; False => N'existe pas
+     */
     public function CasAuthVerificationUserExist($utilisateur = ''){
         if(!$utilisateur){header('location:'.$this->base_url);}
         $this->model->table = 'utilisateurs';
         $select = array('id','mail','id_groupe');
         $all_id = $this->model->lecture($select);
         foreach($all_id as $u){
-            //A MODIFIER POUR QUE SE SOIT GENERIQUE
             if($utilisateur == $u['mail']){
                 $_SESSION['id'] = $u['id'];
                 $this->model->log($u['mail'],get_class($this),LOG_CONNEXION."[".$this->date_du_jour."]");
@@ -89,6 +111,10 @@ class Auth extends Controller{
         return false;
     }
     
+    /**
+     * Déconnexion du CAS
+     * @param boolean $deconnexion
+     */
     public function CasLogout($deconnexion = false){
         //if(isset($_REQUEST['logout'])){
         if($deconnexion == true){    

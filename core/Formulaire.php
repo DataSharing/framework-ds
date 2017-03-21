@@ -1,11 +1,20 @@
 <?php
-
+/**
+ * Class Formulaire : regroupe quelque fonctionnalité pour l'utilisation de formulaire
+ */
 Class Formulaire extends Controller{
     function __construct() {
         parent::__construct();
         $this->load('core/Model','model');
     }
     
+    /**
+     * Protection du formulaire
+     * Requête préparée ou cette fonction
+     * 
+     * @param array $data
+     * @return array
+     */
     public function ProtectionFormulaire($data = array()) {
         if (is_array($data)) {
             foreach ($data AS $cle => $valeur) {
@@ -25,8 +34,18 @@ Class Formulaire extends Controller{
             $data = htmlspecialchars($data);
         }
         return $data;
-     }
+    }
     
+    /**
+     * Création d'un INPUT HTML
+     * @param string $name
+     * @param string $type
+     * @param string $placeholder
+     * @param string $error
+     * @param string $value
+     * @param string $pattern
+     * @param string $option
+     */
     public function input($name,$type,$placeholder,$error = '',$value = '', $pattern = "[A-Za-z0-9]*",$option = 'required'){
         $input2 = '';
         $input3 = '';
@@ -50,6 +69,11 @@ Class Formulaire extends Controller{
         echo $input1;
     }
     
+    /**
+     * Création d'un INPUT HTML
+     * Version améliorée de $this->input(...)
+     * @param array $options
+     */
     public function inputTab($options = array()){
         $optionsInput = '';
         $openInput = '<input ';
@@ -62,6 +86,12 @@ Class Formulaire extends Controller{
         echo $input;
     }
     
+    /**
+     * Afficher la date au format FR
+     * @param date $date
+     * @param string $affichage
+     * @return string
+     */
     public function afficher_date($date, $affichage = 'date'){
         $date_sans_time = explode(' ',$date);
         if($affichage == 'date'){
@@ -77,18 +107,16 @@ Class Formulaire extends Controller{
         }
     }
     
-    public function autocompletion($get){
-        $array = array();
-        $term = $get;
-        $this->model->table = "villes";
-        $where = array('ville_nom'=>"%".$term."%");
-        $villes = $this->model->lecture('*',$where);
-        foreach($villes as $ville){
-            array_push($array, $ville['ville_nom']);
-        }
-        return json_encode($array);
-    }
-    
+    /**
+     * Retourne une pagination (CSS Bootstrap)
+     * 
+     * @param string $table
+     * @param int $page
+     * @param int $par_page
+     * @param array $where
+     * @param string $operateur
+     * @return string
+     */
     public function pagination($table = '',$page,$par_page,$where = array(),$operateur = NULL){
         echo "<div class='container'>";
             echo "<div class='col-md-12'>";

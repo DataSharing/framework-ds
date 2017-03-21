@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Page Utilisateurs
+ * vue : views/Private/utilisateurs/...
+ * @author Walid Heddaji
+ */
 Class Utilisateurs extends Controller{
 
 	public function __construct(){

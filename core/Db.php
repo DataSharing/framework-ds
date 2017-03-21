@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Class DB : Base de données
+ */
 class DB {
 
     private $db = null;
@@ -15,8 +17,12 @@ class DB {
         //$this->PdoConnection();
     }
 
-	private function __clone() {}
-	
+    private function __clone() {}
+
+    /**
+     * Toutes les informations de connexion à la BDD
+     * fichier : database.php 
+     */
     Private function infosBDD(){
         include dirname(__FILE__).'/../config/database.php';
         include dirname(__FILE__).'/../config/config.php';
@@ -31,6 +37,10 @@ class DB {
         $this->date_du_jour = $config['date_du_jour'];	
     }
     
+    /**
+     * Connexion à la BDD
+     * Création de l'instance $this->db
+     */
     public function PdoConnection(){
         $this->infosBDD();
         $connection = NULL;
@@ -44,6 +54,10 @@ class DB {
             $this->db = $connection;
     }
    
+    /**
+     * 
+     * @return object
+     */
     public function getInstance() {
     	$this->infosBDD();
     	self::infosBDD();
@@ -54,16 +68,31 @@ class DB {
       return self::$instance;
     }
 
-
+    /**
+     * 
+     * @return object
+     */
     public function getConnection(){
         return $this->db;
     }
     
+    /**
+     * Modifie le format de la date
+     * @param date $date
+     * @return date
+     */
     Public function formatDate($date){
         $DateFormatBdd = new DateTime($date);
         return $DateFormatBdd->format('Y-m-d');
     }
 
+    /**
+     *
+     * @param string $query
+     * @param array $donnees
+     * @param int $countAction
+     * @return boolean
+     */
     Public function query($query,$donnees = '',$countAction = 0){
     	$this->db = $this->getInstance();
         $type_requete = explode(' ',$query);
@@ -107,6 +136,12 @@ class DB {
             return false;
     }
     
+    /**
+     * Préparation de la requête SELECT
+     * @param string $select
+     * @param string $table
+     * @return string
+     */
     Public function select($select,$table){
         $selections = '';
         if($select == '' || $select == '*'){
@@ -124,6 +159,12 @@ class DB {
         return 'select ' . $selections . ' from ' . $table;
     }
     
+    /**
+     * Préparation de la requête INSERT
+     * @param array $donnees
+     * @param string $table
+     * @return string
+     */
     Public function insert($donnees,$table){
         $colonnes = '';
         $colonnesValues = '';
@@ -141,6 +182,12 @@ class DB {
         return 'insert into ' . $table . '(' . $colonnes . ') VALUES(' . $colonnesValues . ')';
     }
     
+    /**
+     * Requête préparée PDO
+     * @param string $query
+     * @param array $where
+     * @return array
+     */
     Public function prepare($query,$where = array()){
     	$this->db = $this->getInstance();
         $newWhere = array();
@@ -152,10 +199,21 @@ class DB {
         return $this->db->prepare($query,$newWhere);
     }
 
+    /**
+     * Retourne le dernière ID
+     * @return int
+     */
     Public function dernierID(){
         return $this->db->lastinsertid();
     }
 
+    /**
+     * Préparation de la condition WHERE
+     * @param array $where
+     * @param string $operateur
+     * @param array $groupBy
+     * @return boolean|string
+     */
     Public function where($where = null,$operateur = NULL,$groupBy = ""){
         $conditions = '';
         $ope = $operateur;
@@ -204,6 +262,14 @@ class DB {
         return ' where ' . $conditions;
     }
     
+    /**
+     * Préparation de la requête UPDATE
+     * @param array $donnees
+     * @param string $table
+     * @param array $where
+     * @param string $operateur
+     * @return string
+     */
     Public function update($donnees,$table,$where,$operateur = NULL){
         $dataset = '';
         foreach($donnees as $id => $value){
@@ -218,13 +284,11 @@ class DB {
         return 'update ' . $table . ' SET ' . $dataset . ' '.$this->where($where,$operateur);
     }
     
-    Public function leftjoin($tables = array()){
-        
-        foreach($tables as $alias=>$table){
-            
-        }
-    }
-    
+    /**
+     * Préparation ORDER BY
+     * @param array $order
+     * @return string
+     */
     Public function orderby($order){
         if($order == NULL){
             return '';
@@ -235,6 +299,11 @@ class DB {
         }
     }
     
+    /**
+     * Préparation LIMIT
+     * @param int $limit
+     * @return string
+     */
     Public function limit($limit = null){
         $count = 0;
         if($limit == null){return '';}else{

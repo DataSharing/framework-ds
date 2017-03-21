@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Page Erreur
+ * @author Walid Heddaji
+ */
 Class Erreur extends Controller{
     
     Public function __construct(){

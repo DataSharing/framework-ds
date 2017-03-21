@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Class Controller : Element principal du framework
+ */
 class Controller{   
     
     Public $base_url;
@@ -33,7 +35,7 @@ class Controller{
         $this->date_du_jour = $config['date_du_jour'];
         $this->base_url = $config['base_url'];
         $this->nom_du_site = $config['nom_du_site'];
-	    $this->controller_principal = $config['controller_principal'];
+        $this->controller_principal = $config['controller_principal'];
         $this->langage = $config['langage'];  
         $this->rewrite = $config['rewrite'];
         
@@ -50,7 +52,13 @@ class Controller{
         $this->app_autoload();
     }
     
+    /**
+     * Chargement de la fonction dans chaque page
+     */
     public function app_autoload(){
+        /**
+         * Droits utilisateurs
+         */
         if (!defined('LECTURE')) define('LECTURE',7);
         if (!defined('MODIFICATION')) define('MODIFICATION',77);
         if (!defined('SUPPRESSION')) define('SUPPRESSION',777);
@@ -72,6 +80,15 @@ class Controller{
         require dirname(__FILE__).'/../locales/'.$this->langage.'/logs.php';
     }
     
+    /**
+     * Chargement d'une class dans le dossier core ou helpers
+     * Exemple : $this->load('core/Maclass.php','alias');
+     * Utilisation: $this->alias->maFunction();
+     * 
+     * @param string $controller
+     * @param string $alias
+     * @return boolean : true=>retourne l'instance False=>erreur
+     */
     Public function load($controller, $alias = NULL){
         $dossier = explode('/',$controller);
         $nb = count($dossier);
@@ -104,18 +121,39 @@ class Controller{
         }
     }
     
+    /**
+     * Vue Public
+     * Affichage de la vue et envoi de données 
+     * @param string $path : fichier php
+     * @param array $data : données à transferer dans la vue
+     * @param boolean $error
+     */
     public function view($path,$data = false, $error = false){      
-		require "views/public/$path.php";
-	}
+        require "views/public/$path.php";
+    }
 	
-	public function viewPrivate($path,$data = false, $error = false){      
-		if(!isset($_SESSION['id'])){
-			header('location:'.$this->base_url.'erreur/404');
-		}else{
-			require "views/private/$path.php";
-		}
-	}
-        
+    /**
+     * Vue Privée
+     * Affichage de la vue et envoi de données 
+     * @param string $path : fichier php
+     * @param array $data : données à transferer dans la vue
+     * @param boolean $error
+     */
+    public function viewPrivate($path,$data = false, $error = false){      
+        if(!isset($_SESSION['id'])){
+            header('location:'.$this->base_url.'erreur/404');
+        }else{
+            require "views/private/$path.php";
+        }
+    }
+    
+    /**
+     * Redirection en se basant sur le mode rewrite
+     * on : réécriture de l'url
+     * off : variable url
+     * 
+     * @param string $url
+     */
     Public function redirect($url = NULL){
         if($this->rewrite == 'on'){
             header('location:' . $this->base_url . $url);
@@ -124,6 +162,12 @@ class Controller{
         }
     }
 
+    /**
+     * Retourne l'url complète pour les liens
+     *
+     * @param string $url
+     * @return string
+     */
     Public function echoRedirect($url = NULL){
         if($this->rewrite == 'on'){
             return $this->base_url . $url;
@@ -132,6 +176,7 @@ class Controller{
             return $this->base_url . "?p=" . $url;
         }
     }
+    
     /*
     Public function add_css($path = NULL,$place = 'header'){
         $array = array();

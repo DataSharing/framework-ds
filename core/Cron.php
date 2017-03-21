@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Cron : gestion des taches planifiées
+ */
 Class Cron extends Controller{
    
     Public function __construct(){

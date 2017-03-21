@@ -1,6 +1,8 @@
 <?php
 include_once dirname(__FILE__).'/../core/Db.php';
-
+/**
+ * Class Model : Requêtes pour le controller
+ */
 Class Model extends DB{
     
     Public $table;
@@ -20,11 +22,11 @@ Class Model extends DB{
     }
 
     /**
-     *	Récupère des données dans la base de données.
+     *
      * Exemple : 
      * $this->lecture(array('id','nom','prenom'),
      *              array('id'=>1),
-     *              'AND',
+     *              '',
      *              array('id'=>'ASC'),
      *              array('suivant'=>0,'fin'=>5),
                     'id');
@@ -37,6 +39,17 @@ Class Model extends DB{
      *              array('suivant'=>0,'fin'=>5),
                     'id');
      */
+    
+    /**
+     * Récupère des données dans la base de données.
+     * 
+     * @param array $select : array('nom','prenom','mail') 
+     * @param array $where : array('nom'=>'monnom','prenom'=>'monprenom')
+     * @param string $operateur : 'OR' ou 'AND'
+     * @param array $order : array('nom'=>'desc')
+     * @param int $limit : array('suivant'=>0,'fin'=>5)
+     * @return array 
+     */
     public function lecture($select = array('*'), $where = array(), $operateur = null,$order = array(),$limit = array())
     {
         $query = $this->select($select,$this->prefixebdd . $this->table
@@ -48,8 +61,13 @@ Class Model extends DB{
     }
 
     /**
-     *	Récupère une information dans la base de données.
-     *         
+     * Récupère une information dans la base de données.
+     * IMPORTANT !!! Il faut être sûr qu'il n'y aura qu'une ligne de retournée
+     * 
+     * @param string $select : "prenom" 
+     * @param array $where : array('nom'=>'monnom','age'=>25)
+     * @param string $operateur : 'OR' ou 'AND'
+     * @return string
      */
     public function onerow($select, $where = array(), $operateur = null)
     {
@@ -69,9 +87,12 @@ Class Model extends DB{
     } 
 
     /**
-     *	Modifie une ou plusieurs lignes dans la base de données.
+     * Modifie une ou plusieurs lignes dans la base de données.
+     * 
+     * @param array $where : array('id'=>1)
+     * @param array $donnees : array('nom'=>$_POST['nom'],'prenom'=>$_POST['prenom'])
+     * @return boolean : True : ok ; sinon erreur
      */
-
     public function maj($where, $donnees = array())
     {		
         $query = $this->update($donnees,$this->prefixebdd . $this->table, $where);
@@ -81,6 +102,14 @@ Class Model extends DB{
     /**
      *	Supprime une ou plusieurs lignes de la base de données.
      */
+    
+    /**
+     * Supprime une ou plusieurs lignes de la base de données.
+     * 
+     * @param array $where : array('id'=>1)
+     * @param string $operateur : "AND" ou "OR"
+     * @return boolean
+     */
     public function delete($where = array(),$operateur = '')
     {
         $query = 'delete from ' . $this->prefixebdd . $this->table
@@ -88,6 +117,12 @@ Class Model extends DB{
         return $this->query($query, $where);
     }
 
+    /**
+     * 
+     * @param array $where : array('prenom'=>'Jean')
+     * @param string $operateur : 'OR' ou 'AND'
+     * @return int
+     */
     public function count($where = array(), $operateur = NULL){
         $query = $this->select('*',$this->prefixebdd . $this->table
                 . $this->where($where,$operateur));
@@ -101,6 +136,7 @@ Class Model extends DB{
         return $nb->RowCount();
     }
 
+    
     public function recherche($select = "*", $where = array()){
         $or = "";
         $conditions = "";
@@ -130,7 +166,13 @@ Class Model extends DB{
         Verification pour éviter les doublons
 
     */
-
+    /**
+     * Verification pour éviter les doublons
+     * 
+     * @param array $where : array('nom'=>'monnom','prenom'=>'monprenom')
+     * @param string $operateur : "AND" ou "OR"
+     * @return boolean : true => doublon ; false : 
+     */
     public function verificationDoublons($where = array(),$operateur = ""){
         $query = 'select id from ' . $this->prefixebdd . $this->table
                 . $this->where($where,$operateur);
@@ -139,16 +181,30 @@ Class Model extends DB{
             $nb->bindValue(':'.$key,$value);
         }
         $nb->execute();
-        if($nb->rowCount() >= 1){
+        if($nb->rowCount() > 1){
             return true;
         }
         return false;
     }
 
+    /**
+     * Fonction Libre avec directement la requête
+     * Fonction à utiliser pour les tests
+     * 
+     * @param string $query
+     * @return array
+     */
     public function libre($query){
         return $this->query($query);
     }
 
+    /**
+     * Fonction d'authentification
+     * 
+     * @param string $mail
+     * @param string $password
+     * @param string $mode
+     */
     public function auth($mail,$password,$mode = "app"){
 		if($mode == "public"){
 			$controller_connexion = "connexion/";
@@ -183,10 +239,24 @@ Class Model extends DB{
         }
     }
     
+    /**
+     * Dernière ID inséré
+     * @return int
+     */
     public function lastInsertId(){
         return $this->dernierID();
     }
     
+    /**
+     * Inscription des logs
+     * 
+     * @param string $utilisateur
+     * @param string $controller
+     * @param string $action
+     * @param int $id
+     * @param int $id_user
+     * @return boolean
+     */
     public function log($utilisateur,$controller,$action,$id = 0,$id_user = 0){
         $controller = strtolower($controller);
         $query = 'insert into '.$this->prefixebdd.'logs(id_element,controller,modifie_par,date_modification,action,id_utilisateur) '

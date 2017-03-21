@@ -1,4 +1,7 @@
 <?php
+/*
+ * Class App : Traitement du lancement de l'application
+ */
 Class App extends Controller{
    
    public function __construct(){
@@ -31,18 +34,6 @@ Class App extends Controller{
         $data['js'] = $jsBottom;
         $data['css'] = ''; 
         $this->view('app/footer',$data);
-    }
-    
-    public function chargement_modals(){
-        //Tous les modals
-        $dossier = dirname(__FILE__)."/../views/modals";
-        $fichiers = scandir($dossier);
-        foreach($fichiers as $fichier){
-            $ex = explode('.',$fichier);
-            echo '<form name="'.$ex[1].'" action="" method="post">';
-                $this->view("modals/".$fichier);
-            echo "</form>";
-        }
     }
         
 }
