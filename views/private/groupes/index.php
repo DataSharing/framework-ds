@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</form>
-	<div class="" style="margin:3em auto;">
+	<div class="col-md-12" style="margin:3em auto;">
 		<?php
 		$count = count($data['groupes']);
 		if($count > 1){

@@ -4,7 +4,7 @@
 			<div class="col-md-10">
 				<button type="button"  data-toggle="modal" data-target=".bs-ajouter-modal-sm" class="btn btn-xs btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Utilisateurs</button>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-2" style="float:right">
 				<div class="btn-group btn-toggle"> 
 				    <a href="<?php echo $this->echoRedirect('utilisateurs/archives');?>" class="btn btn-default <?php if($data['archives']==1)echo 'active';?>" alt="Archives"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span></a>
 				    <a href="<?php echo $this->echoRedirect('utilisateurs');?>" class="btn btn-default <?php if($data['archives']==0)echo 'active';?>"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></a>
@@ -27,7 +27,7 @@
 			</div>
 		</form>
 <form action="" method="post">	
-		<div class="">
+		<div class="col-md-12">
 			<?php
 			$count = count($data['all']);
 			if($count > 1){

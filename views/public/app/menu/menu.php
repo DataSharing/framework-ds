@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">D<b style="color:#f7464a">S</b></a>
+      <a class="navbar-brand" href="#">GD<b style="color:#f7464a">R</b></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">

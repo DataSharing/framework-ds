@@ -16,7 +16,6 @@ $G = $data['groupe'][0];
 					<b><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Droits d'accès par controlleurs</b>
 				</div>
 				<div class="panel-body">
-				<p><b>Ctrl : Controlleur | L : Lecture | M : Modification | S/A : Suppression/Archivage</b></p>
 					<div class="col-md-4" style="padding: 0">
 						<select name="controller" id="controller" class="form-control">
 							<?php 
@@ -43,10 +42,10 @@ $G = $data['groupe'][0];
 					<div id="tab_acces">
 						<table class="table table-striped">
 							<tr>
-								<th>Ctrl</th>
-								<th>L</th>
-								<th>M</th>
-								<th>S/A</th>
+								<th>Controller</th>
+								<th>Lecture</th>
+								<th>Modification</th>
+								<th>Suppression/Archivage</th>
 							</tr>
 							<?php
 							foreach($data['droits'] as $droit):
