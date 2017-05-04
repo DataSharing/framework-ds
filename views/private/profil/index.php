@@ -1,9 +1,9 @@
 <?php $u = $data['utilisateur'][0];?>
 <form action="" method="post">
 	<div class="container" style="margin:3em auto;background: white; padding: 2em">
-		<div class="col-md-14">
+		<div class="col-md-12">
 			<!-- INFOS Utilisateur -->
-			<div class="col-md-10">
+			<div class="col-md-8">
 				<div class="panel panel-default">
 					<div class="panel-heading"><b><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Informations utilisateur</b></div>
 					<div class="panel-body">
