@@ -21,7 +21,6 @@
           <?php endif;?>
         </ul>
       <ul class="nav navbar-nav navbar-right" style="margin-right: 0em">
-        <li class='dateM'><a href='#' ><?php echo $this->date_du_jour_menu(); ?></a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->mail;?> <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></a>
             <ul class="dropdown-menu">

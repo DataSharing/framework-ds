@@ -13,12 +13,6 @@ class Menu extends Controller{
         header('location:index.php'); 
     }
 
-    public function date_du_jour_menu(){
-        $jour = $this->EnFrJoursMois(date('D'),'j');
-        $mois = $this->EnFrJoursMois(date('M'),'m');
-        return $jour. " " . date('j') . " " . $mois;
-    }
-
     public function MenuPrincipal(){
         /*
          * Mode Debug si plusieur profil

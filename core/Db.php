@@ -1,7 +1,5 @@
 <?php
-/**
- * Class DB : Base de données
- */
+
 class DB {
 
     private $db = null;
@@ -17,12 +15,8 @@ class DB {
         //$this->PdoConnection();
     }
 
-    private function __clone() {}
-
-    /**
-     * Toutes les informations de connexion à la BDD
-     * fichier : database.php 
-     */
+	private function __clone() {}
+	
     Private function infosBDD(){
         include dirname(__FILE__).'/../config/database.php';
         include dirname(__FILE__).'/../config/config.php';
@@ -37,10 +31,6 @@ class DB {
         $this->date_du_jour = $config['date_du_jour'];	
     }
     
-    /**
-     * Connexion à la BDD
-     * Création de l'instance $this->db
-     */
     public function PdoConnection(){
         $this->infosBDD();
         $connection = NULL;
@@ -54,10 +44,6 @@ class DB {
             $this->db = $connection;
     }
    
-    /**
-     * 
-     * @return object
-     */
     public function getInstance() {
     	$this->infosBDD();
     	self::infosBDD();
@@ -68,31 +54,16 @@ class DB {
       return self::$instance;
     }
 
-    /**
-     * 
-     * @return object
-     */
+
     public function getConnection(){
         return $this->db;
     }
     
-    /**
-     * Modifie le format de la date
-     * @param date $date
-     * @return date
-     */
     Public function formatDate($date){
         $DateFormatBdd = new DateTime($date);
         return $DateFormatBdd->format('Y-m-d');
     }
 
-    /**
-     *
-     * @param string $query
-     * @param array $donnees
-     * @param int $countAction
-     * @return boolean
-     */
     Public function query($query,$donnees = '',$countAction = 0){
     	$this->db = $this->getInstance();
         $type_requete = explode(' ',$query);
@@ -102,6 +73,10 @@ class DB {
             //Gestion signe supérieur
             $newDonnees = array();
             foreach($donnees as $key=>$value):  
+                //respecter l'ordre
+                $key = str_replace('<>', '',$key);
+                $key = str_replace('<=', '',$key);
+                $key = str_replace('>=', '',$key);
                 $key = str_replace('>', '',$key);
                 $key = str_replace('<', '',$key);
                 $newDonnees[$key] = $value;
@@ -133,15 +108,9 @@ class DB {
                 return true;
             }
          }
-            return false;
+        return false;
     }
     
-    /**
-     * Préparation de la requête SELECT
-     * @param string $select
-     * @param string $table
-     * @return string
-     */
     Public function select($select,$table){
         $selections = '';
         if($select == '' || $select == '*'){
@@ -159,12 +128,6 @@ class DB {
         return 'select ' . $selections . ' from ' . $table;
     }
     
-    /**
-     * Préparation de la requête INSERT
-     * @param array $donnees
-     * @param string $table
-     * @return string
-     */
     Public function insert($donnees,$table){
         $colonnes = '';
         $colonnesValues = '';
@@ -182,38 +145,24 @@ class DB {
         return 'insert into ' . $table . '(' . $colonnes . ') VALUES(' . $colonnesValues . ')';
     }
     
-    /**
-     * Requête préparée PDO
-     * @param string $query
-     * @param array $where
-     * @return array
-     */
     Public function prepare($query,$where = array()){
     	$this->db = $this->getInstance();
         $newWhere = array();
         foreach($where as $key=>$value):  
             $key = str_replace('>', '',$key);
             $key = str_replace('<', '',$key);
+            $key = str_replace('<>', '',$key);
+            $key = str_replace('<=', '',$key);
+            $key = str_replace('>=', '',$key);
             $newWhere[$key] = $value;
         endforeach;
         return $this->db->prepare($query,$newWhere);
     }
 
-    /**
-     * Retourne le dernière ID
-     * @return int
-     */
     Public function dernierID(){
         return $this->db->lastinsertid();
     }
 
-    /**
-     * Préparation de la condition WHERE
-     * @param array $where
-     * @param string $operateur
-     * @param array $groupBy
-     * @return boolean|string
-     */
     Public function where($where = null,$operateur = NULL,$groupBy = ""){
         $conditions = '';
         $ope = $operateur;
@@ -223,6 +172,9 @@ class DB {
         $verif_like = "";
         $verif_superieur = "";
         $verif_inferieur = "";
+        $verif_superieur_egal = "";
+        $verif_inferieur_egal = "";
+        $verif_different = "";
         $signe = "";
         //var_dump($where);
         if($where == NULL){
@@ -242,34 +194,42 @@ class DB {
                         $operateur = $explode_ope[$multi_ope];
                     }
                 }
+                //c'est moche mais fonctionnel #spaghetti
+                //Respecter l'ordre IMPORTANT!
                 $verif_like = strpos($value,'%');
                 $verif_superieur = strpos($key,'>');
                 $verif_inferieur = strpos($key,'<');
-                if($verif_superieur !== false){
+                $verif_superieur_egal = strpos($key,'>=');
+                $verif_inferieur_egal = strpos($key,'<=');
+                $verif_different = strpos($key,'<>');
+                if($verif_like !== false){
+                   $signe = "LIKE";
+                }elseif($verif_superieur_egal !== false){
+                   $signe = ">=";
+                }elseif($verif_inferieur_egal !== false){
+                   $signe = "<=";
+                }elseif($verif_different !== false){
+                   $signe = "<>";
+                }elseif($verif_superieur !== false){
                     $signe = ">";
                 }elseif($verif_inferieur !== false){
                     $signe = "<";
-                }elseif($verif_like !== false){
-                   $signe = "LIKE";
                 }else{
                     $signe = "=";
                 }
+                //Respecter l'ordre
+                $key = str_replace('<>', '',$key);
+                $key = str_replace('<=', '',$key);
+                $key = str_replace('>=', '',$key);
                 $key = str_replace('>', '',$key);
                 $key = str_replace('<', '',$key);
+                
                 $conditions =  $conditions . ' ' . $operateur . ' ' . $key ." ". $signe . " :".$key;
                 $count++;
             }
         return ' where ' . $conditions;
     }
     
-    /**
-     * Préparation de la requête UPDATE
-     * @param array $donnees
-     * @param string $table
-     * @param array $where
-     * @param string $operateur
-     * @return string
-     */
     Public function update($donnees,$table,$where,$operateur = NULL){
         $dataset = '';
         foreach($donnees as $id => $value){
@@ -284,11 +244,17 @@ class DB {
         return 'update ' . $table . ' SET ' . $dataset . ' '.$this->where($where,$operateur);
     }
     
-    /**
-     * Préparation ORDER BY
-     * @param array $order
-     * @return string
-     */
+    Public function leftjoin($leftjoin = array()){
+        if(!empty($leftjoin)){
+            $lj = "";
+            foreach($leftjoin as $table=>$join){
+                $lj = $lj." left join ".$table." ON ".$join;
+            }
+            return $lj;
+        }
+        return "";
+    }
+    
     Public function orderby($order){
         if($order == NULL){
             return '';
@@ -299,11 +265,13 @@ class DB {
         }
     }
     
-    /**
-     * Préparation LIMIT
-     * @param int $limit
-     * @return string
-     */
+    public function groupby($groupby){
+        if(!empty($groupby)){
+            return "group by ".$groupby;
+        }
+        return "";
+    }
+    
     Public function limit($limit = null){
         $count = 0;
         if($limit == null){return '';}else{

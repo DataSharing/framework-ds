@@ -1,7 +1,5 @@
 <?php
-/**
- * Class Session : Informations et verification de la session
- */
+
 class Session extends Controller {
     
     Public $id;
@@ -21,9 +19,6 @@ class Session extends Controller {
         }
     }
 
-    /*
-     * Si la variable de session n'existe pas, on redirige sur la page de login
-     */
     Public function VerifSession(){ 
         if(!isset($_SESSION['id'])){
             header("Location : " . $this->base_url . "login");
@@ -32,20 +27,14 @@ class Session extends Controller {
         }
     }   
     
-    /**
-     * Informations de session pratique (utilisation, nom, prenom, mail, id groupe)
-     * Variable disponible au chargement de la CLASS
-     * 
-     * @return string
-     */
     Public function Session(){
         if($this->id == 0){
             $this->prenom = "invité";
             $this->nom = "";
             //$this->identifiant = $data['identifiant'];
             $this->mail = "";
-                return "";
-        }
+			return "";
+		}
 		
         $DonneesUtilisateur = $this->model->lecture('*',array('id'=>$this->id));
         foreach($DonneesUtilisateur as $data){
@@ -54,24 +43,39 @@ class Session extends Controller {
             $this->nom = $data['nom'];
             //$this->identifiant = $data['identifiant'];
             $this->mail = $data['mail'];
+            if(!isset($_SESSION['id_reference'])){
+                $_SESSION['id_reference'] = $this->idReferenceGroupe($data['id_groupe']);
+            }
             if(!isset($_SESSION['id_groupe'])){
                 $_SESSION['id_groupe'] = $data['id_groupe'];
+            }
+            if(!isset($_SESSION['vue'])){
+                if($data['vue'] == ""){
+                    $data['vue'] = "jour";
+                }
+                $_SESSION['vue'] = $data['vue'];
             }
         }
         $this->utilisateur = $this->nom . " " . $this->prenom;
     }
+    
     /**
+     * 
+     * @param type $idGroupe
+     */
+    public function idReferenceGroupe($idGroupe){
+        $this->model->table = "groupes";
+        $id = $this->model->onerow('id_reference',array('id'=>$idGroupe));
+        return $id;
+    }
+    
+    /*
         7       : Lecture
         77      : Mise à jour
         777     : Suppression
         7777    : Administrateur/Big BOSS
 
-     * Verification des droits 
-     * 
-     * @param string $controller
-     * @param int $right
-     * @return boolean
-     */
+    */
     public function CheckRight(string $controller, int $right){
         $id_groupe = $_SESSION['id_groupe'];
         $this->model->table = "droits";
@@ -83,13 +87,16 @@ class Session extends Controller {
         return true;
     }
 
-    /**
-     * Vérification des droits pour le MENU
-     * 
-     * @param string $controller
-     * @param int $right
-     * @return boolean
-     */
+     public function CheckRightType(string $controller, int $right){
+        $id_groupe = $_SESSION['id_groupe'];
+        $this->model->table = "droits";
+        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+        if(!count($data['verification']) == 1){
+            return false;
+        }
+        return true;
+    }
+
     public function CheckRightMain(string $controller, int $right){
         $id_groupe = $_SESSION['id_groupe'];
         $this->model->table = "droits";
