@@ -1,11 +1,10 @@
 <?php
 
-Class Tables extends Install{
+Class Tables extends Install {
 
-	public static function creation($db,$prefixe)
-	{
-		//Création de la table utilisateurs
-		$tables[0] = "CREATE TABLE `" . $prefixe . "utilisateurs` (
+    public static function creation($db, $prefixe) {
+        //Création de la table utilisateurs
+        $tables[0] = "CREATE TABLE `" . $prefixe . "utilisateurs` (
 			`id` INT(11) NOT NULL AUTO_INCREMENT,
 			`nom` VARCHAR(50) NULL DEFAULT NULL,
 			`prenom` VARCHAR(50) NULL DEFAULT NULL,
@@ -26,8 +25,8 @@ Class Tables extends Install{
 		AUTO_INCREMENT=1
 		;";
 
-		//Création de la table droits
-		$tables[1] = "CREATE TABLE `" . $prefixe . "droits` (
+        //Création de la table droits
+        $tables[1] = "CREATE TABLE `" . $prefixe . "droits` (
 			`id` INT(11) NOT NULL AUTO_INCREMENT,
 			`controller` VARCHAR(150) NOT NULL DEFAULT '0',
 			`droit` INT(4) NOT NULL DEFAULT '0',
@@ -41,8 +40,8 @@ Class Tables extends Install{
 		;
 		";
 
-		//Création de la table groupes
-		$tables[2] = "CREATE TABLE `" . $prefixe . "groupes` (
+        //Création de la table groupes
+        $tables[2] = "CREATE TABLE `" . $prefixe . "groupes` (
 			`id` INT(11) NOT NULL AUTO_INCREMENT,
 			`id_reference` INT(11) NULL DEFAULT '0',
 			`nom` VARCHAR(150) NULL DEFAULT '0',
@@ -56,8 +55,8 @@ Class Tables extends Install{
 		AUTO_INCREMENT=1
 		;";
 
-		//Création de la table logs
-		$tables[3] = "CREATE TABLE IF NOT EXISTS `" . $prefixe . "logs` (
+        //Création de la table logs
+        $tables[3] = "CREATE TABLE IF NOT EXISTS `" . $prefixe . "logs` (
 			`id` int(11) NOT NULL AUTO_INCREMENT,
 			  `id_element` int(11) DEFAULT NULL,
 			  `controller` varchar(150) DEFAULT NULL,
@@ -67,32 +66,32 @@ Class Tables extends Install{
 			  `id_utilisateur` INT(11) NOT NULL,
 			  PRIMARY KEY (`id`))";
 
-		//Création de vue droits_groupes
-		$tables[4] = "CREATE VIEW ".$prefixe."droits_groupes AS select `droits`.`id_groupe` AS `id_groupe`,`droits`.`controller` AS `controller`,group_concat(`droits`.`droit` order by `droits`.`droit` ASC separator '+') AS `droit` from `droits` group by `droits`.`controller`,`droits`.`id_groupe`";
+        //Création de vue droits_groupes
+        $tables[4] = "CREATE VIEW " . $prefixe . "droits_groupes AS select `droits`.`id_groupe` AS `id_groupe`,`droits`.`controller` AS `controller`,group_concat(`droits`.`droit` order by `droits`.`droit` ASC separator '+') AS `droit` from `droits` group by `droits`.`controller`,`droits`.`id_groupe`";
 
-		//Création des tables;
-		foreach($tables as $table){
-			if(!$db->query($table)){
-				return false;
-			}
-		}
+        //Création des tables;
+        foreach ($tables as $table) {
+            if (!$db->query($table)) {
+                return false;
+            }
+        }
 
-		//Insertion groupe Administrateur
-		if(!$db->query('insert into groupes(nom,description,id_reference) values("Administrateurs","Groupe administrateur",1)')){
-			return false;
-		}
-		//Inscription des droits
-		$controllers = array('accueil','parametres','groupes','profil','utilisateurs');
-		$droits = array(7,77,777,7777);
+        //Insertion groupe Administrateur
+        if (!$db->query('insert into ' . $prefixe . 'groupes(nom,description,id_reference) values("Administrateurs","Groupe administrateur",1)')) {
+            return false;
+        }
+        //Inscription des droits
+        $controllers = array('accueil', 'parametres', 'groupes', 'profil', 'utilisateurs');
+        $droits = array(7, 77, 777, 7777);
 
-		foreach($controllers as $controller){
-			foreach($droits as $droit){
-				if(!$db->query('insert into '.$prefixe.'droits(controller,droit,id_groupe) value("'.$controller.'",'.$droit.',1)')){
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+        foreach ($controllers as $controller) {
+            foreach ($droits as $droit) {
+                if (!$db->query('insert into ' . $prefixe . 'droits(controller,droit,id_groupe) value("' . $controller . '",' . $droit . ',1)')) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
