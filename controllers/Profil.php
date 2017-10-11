@@ -37,7 +37,7 @@ class Profil extends Controller {
 							  'telephone'=>$post['telephone']);
 				if($this->model->maj(array('id'=>$id),$data)){
 					if($submit == "enregistrerEtFermer"){
-                        $this->redirect("accueil");
+                        $this->redirect();
 					}
 					$this->view('app/succes/notification','Les données sont bien enregistrées!');
 				}else{

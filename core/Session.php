@@ -97,7 +97,7 @@ class Session extends Controller {
         return true;
     }
 
-    public function CheckRightMain(string $controller, int $right){
+    public function CheckRightMain($controller, $right){
         $id_groupe = $_SESSION['id_groupe'];
         $this->model->table = "droits";
         $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');

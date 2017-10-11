@@ -13,7 +13,7 @@ Class Deconnexion extends Controller{
     
     public function index(){
         include dirname(__FILE__).'/../config/auth.php';
-        $this->model->log($this->utilisateur,get_class($this),LOG_DECONNEXION."[".$this->date_du_jour."]",0,$_SESSION['id']);
+        $this->model->log($this->session->utilisateur,get_class($this),LOG_DECONNEXION."[".$this->date_du_jour."]",0,$_SESSION['id']);
         if($auth['mode'] == 'cas'){
             $this->auth->CasLogout(true);
         }else{

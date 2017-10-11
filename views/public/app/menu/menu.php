@@ -6,18 +6,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">GD<b style="color:#f7464a">R</b></a>
+      <a class="navbar-brand" href="#">Framework <b style="color:#f7464a">DS</b></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <?php if($this->session->CheckRightMain('accueil',LECTURE)):?>
-          <li class=""><a href="<?php echo $this->echoRedirect('accueil');?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>  Tableau de bord</a></li>
-          <?php endif;if($this->session->CheckRightMain('calendrier',LECTURE)):?>
-          <li class=""><a href="<?php echo $this->echoRedirect('calendrier');?>"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>  Calendrier</a></li>
-          <?php endif;if($this->session->CheckRightMain('ressources',LECTURE)):?>
-          <li class=""><a href="<?php echo $this->echoRedirect('ressources');?>"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>  Ressources</a></li>
-          <?php endif;if($this->session->CheckRightMain('reservations',LECTURE)):?>
-          <li class=""><a href="<?php echo $this->echoRedirect('reservations');?>"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>  Réservations</a></li>
+          <li class=""><a href="<?php echo $this->echoRedirect('accueil');?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>  Accueil</a></li>
           <?php endif;?>
         </ul>
       <ul class="nav navbar-nav navbar-right" style="margin-right: 0em">
@@ -31,9 +25,6 @@
               <?php endif;if($this->session->CheckRightMain('groupes',LECTURE)):?>
               <li><a href="<?php echo$this->echoRedirect('groupes');?>"><span class="fa fa-users" aria-hidden="true"></span> Groupes</a></li>
               <?php endif;?>
-              <?php if($this->session->CheckRightMain('Mails',LECTURE)):?>
-              <li><a href="<?php echo$this->echoRedirect('mails');?>"><i class="fa fa-envelope" aria-hidden="true"></i> Gestion des mails</a></li>
-               <?php endif;?>
               <?php if($this->session->CheckRightMain('parametres',LECTURE)):?>
               <li><a href="<?php echo$this->echoRedirect('parametres');?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Paramètres</a></li>
               <?php endif;?>
