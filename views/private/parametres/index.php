@@ -11,22 +11,22 @@ if($data['page'] == 0){
     $active_logs = 'active';
 }
 echo "<br>";
-echo '<div class="col-sm-24 col-md-24 container">';
-        echo '<div class="panel panel-inverse">';
-            echo '<div class="panel-heading"><i class="icon icon-cogs icon-fw"></i> Configurations</div>';
-            echo '<div class="panel-body">';
+echo '<div class="col-sm-24 col-md-24 container" style="margin:4em auto;">';
+        echo '<div class="card">';
+            echo '<div class="card-header"><i class="icon icon-cogs icon-fw"></i> Configurations</div>';
+            echo '<div class="card-block">';
                 //MENU
-                echo '<ul class="nav nav-tabs" role="tablist">';
-                    echo '<li class="'.$active_default.'"><a aria-controls="general" role="tab" data-toggle="tab" href="#general">Général</a></li>';
-                    echo '<li class=""><a aria-controls="bdd" role="tab" data-toggle="tab" href="#bdd">Base de données</a></li>';
-                    echo '<li class=""><a aria-controls="auth" role="tab" data-toggle="tab" href="#auth">Authentification</a></li>';
-                    echo '<li class="'.$active_logs.'"><a aria-controls="logs" role="tab" data-toggle="tab" href="#logs">Logs</a></li>';
-                echo '</ul><br>';
+                echo '<nav class="nav nav-pills flex-column flex-sm-row">';
+                    echo '<a aria-controls="general" role="tab" data-toggle="tab" class="flex-sm-fill text-sm-center nav-link active" href="#general">Général</a>';
+                    echo '<a aria-controls="bdd" role="tab" data-toggle="tab" class="flex-sm-fill text-sm-center nav-link" href="#bdd">Base de données</a>';
+                    echo '<a aria-controls="auth" role="tab" data-toggle="tab" class="flex-sm-fill text-sm-center nav-link"  href="#auth">Authentification</a>';
+                    echo '<a aria-controls="logs" role="tab" data-toggle="tab" class="flex-sm-fill text-sm-center nav-link"  href="#logs">Logs</a>';
+                echo '</nav><br>';
 
                 //CONTENU
                 echo '<div class="tab-content">';
                     #GENERAL
-                    echo '<div id="general" class="tab-pane fade '.$class_default.'">';
+                    echo '<div id="general" class="tab-pane fade show active">';
                     echo "<form name='configurations' action='' method='post'>";
                         echo "<div class='col-sm-10 col-md-8'>";
                             $this->FormGeneral();

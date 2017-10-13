@@ -1,36 +1,36 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Framework <b style="color:#f7464a">DS</b></a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Framework <b style="color:#f7464a">DS</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
           <?php if($this->session->CheckRightMain('accueil',LECTURE)):?>
-          <li class=""><a href="<?php echo $this->echoRedirect('accueil');?>"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>  Accueil</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $this->echoRedirect('Accueil');?>"><i class="fa fa-dashboard" aria-hidden="true"></i>  Interventions</a>
+          </li>
           <?php endif;?>
-        </ul>
+      </ul>
       <ul class="nav navbar-nav navbar-right" style="margin-right: 0em">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->mail;?> <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></a>
-            <ul class="dropdown-menu">
+        <li class="nav-item dropdown">
+            <a id="dropdown02" class="nav-link" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->session->mail;?> <i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
               <!-- MENU ADMIN -->
-              <li><a href="<?php echo$this->echoRedirect('profil');?>"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Mon profil</a></li>
+              <a class="dropdown-item" href="<?php echo$this->echoRedirect('profil');?>"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Mon profil</a>
               <?php if($this->session->CheckRightMain('utilisateurs',LECTURE)):?>
-              <li><a href="<?php echo$this->echoRedirect('utilisateurs');?>"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Utilisateurs</a></li>
+              <a class="dropdown-item" href="<?php echo$this->echoRedirect('utilisateurs');?>">
+                <i class="fa fa-user" aria-hidden="true"></i> Utilisateurs</a>
               <?php endif;if($this->session->CheckRightMain('groupes',LECTURE)):?>
-              <li><a href="<?php echo$this->echoRedirect('groupes');?>"><span class="fa fa-users" aria-hidden="true"></span> Groupes</a></li>
+              <a class="dropdown-item" href="<?php echo$this->echoRedirect('groupes');?>"><span class="fa fa-users" aria-hidden="true"></span> Groupes</a>
               <?php endif;?>
               <?php if($this->session->CheckRightMain('parametres',LECTURE)):?>
-              <li><a href="<?php echo$this->echoRedirect('parametres');?>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Paramètres</a></li>
+              <a class="dropdown-item" href="<?php echo$this->echoRedirect('parametres');?>">
+                <i class="fa fa-cog" aria-hidden="true"></i> Paramètres</a>
               <?php endif;?>
               <!-- END ADMIN -->
-              <li><a href="<?php echo $this->echoRedirect('deconnexion');?>"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Déconnexion</a></li>
-            </ul>
+              <a class="dropdown-item" href="<?php echo $this->echoRedirect('deconnexion');?>">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Déconnexion</a>
+            </div>
         </li>
       </ul>
     </div><!--/.nav-collapse -->

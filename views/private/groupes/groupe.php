@@ -31,8 +31,10 @@ $G = $data['groupe'][0];
                             ?>
                         </select>
                     </div>
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-success" onclick="Droits();" ><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                    <div class="col-12 col-md-1">
+                        <button type="button" class="btn btn-success" onclick="Droits();" >
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
                     </div>
                     <br/>
                     <div id="tab_acces">
@@ -131,13 +133,13 @@ endforeach;
         </div>
 
         <!-- ACTIONS -->
-        <div class="col-md-12">
-            <div class="col-md-10" style="float:left">
-                <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Enregistrer</button>
-                <button type="submit" name="submit" id="submit" value="enregistreretfermer" class="btn btn-success"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Enregistrer &amp; Fermer</button>
-                <a href="<?php echo $this->echoRedirect('groupes'); ?>" class="btn btn-default">Fermer</a>	
+
+            <div class="col-12 col-md-10" style="float:left">
+                <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success"><i class="fa fa-hdd-o" aria-hidden="true"></i> Enregistrer</button>
+                <button type="submit" name="submit" id="submit" value="enregistreretfermer" class="btn btn-success"><i class="fa fa-hdd-o" aria-hidden="true"></i> Enregistrer &amp; Fermer</button>
+                <a href="<?php echo $this->echoRedirect('groupes'); ?>" class="btn btn-secondary">Fermer</a>	
             </div>
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
 <?php if (!$data['id'] == 1 || !$data['id'] == 2 || !$data['id'] == 3) { ?>
                     <button type="button" data-toggle="modal" data-target=".bs-confirmation-modal-sm" class="btn btn-danger" style="float:right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Supprimer</button>&nbsp;&nbsp;
                     <button type="submit" name="submit" id="submit" value="archiver" class="btn btn-warning" style="float:right;margin-right: 3px"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> 
@@ -150,6 +152,5 @@ endforeach;
                     ?></button>
                     <?php } //END IF DATA['ID'] ?>
             </div>
-        </div>
     </div>
 </form>

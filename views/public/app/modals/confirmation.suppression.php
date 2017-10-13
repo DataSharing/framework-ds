@@ -3,7 +3,7 @@
 	  <div class="modal-dialog modal-sm" role="document">
 	    <div class="modal-content col-md-12"><br>
 	    	<center>
-	      		<p><b>Êtes-vous sûr de vouloir supprimer l'utilisateur?</b></p>
+	      		<p><b>Êtes-vous sûr de vouloir supprimer <?php echo $data['element'];?>?</b></p>
 	      	</center><br>
 			<center>
 				<button type="submit" name="submit" id="submit" value="supprimer" class="btn btn-danger" >Oui</button>

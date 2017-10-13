@@ -1,12 +1,12 @@
 <?php $u = $data['utilisateur'][0]; ?>
 <form action="" method="post">
     <div class="container" style="margin:3em auto;background: white; padding: 2em">
-        <div class="">
+        <div class="row">
             <!-- INFOS Utilisateur -->
-            <div class="col-md-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><b>Informations utilisateur</b></div>
-                    <div class="panel-body">
+            <div class="col-12 col-md-8">
+                <div class="card ">
+                    <div class="card-header"><b>Informations utilisateur</b></div>
+                    <div class="card-block">
                         <!-- ACTIONS -->
                         <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success" ><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Enregistrer</button>
                         <button type="submit" name="submit" id="submit" value="enregistrerEtFermer" class="btn btn-success" ><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Enregistrer &amp; fermer</button>
@@ -26,10 +26,10 @@
 
             <!-- END INFOS Utilisateur -->
             <!-- ACCES Utilisateur -->
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><b>Accès utilisateur</b></div>
-                    <div class="panel-body">
+            <div class="col-12 col-md-4">
+                <div class="card ">
+                    <div class="card-header"><b>Accès utilisateur</b></div>
+                    <div class="card-block">
                         <select name="etatcompte" class="form-control">
                             <option value="0" <?php if ($u['active'] == '0') echo "selected"; ?>>Compte désactivé</option>
                             <option value="1" <?php if ($u['active'] == '1') echo "selected"; ?>>Compte activé</option>
@@ -44,34 +44,28 @@
                                 }
                                 ?>
                                 <option value="<?php echo $groupe['id']; ?>" <?php echo $selected; ?>><?php echo $groupe['nom']; ?></option>
-<?php endforeach; ?>
+                                <?php endforeach; ?>
                         </select>
                         <button type="submit" class="btn btn-success" name="submit" id="submit" value="acces" style="width: 100%"><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Appliquer</button>
                     </div>
-                </div>
-            </div>
-            <!-- END ACCES Utilisateur -->
-            <!-- HISTORIQUE -->	
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><b>Historique de connexion</b></div>
-                    <div class="panel-body">
+                </div><br/>
+                <div class="card ">
+                    <div class="card-header"><b>Historique de connexion</b></div>
+                    <div class="card-block">
                         <p><i>les 5 dernières activitées</i></p>
                         <?php foreach ($data['historique'] as $h): ?>
                             <p><?php echo $this->form->afficher_date($h['date_modification'], 'dateheure'); ?></p>
-<?php endforeach; ?>
+                        <?php endforeach; ?>
                     </div>
-                </div>
-            </div>
-            <!-- END HISTORIQUE -->
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><b>Supprimer l'utilisateur</b></div>
-                    <div class="panel-body">
+                </div><br/>
+                <div class="card ">
+                    <div class="card-header"><b>Supprimer l'utilisateur</b></div>
+                    <div class="card-block">
                         <button type="button" data-toggle="modal" data-target=".bs-confirmation-modal-sm" class="btn btn-danger" style="width:100%"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Supprimer</button>
                     </div>
                 </div>
             </div>
+            <!-- END ACCES Utilisateur -->
         </div>
     </div>
 </form>

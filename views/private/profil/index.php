@@ -1,12 +1,12 @@
 <?php $u = $data['utilisateur'][0]; ?>
 <form action="" method="post">
     <div class="container" style="margin:3em auto;background: white; padding: 2em">
-        <div class="col-md-12">
+        <div class="row">
             <!-- INFOS Utilisateur -->
-            <div class="col-md-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><b><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Informations utilisateur</b></div>
-                    <div class="panel-body">
+            <div class="col-12 col-md-8">
+                <div class="card">
+                    <div class="card-header"><b><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Informations utilisateur</b></div>
+                    <div class="card-block">
                         <!-- ACTIONS -->
                         <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success" ><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Enregistrer</button>
                         <button type="submit" name="submit" id="submit" value="enregistrerEtFermer" class="btn btn-success" ><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Enregistrer &amp; fermer</button>
@@ -20,24 +20,22 @@
                 </div>
             </div>
             <!-- END INFOS Utilisateur -->
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+            <div class="col-12 col-md-4">
+                <div class="card ">
+                    <div class="card-header">
                         <b><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Mot de passe</b>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-block">
                         <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Saisir le nouveau mot de passe" >
                         <input type="password" class="form-control" name="pwd2" id="pwd2" placeholder="Confirmer le nouveau mot de passe" >
                         <center><button type="submit" id="submit" name="submit" value="reinitialiser" class="btn btn-warning"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Réinitialiser</button></center>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                </div><br/>
+                <div class="card ">
+                    <div class="card-header">
                         <b><span class="fa fa-users" aria-hidden="true"></span> Groupe</b>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-block">
                         <?php echo $data['nom_groupe']; ?>
                     </div>
                 </div>
