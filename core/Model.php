@@ -77,8 +77,9 @@ Class Model extends DB {
     /**
      * 	Modifie une ou plusieurs lignes dans la base de données.
      */
-    public function maj($where, $donnees = array()) {
-        $query = $this->update($donnees, $this->prefixebdd . $this->table, $where);
+    public function maj($where, $donnees = array(),$operateur = NULL) {
+        $query = $this->update($donnees, $this->prefixebdd . $this->table, $where,$operateur);
+        //echo $query;
         return $this->query($query, $donnees + $where);
     }
 

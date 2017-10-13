@@ -68,6 +68,42 @@ Class Formulaire extends Controller{
         . '/>';
         echo $input1;
     }
+
+    /**
+     * Création d'un INPUT GROUP HTML
+     * @param string $name
+     * @param string $type
+     * @param string $placeholder
+     * @param string $error
+     * @param string $value
+     * @param string $class
+     * @param string $pattern
+     * @param string $option
+     [A-Za-z0-9 ]*
+     */
+    public function inputGroup($name,$type,$placeholder,$error = '',$value = '', $class = "form-control", $pattern = "",$option = ''){
+        $input2 = '';
+        $input3 = '';
+        if(!$pattern == ''){
+            $input2 = 'pattern="'.$pattern.'" ';
+        }
+        if(!$error == ''){
+            $input3 = 'x-moz-errormessage="'.$error.'" ';
+        }
+        $data['input'] = '<input '
+        . 'type="'.$type.'" '
+        . 'id="'.$name.'" '
+        . 'name="'.$name.'" ' 
+        . 'placeholder="'.$placeholder.'" '
+        . 'class="'.$class.'" '
+        . 'value="'.$value.'" '
+        . $input2
+        . $input3
+        . $option
+        . '/>';
+        $data['titre'] = $placeholder;
+        $this->view('app/inputs/input.group',$data);
+    }
     
     /**
      * Création d'un INPUT HTML
@@ -86,6 +122,50 @@ Class Formulaire extends Controller{
         echo $input;
     }
     
+    /**
+     * Création d'un BUTTON HTML
+     * @param string $name
+     * @param string $text
+     * @param string $value
+     * @param string $class
+     * @param string $option
+     [A-Za-z0-9 ]*
+     */
+    public function btn($name,$text, $class = "btn btn-default", $option = ''){
+        $btn = '<button '
+        . 'type="submit" '
+        . 'id="'.$name.'" '
+        . 'name="submit" ' 
+        . 'class="'.$class.'" '
+        . 'value="'.$name.'" '
+        . $option
+        . '>'.$text.'</button>';
+        echo $btn;
+    }
+
+    /**
+     * Création d'un BUTTON HTML MODAL
+     * @param string $name
+     * @param string $text
+     * @param string $value
+     * @param string $class
+     * @param string $option
+     [A-Za-z0-9 ]*
+     */
+    public function btnModal($name,$text, $class = "btn btn-default", $target = '',$option = ""){
+        $btn = '<button '
+        . 'type="button" '
+        . 'id="'.$name.'" '
+        . 'name="submit" ' 
+        . 'class="'.$class.'" '
+        . 'value="'.$name.'" '
+        . 'data-toggle="modal" '
+        . 'data-target ="'.$target.'" '
+        . $option
+        . '>'.$text.'</button>';
+        echo $btn;
+    }
+
     /**
      * Afficher la date au format FR
      * @param date $date

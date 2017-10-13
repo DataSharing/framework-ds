@@ -79,6 +79,8 @@ class DB {
                 $key = str_replace('>=', '', $key);
                 $key = str_replace('>', '', $key);
                 $key = str_replace('<', '', $key);
+                $key = str_replace('<', '', $key);
+                $key = str_replace('.', '', $key);
                 $newDonnees[$key] = $value;
             endforeach;
             //Protection injection
@@ -224,7 +226,7 @@ class DB {
             $key = str_replace('>', '', $key);
             $key = str_replace('<', '', $key);
 
-            $conditions = $conditions . ' ' . $operateur . ' ' . $key . " " . $signe . " :" . $key;
+            $conditions = $conditions . ' ' . $operateur . ' ' . $key . " " . $signe . " :" . str_replace('.','',$key);
             $count++;
         }
         return ' where ' . $conditions;
@@ -247,8 +249,10 @@ class DB {
     Public function leftjoin($leftjoin = array()) {
         if (!empty($leftjoin)) {
             $lj = "";
+            $count = 0;
             foreach ($leftjoin as $table => $join) {
-                $lj = $lj . " left join " . $table . " ON " . $join;
+                $lj = $lj . " left join " . $table . " ON " . $join  ;
+                $count++;
             }
             return $lj;
         }
