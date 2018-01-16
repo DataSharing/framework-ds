@@ -13,11 +13,11 @@ class Profil extends Controller {
         $this->load('core/Formulaire','form');
         $this->load('core/Session');
         $this->load('core/Security');
+        $this->session->CheckRight('profil', LECTURE);
     }
 
     public function index($id = NULL,$arg = NULL){
     	$this->traitement($id,$arg);
-    	echo $_SESSION['id'];
     	$this->formProfil($_SESSION['id']);
     }
 
@@ -31,6 +31,7 @@ class Profil extends Controller {
     		$this->model->table = "utilisateurs";
 			//ENREGISTRER FORMULAIRE UTILISATEUR
 			if($submit == "enregistrer" || $submit == "enregistrerEtFermer"){
+				$this->session->CheckRight('profil', MODIFICATION);
 				$data = array('nom'=>$post['nom'],
 							  'prenom'=>$post['prenom'],
 							  'mail'=>$post['email'],
@@ -45,6 +46,7 @@ class Profil extends Controller {
 				}
 			//REINITIALISER MOT DE PASSE
 			}elseif($submit == 'reinitialiser'){
+				$this->session->CheckRight('profil', MODIFICATION);
 				if($post['pwd'] == $post['pwd2'] && !$post['pwd'] == "" && !$post['pwd2'] == ""){
 					$salage = $this->security->generer_salage();
 					$data = array('password'=>sha1($post['pwd']).$salage,

@@ -1,22 +1,22 @@
 <?php
 $G = $data['groupe'][0];
 ?>
-<form action="" method="post">
+<form action="" method="post" class="row">
     <div class="container" style="margin:3em auto;padding:2em">
-        <div class="col-md-12">
+        <div class="col-12">
             <input type="text" class="form-control" name="nom" id="nom" value="<?php echo $G['nom']; ?>" />
             <textarea class="form-control" name="description" ><?php echo $G['description']; ?></textarea>
         </div>
 
         <!-- TABLEAU DES ACCES CONTROLLERS-->
         <input type="hidden" name="id_groupe" id="id_groupe" value="<?php echo $data['id']; ?>" />
-        <div class="col-md-12">
+        <div class="">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <b><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Droits d'accès par controlleurs</b>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-4" style="padding: 0">
+                    <div class="col-12 col-md-4" style="padding: 0">
                         <select name="controller" id="controller" class="form-control">
                             <?php
                             $TousLesControlleurs = scandir('./controllers');
@@ -64,20 +64,16 @@ foreach ($data['droits'] as $droit):
     for ($i = 0; $i < $nbDroits; $i++):
         if ($droits[$i] == 7) {
             echo "<td>";
-            echo "<div class='checkbox checkbox-primary'>";
             echo "<input type='checkbox' name='lecture_" . $droit['controller'] . "' id='lecture_" . $droit['controller'] . "' checked/>";
-            echo "<label></label>";
-            echo "</div>";
+            echo "<label for='lecture_" . $droit['controller'] . "'><span></span></label>";
             echo "</td>";
             $lecture = 1;
         }
     endfor;
     if ($lecture == 0) {
         echo "<td>";
-        echo "<div class='checkbox checkbox-primary'>";
         echo "<input type='checkbox' name='lecture_" . $droit['controller'] . "' id='lecture_" . $droit['controller'] . "' />";
-        echo "<label></label>";
-        echo "</div>";
+        echo "<label for='lecture_" . $droit['controller'] . "'><span></span></label>";
         echo "</td>";
     }
 
@@ -85,20 +81,16 @@ foreach ($data['droits'] as $droit):
     for ($i = 0; $i < $nbDroits; $i++):
         if ($droits[$i] == 77) {
             echo "<td>";
-            echo "<div class='checkbox checkbox-primary'>";
             echo "<input type='checkbox' name='modification_" . $droit['controller'] . "' id='modification_" . $droit['controller'] . "' checked/>";
-            echo "<label></label>";
-            echo "</div>";
+            echo "<label for='modification_" . $droit['controller'] . "'><span></span></label>";
             echo "</td>";
             $modification = 1;
         }
     endfor;
     if ($modification == 0) {
         echo "<td>";
-        echo "<div class='checkbox checkbox-primary'>";
         echo "<input type='checkbox' name='modification_" . $droit['controller'] . "' id='modification_" . $droit['controller'] . "' />";
-        echo "<label></label>";
-        echo "</div>";
+        echo "<label for='modification_" . $droit['controller'] . "'><span></span></label>";
         echo "</td>";
     }
 
@@ -106,20 +98,16 @@ foreach ($data['droits'] as $droit):
     for ($i = 0; $i < $nbDroits; $i++):
         if ($droits[$i] == 777) {
             echo "<td>";
-            echo "<div class='checkbox checkbox-primary'>";
             echo "<input type='checkbox' name='suppression_" . $droit['controller'] . "' id='suppression_" . $droit['controller'] . "' checked/>";
-            echo "<label></label>";
-            echo "</div>";
+            echo "<label for='suppression_" . $droit['controller'] . "'><span></span></label>";
             echo "</td>";
             $suppression = 1;
         }
     endfor;
     if ($suppression == 0) {
         echo "<td>";
-        echo "<div class='checkbox checkbox-primary'>";
         echo "<input type='checkbox' name='suppression_" . $droit['controller'] . "' id='suppression_" . $droit['controller'] . "' />";
-        echo "<label></label>";
-        echo "</div>";
+        echo "<label for='suppression_" . $droit['controller'] . "'><span></span></label>";
         echo "</td>";
     }
     echo "</tr>";

@@ -53,20 +53,16 @@ if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
         for ($i = 0; $i < $nbDroits; $i++):
             if ($droits[$i] == 7) {
                 echo "<td>";
-                echo "<div class='checkbox checkbox-primary'>";
                 echo "<input type='checkbox' name='lecture_" . $droit['controller'] . "' id='lecture_" . $droit['controller'] . "' checked/>";
-                echo "<label></label>";
-                echo "</div>";
+                echo "<label for='lecture_" . $droit['controller'] . "'><span></span></label>";
                 echo "</td>";
                 $lecture = 1;
             }
         endfor;
         if ($lecture == 0) {
             echo "<td>";
-            echo "<div class='checkbox checkbox-primary'>";
             echo "<input type='checkbox' name='lecture_" . $droit['controller'] . "' id='lecture_" . $droit['controller'] . "' />";
-            echo "<label></label>";
-            echo "</div>";
+            echo "<label for='lecture_" . $droit['controller'] . "'><span></span></label>";
             echo "</td>";
         }
 
@@ -74,20 +70,16 @@ if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
         for ($i = 0; $i < $nbDroits; $i++):
             if ($droits[$i] == 77) {
                 echo "<td>";
-                echo "<div class='checkbox checkbox-primary'>";
                 echo "<input type='checkbox' name='modification_" . $droit['controller'] . "' id='modification_" . $droit['controller'] . "' checked/>";
-                echo "<label></label>";
-                echo "</div>";
+                echo "<label for='modification_" . $droit['controller'] . "' ><span></span></label>";
                 echo "</td>";
                 $modification = 1;
             }
         endfor;
         if ($modification == 0) {
             echo "<td>";
-            echo "<div class='checkbox checkbox-primary'>";
             echo "<input type='checkbox' name='modification_" . $droit['controller'] . "' id='modification_" . $droit['controller'] . "' />";
-            echo "<label></label>";
-            echo "</div>";
+            echo "<label for='modification_" . $droit['controller'] . "'><span></span></label>";
             echo "</td>";
         }
 
@@ -95,20 +87,16 @@ if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
         for ($i = 0; $i < $nbDroits; $i++):
             if ($droits[$i] == 777) {
                 echo "<td>";
-                echo "<div class='checkbox checkbox-primary'>";
                 echo "<input type='checkbox' name='suppression_" . $droit['controller'] . "' id='suppression_" . $droit['controller'] . "' checked/>";
-                echo "<label></label>";
-                echo "</div>";
+                echo "<label for='suppression_" . $droit['controller'] . "'><span></span></label>";
                 echo "</td>";
                 $suppression = 1;
             }
         endfor;
         if ($suppression == 0) {
             echo "<td>";
-            echo "<div class='checkbox checkbox-primary'>";
             echo "<input type='checkbox' name='suppression_" . $droit['controller'] . "' id='suppression_" . $droit['controller'] . "' />";
-            echo "<label></label>";
-            echo "</div>";
+            echo "<label for='suppression_" . $droit['controller'] . "'><span></span></label>";
             echo "</td>";
         }
         echo "</tr>";

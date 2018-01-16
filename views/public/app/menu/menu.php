@@ -5,9 +5,14 @@
     </button>
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-          <?php if($this->session->CheckRightMain('accueil',LECTURE)):?>
+          <?php if($this->session->CheckRightMain('sites',LECTURE)):?>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo $this->echoRedirect('Accueil');?>"><i class="fa fa-dashboard" aria-hidden="true"></i>  Interventions</a>
+            <a class="nav-link" href="<?php echo $this->echoRedirect('sites');?>"><i class="fa fa-dashboard" aria-hidden="true"></i>  Sites</a>
+          </li>
+          <?php endif;?>.
+          <?php if($this->session->CheckRightMain('cms',LECTURE)):?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $this->echoRedirect('cms');?>"><i class="fa fa-dashboard" aria-hidden="true"></i>  CMS</a>
           </li>
           <?php endif;?>
       </ul>

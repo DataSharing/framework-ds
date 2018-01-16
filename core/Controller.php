@@ -56,6 +56,7 @@ class Controller{
      * Chargement de la fonction dans chaque page
      */
     public function app_autoload(){
+
         /**
          * Droits utilisateurs
          */

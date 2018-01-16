@@ -1,37 +1,177 @@
-.form-signin{
-  margin:1em auto;
-  padding:1em;
-  width:350px;
+body{
+  background: #333;
 }
 
-.card-block {
-    padding:1em;
+.bordeline{
+    border:1px solid #DDD;
+    margin-bottom: 1em;
 }
 
 .btn {
-    margin-right: 1em;
+    margin-bottom: 0.5em;
+    cursor: pointer;
 }
+
+.border-head h3 {
+    border-bottom: 1px solid #c9cdd7;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    font-weight: normal;
+    font-size: 18px;
+    display: inline-block;
+    width: 100%;
+    font-weight: 300;
+}
+
+.container-app {
+    background: #fff none repeat scroll 0 0;
+    display: block;
+    height: 100%;
+    margin: 3em auto;
+    padding: 1.5em;
+    position: absolute;
+    width: 100%;
+}
+
+.scroll-left {
+    top: 50%;
+    position: fixed;
+    left: 1em;
+    width: 4.3em;
+    z-index: 1;
+}
+
+.scroll-right {
+    top: 50%;
+    position: fixed;
+    right: 1em;
+    width: 4.3em;
+    z-index: 1;
+}
+
+.scroll {
+    height: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.form-signin{
+    margin:1em auto;
+    padding:1em;
+    width:350px;
+}
+
+#motif {
+    display:none;
+}
+
+.input-group {
+    margin-bottom: 1em;
+}
+
+.bandeau-actions{
+    margin-bottom: 1em;
+    background: #f7464a;
+    /*margin-top: -2.2em;
+    position :fixed;
+    z-index: 99999;*/
+}
+
+.label-type {
+    background: #f1f1f1 none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 5px #eee;
+    padding: 0.2em;
+    width: 100%;
+}
+
+.bloc-de {
+    background: #f1f1f1 none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    margin-bottom: 1em;
+    border-radius: 4px;
+}
+
+.table-jour {
+    background: white none repeat scroll 0 0;
+    color: black;
+    margin: 1em 0 1em;
+    width:20em
+}
+
 .form-control{
     margin-bottom: 1em;
+}
+
+.p-mobile,.h1-mobile{
+    display: none;
 }
 
 .container{
   background: #fff;
 }
 
+.reservation {
+    color:#FFF;
+    border-left:1px solid #FFF;
+    width:1em;/* 25% */
+}
+
+.bloc-semaine {
+    background: transparent none repeat scroll 0 0;
+    height: 3.5em;
+    position: relative;
+}
+
+.bloc-mois {
+    display: block;
+    height: auto;
+    margin: 1em;
+    padding: 1em;
+    width: auto;
+}
+
+.hidden{
+    display: none;
+}
+.dateM,.dateM:hover{
+  background: #000;
+}
+
+.block {
+  height:200px;
+  border: 1px solid #f1f1f1;
+  background: #FFF;
+}
+
+.block-black {
+  height:200px;
+  border: medium none;
+  background: #555;
+}
+
+.cejour {
+  background:#f1f1f1;
+  font-weight: bold;
+}
+
 #notif-block{
     position:absolute;
     bottom:0;
     z-index: 9999;
+    width: 100%
 }
 
 .notif{
-    background: rgba(0, 0, 0, 0) url("../images/opacity.png") repeat scroll 0 0;
+    background: #333 /*rgba(0, 0, 0, 0) url("../images/opacity.png") repeat scroll 0 0*/;
     bottom: 0;
-    box-shadow: 0 1px 5px #999;
-    height: auto;
+    /*box-shadow: 0 1px 5px #999;*/
+    height: auto;/*
+    margin-top: 2em;
     margin-bottom: 1em;
-    margin-left: 1em;
+    margin-left: 1em;*/
     padding: 0/*1.5em 1em 0*/;
     width: 100%;
 }
@@ -46,17 +186,17 @@
     float:right;
     font-size:2em;
     margin-top: -4px;
+    cursor: pointer;
 }
 
 .zoneClick:hover {
-  cursor: pointer;
+    cursor: pointer;
     box-shadow: 0 1px 5px #ddd;
 }
 
+/*
 .checkbox {
     padding-left: 20px;
-    margin-top: 0px;
-    margin-bottom: 0px;
 }
 .checkbox label {
     display: inline-block;
@@ -109,7 +249,7 @@
     display: block;
     height: 3px;
     margin-left: -16.5px;
-    margin-top: 0px;
+    margin-top: 7px;
     width: 10px;
 }
 .checkbox input[type="checkbox"]:disabled + label, .checkbox input[type="radio"]:disabled + label {
@@ -334,5 +474,34 @@ input[type="checkbox"] .styled:checked + label::after, input[type="radio"] .styl
   .container,.col-md-9,.col-md-3,.col-md-12,.col-md-6,.col-md-10,.col-md-11,.col-md-1,.col-md-2 {
     padding:0.3em;
   }
+
+  .table-jour{
+    width: 100% !important;
+  }
+  
+  .p-mobile{
+      color:#000;
+      display: block;
+      background: #555 none repeat scroll 0 0;
+        color: #fff;
+        display: block;
+        font-weight: bold;
+        text-align: center;
+  }
+  .mobile-mois {
+    margin: 5.7em auto;
+   }
+   
+   .h1-mobile {
+        background: #555 none repeat scroll 0 0;
+        color: #fff;
+        font-size: 2em;
+        margin: -1.02em auto;
+        position: fixed;
+        text-align: center;
+        width: 100%;
+        z-index: 1;
+        display: block
+    }
 }
 

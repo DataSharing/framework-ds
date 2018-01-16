@@ -19,6 +19,7 @@ Class App extends Controller{
         $data['base_url'] = $config['base_url'];
         $data['css'] = $css;
         $data['js'] = $js;
+        $data['others'] = $others;
         $get = '';
         if(isset($_GET['p'])) $get = htmlentities($_GET['p']);
         $this->view('app/header',$data);

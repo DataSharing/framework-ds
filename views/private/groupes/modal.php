@@ -22,14 +22,12 @@
                 <label for="interfaces">Interface</label>
                 <select name="interfaces" id="interfaces" class="form-control" required>
                     <option value="administrateur">Administrateur</option>
-                    <option value="moderateur">Modérateur</option>
-                    <option value="emprunteur">Emprunteur</option>
+                    <option value="etudiant">Etudiant</option>
                 </select>
                 <label for="interfaces">Groupe référence</label>
                 <select name="groupes_reference" id="groupe_reference" class="form-control" required>
                     <option value="1">Administrateur</option>
-                    <option value="2">Modérateur</option>
-                    <option value="3">Emprunteur</option>
+                    <option value="2">Etudiant</option>
                 </select><br/>
                 <center>
                     <button type="submit" name="submit" id="submit" value="ajouter" class="btn btn-success" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter</button>

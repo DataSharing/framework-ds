@@ -51,22 +51,20 @@
             <table class="table table-striped" id="tableau">
                 <tr>
                     <td>
-                        <div class="checkbox checkbox-primary">
-                            <input type="checkbox" name="checkall" id="checkall" onclick="cocherOuDecocherTout(this)" />
-                            <label for="checkall">
-                                <b>#id</b>
-                            </label>
+                        <input type="checkbox" name="checkall" id="checkall" onclick="cocherOuDecocherTout(this)" />
+                        <label for="checkall">
+                            <span></span><b>#id</b>
+                        </label>
                     </td>
                     <td><b>Nom</b></td>
                 </tr>
                 <?php foreach ($data['groupes'] as $groupe): ?>
                     <tr>
                         <td>		
-                            <div class="checkbox checkbox-primary">
-                                <input type="checkbox" name="groupes[]" id="<?php echo $groupe['id']; ?>" value="<?php echo $groupe['id']; ?>" />
-                                <label for="<?php echo $groupe['id']; ?>">
-                                    <b>#<?php echo $groupe['id']; ?></b>
-                                </label>
+                            <input type="checkbox" name="groupes[]" id="<?php echo $groupe['id']; ?>" value="<?php echo $groupe['id']; ?>" />
+                            <label for="<?php echo $groupe['id']; ?>">
+                                <span></span><b>#<?php echo $groupe['id']; ?></b>
+                            </label>
                         </td>
                         <?php
                         if ($groupe['est_archive'] == 1) {

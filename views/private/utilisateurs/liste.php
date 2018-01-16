@@ -51,11 +51,10 @@
                     <table class="table table-striped" id="tableau">
                         <tr>
                             <td>
-                                <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" name="checkall" id="checkall" onclick="cocherOuDecocherTout(this)" />
-                                    <label for="checkall">
-                                        <b>#id</b>
-                                    </label>
+                                <input type="checkbox" name="checkall" id="checkall" onclick="cocherOuDecocherTout(this)" />
+                                <label for="checkall">
+                                    <span></span><b>#id</b>
+                                </label>
                             </td>
                             <td><b>Etat</b></td>
                             <td><b>Nom d'utilisateur</b></td>
@@ -64,11 +63,10 @@
                         <?php foreach ($data['all'] as $utilisateur): ?>
                             <tr class="">
                                 <td>
-                                    <div class="checkbox checkbox-primary">
-                                        <input type="checkbox" name="utilisateurs[]" id="<?php echo $utilisateur['id']; ?>" value="<?php echo $utilisateur['id']; ?>" />
-                                        <label for="<?php echo $utilisateur['id']; ?>">
-                                            <b>#<?php echo $utilisateur['id']; ?></b>
-                                        </label>
+                                    <input type="checkbox" name="utilisateurs[]" id="<?php echo $utilisateur['id']; ?>" value="<?php echo $utilisateur['id']; ?>" />
+                                    <label for="<?php echo $utilisateur['id']; ?>">
+                                        <span></span><b>#<?php echo $utilisateur['id']; ?></b>
+                                    </label>
                                 </td>
                                 <?php if ($utilisateur['active'] == 1) {
                                     $color = "#5cb85c";

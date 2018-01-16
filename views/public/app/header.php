@@ -22,9 +22,17 @@
                         echo 'media="screen" ';
                         echo 'href="'.$data['base_url'].'template/bootstrap/css/'.$data['css'].'" />';
             }
-
+            // *** OTHERS **** //
+            if(count($data['others']) >= 1){
+                foreach($data['others'] as $other){
+                    echo '<link rel="stylesheet" ';
+                        echo 'type="text/css" ';
+                        echo 'media="screen" ';
+                        echo 'href="'.$data['base_url'].'template/'.$other.'" />';
+                }
+            }
             // *** JS *** //
-            echo '<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>';
+            echo '<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>';
             if(is_array($data['js'])){
                 foreach($data['js'] as $js){
                     echo '<script type="text/javascript" ';

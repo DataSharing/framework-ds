@@ -6,7 +6,7 @@
             <div class="col-12 col-md-8">
                 <div class="card ">
                     <div class="card-header"><b>Informations utilisateur</b></div>
-                    <div class="card-block">
+                    <div class="card-body">
                         <!-- ACTIONS -->
                         <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success" ><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Enregistrer</button>
                         <button type="submit" name="submit" id="submit" value="enregistrerEtFermer" class="btn btn-success" ><span class="glyphicon glyphicon-saved" aria-hidden="true"></span> Enregistrer &amp; fermer</button>
@@ -29,7 +29,7 @@
             <div class="col-12 col-md-4">
                 <div class="card ">
                     <div class="card-header"><b>Accès utilisateur</b></div>
-                    <div class="card-block">
+                    <div class="card-body">
                         <select name="etatcompte" class="form-control">
                             <option value="0" <?php if ($u['active'] == '0') echo "selected"; ?>>Compte désactivé</option>
                             <option value="1" <?php if ($u['active'] == '1') echo "selected"; ?>>Compte activé</option>
@@ -51,7 +51,7 @@
                 </div><br/>
                 <div class="card ">
                     <div class="card-header"><b>Historique de connexion</b></div>
-                    <div class="card-block">
+                    <div class="card-body">
                         <p><i>les 5 dernières activitées</i></p>
                         <?php foreach ($data['historique'] as $h): ?>
                             <p><?php echo $this->form->afficher_date($h['date_modification'], 'dateheure'); ?></p>
@@ -60,7 +60,7 @@
                 </div><br/>
                 <div class="card ">
                     <div class="card-header"><b>Supprimer l'utilisateur</b></div>
-                    <div class="card-block">
+                    <div class="card-body">
                         <button type="button" data-toggle="modal" data-target=".bs-confirmation-modal-sm" class="btn btn-danger" style="width:100%"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Supprimer</button>
                     </div>
                 </div>

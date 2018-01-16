@@ -10,11 +10,10 @@ if($data['page'] == 0){
     $class_logs = 'active in';
     $active_logs = 'active';
 }
-echo "<br>";
-echo '<div class="col-sm-24 col-md-24 container" style="margin:4em auto;">';
+echo '<div class="col-sm-24 col-md-24 container" style="margin:3.6em auto;padding:1em;">';
         echo '<div class="card">';
             echo '<div class="card-header"><i class="icon icon-cogs icon-fw"></i> Configurations</div>';
-            echo '<div class="card-block">';
+            echo '<div class="card-body">';
                 //MENU
                 echo '<nav class="nav nav-pills flex-column flex-sm-row">';
                     echo '<a aria-controls="general" role="tab" data-toggle="tab" class="flex-sm-fill text-sm-center nav-link active" href="#general">Général</a>';

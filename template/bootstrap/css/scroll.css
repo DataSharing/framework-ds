@@ -1,0 +1,35 @@
+/* 20 ressources max 
+nbressource x 21 = largeur */
+.scroll-147{width:147em;}
+.scroll-168{width:168em;}
+.scroll-189{width:189em;}
+.scroll-210{width:210em;}
+.scroll-231{width:231em;}
+.scroll-252{width:252em;}
+.scroll-273{width:273em;}
+.scroll-294{width:294em;}
+.scroll-315{width:315em;}
+.scroll-336{width:336em;}
+.scroll-357{width:357em;}
+.scroll-378{width:378em;}
+.scroll-399{width:399em;}
+.scroll-420{width:420em;}
+/*
+   MOBILE
+*/
+@media screen and (max-width: 640px) {
+    .scroll-147{width:100%;}
+    .scroll-168{width:100%;}
+    .scroll-189{width:100%;}
+    .scroll-210{width:100%;}
+    .scroll-231{width:100%;}
+    .scroll-252{width:100%;}
+    .scroll-273{width:100%;}
+    .scroll-294{width:100%;}
+    .scroll-315{width:100%;}
+    .scroll-336{width:100%;}
+    .scroll-357{width:100%;}
+    .scroll-378{width:100%;}
+    .scroll-399{width:100%;}
+    .scroll-420{width:100%;}
+}

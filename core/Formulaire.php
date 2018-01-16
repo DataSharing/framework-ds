@@ -3,11 +3,27 @@
  * Class Formulaire : regroupe quelque fonctionnalité pour l'utilisation de formulaire
  */
 Class Formulaire extends Controller{
+
+    Public $errors = array();
+
     function __construct() {
         parent::__construct();
         $this->load('core/Model','model');
     }
     
+    /* Validation des données */
+
+    public function validate($donnees) {
+        $valid = true;
+        foreach ($donnees as $donnee) {
+            if(!isset($_POST[$donnee])){
+                $valid = false;
+                $this->errors[] = "Variable <b>$donnee</b> non défini";
+            }
+        }
+        return $valid;
+    }
+
     /**
      * Protection du formulaire
      * Requête préparée ou cette fonction
@@ -15,7 +31,7 @@ Class Formulaire extends Controller{
      * @param array $data
      * @return array
      */
-    public function ProtectionFormulaire($data = array()) {
+    public function ProtectionFormulaire($data = array(),$default = array()) {
         if (is_array($data)) {
             foreach ($data AS $cle => $valeur) {
                 if (is_array($data[$cle])) {
@@ -32,6 +48,15 @@ Class Formulaire extends Controller{
             }
         } else {
             $data = htmlspecialchars($data);
+        }
+
+        //Valeur par defaut
+        if(count($default) >= 1 ){
+            foreach($default as $key=>$value){
+                if(!isset($data[$key])){
+                    $data[$key] = $value;
+                }
+            }
         }
         return $data;
     }
