@@ -93,15 +93,24 @@ Class Model extends DB {
     }
 
     public function count($where = array(), $operateur = NULL) {
+        $data = array();
         $query = $this->select('*', $this->prefixebdd . $this->table
                 . $this->where($where, $operateur));
         $nb = $this->prepare($query);
         if ($where) {
             foreach ($where as $key => $value) {
-                $nb->bindValue(':' . $key, $value);
+                //respecter l'ordre
+                $key = str_replace('<>', '', $key);
+                $key = str_replace('<=', '', $key);
+                $key = str_replace('>=', '', $key);
+                $key = str_replace('>', '', $key);
+                $key = str_replace('<', '', $key);
+                $key = str_replace('<', '', $key);
+                $key = str_replace('.', '', $key);
+                $data[':' . $key] =  $value;
             }
         }
-        $nb->execute();
+        $nb->execute($data);
         return $nb->RowCount();
     }
 
