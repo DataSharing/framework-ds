@@ -10,10 +10,11 @@ Class Model extends DB {
     Public $limite;
     Public $ordre;
     Public $prefixebdd;
+    Public $errors = array();
     Private $db;
 
     /**
-     * 	Insère une nouvelle ligne dans la base de données.
+     *  Insère une nouvelle ligne dans la base de données.
      */
     public function insertion($donnees = array()) {
         $query = $this->insert($donnees, $this->prefixebdd . $this->table);
@@ -21,7 +22,7 @@ Class Model extends DB {
     }
 
     /**
-     * 	Récupère des données dans la base de données.
+     *  Récupère des données dans la base de données.
      * Exemple : 
      * $this->lecture(array('id','nom','prenom'),
      *              array('id'=>1),
@@ -53,7 +54,7 @@ Class Model extends DB {
     }
 
     /**
-     * 	Récupère une information dans la base de données.
+     *  Récupère une information dans la base de données.
      *         
      */
     public function onerow($select, $where = array(), $operateur = null) {
@@ -75,7 +76,7 @@ Class Model extends DB {
     }
 
     /**
-     * 	Modifie une ou plusieurs lignes dans la base de données.
+     *  Modifie une ou plusieurs lignes dans la base de données.
      */
     public function maj($where, $donnees = array(),$operateur = NULL) {
         $query = $this->update($donnees, $this->prefixebdd . $this->table, $where,$operateur);
@@ -84,7 +85,7 @@ Class Model extends DB {
     }
 
     /**
-     * 	Supprime une ou plusieurs lignes de la base de données.
+     *  Supprime une ou plusieurs lignes de la base de données.
      */
     public function delete($where = array(), $operateur = '') {
         $query = 'delete from ' . $this->prefixebdd . $this->table
@@ -92,6 +93,10 @@ Class Model extends DB {
         return $this->query($query, $where);
     }
 
+    /**
+     *  Compter le nombre d'enregistrement
+     *     
+    */
     public function count($where = array(), $operateur = NULL) {
         $data = array();
         $query = $this->select('*', $this->prefixebdd . $this->table
@@ -106,6 +111,7 @@ Class Model extends DB {
                 $key = str_replace('>', '', $key);
                 $key = str_replace('<', '', $key);
                 $key = str_replace('<', '', $key);
+                $key = str_replace('!=', '', $key);
                 $key = str_replace('.', '', $key);
                 $data[':' . $key] =  $value;
             }
@@ -114,54 +120,41 @@ Class Model extends DB {
         return $nb->RowCount();
     }
 
-    public function recherche($select = "*", $where = array()) {
-        $or = "";
-        $conditions = "";
+    /**
+     *  Vérifier les doublons dans les données
+        --> Pour l'insertion
+        $this->doublons(array('nom'=>$_POST['nom']));
 
-        foreach ($where as $key => $value) {
-            $ex = explode(':', $key);
-            $conditions = $conditions . $or . $ex[1] . " LIKE " . $key;
-            $or = " OR ";
+        --> Pour l'enregistrement
+        
+     *
+    */
+    public function doublons($donnees = array(),$id = array()){
+        $operateur = "";
+        $return = 0;
+        foreach($donnees as $key=>$value){
+            if(!empty($id)){
+                foreach($id as $key1=>$value1){
+                    $where[$key1] = $value1;
+                }
+                $operateur = "AND";
+            }
+            $where[$key] = $value;
+            if($this->count($where,$operateur) >= 1){
+                $this->errors[] = $value." existe déjà!";
+                $return++;
+            }
         }
 
-        $query = "select " . $select . " from " . $this->prefixebdd . $this->table . " where " . $conditions;
-        $queryPrepare = $this->db->prepare($query);
-
-        foreach ($where as $key => $value) {
-            $queryPrepare->bindParam($key, $value);
+        if($return  >= 1){
+            return false;
         }
-
-        if ($queryPrepare->execute()) {
-            return $queryPrepare->fetchall();
-        } else {
-            return "";
-        }
+        return true;
     }
 
-    /*
-
-      Verification pour éviter les doublons
-
+    /**
+     *  Authentification
      */
-
-    public function verificationDoublons($where = array(), $operateur = "") {
-        $query = 'select id from ' . $this->prefixebdd . $this->table
-                . $this->where($where, $operateur);
-        $nb = $this->prepare($query, $where);
-        foreach ($where as $key => $value) {
-            $nb->bindValue(':' . $key, $value);
-        }
-        $nb->execute();
-        if ($nb->rowCount() >= 1) {
-            return true;
-        }
-        return false;
-    }
-
-    public function libre($query) {
-        return $this->query($query);
-    }
-
     public function auth($mail, $password, $mode = "app") {
         if ($mode == "public") {
             $controller_connexion = "connexion/";
@@ -196,10 +189,16 @@ Class Model extends DB {
         }
     }
 
+    /**
+     * Dernier Id inséré
+     */
     public function lastInsertId() {
         return $this->dernierID();
     }
 
+    /**
+     * Logs app
+     */
     public function log($utilisateur, $controller, $action, $id = 0, $id_user = 0) {
         $controller = strtolower($controller);
         $query = 'insert into ' . $this->prefixebdd . 'logs(id_element,controller,modifie_par,date_modification,action,id_utilisateur) '
