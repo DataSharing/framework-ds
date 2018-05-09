@@ -33,9 +33,9 @@ class Session extends Controller {
             $this->nom = "";
             //$this->identifiant = $data['identifiant'];
             $this->mail = "";
-			return "";
-		}
-		
+            return "";
+        }
+        
         $DonneesUtilisateur = $this->model->lecture('*',array('id'=>$this->id));
         foreach($DonneesUtilisateur as $data){
             $this->id = $data['id'];

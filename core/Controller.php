@@ -9,6 +9,7 @@ class Controller{
     Public $ControllerPrincipal;
     Public $nom_du_site;
     Public $langage;
+    Public $rewrite;
     
     Public $autoload_C;
     Public $autoload_M;
@@ -100,17 +101,12 @@ class Controller{
             $controller = ucwords($controller);
             $repertoire = 'controllers';            
         }
-        /*
-        if(is_a($this->$controller,$controller)){
-            return "";
-        }*/
-        //echo dirname(__FILE__).'/../' . $repertoire . '/' . $controller . '.php<br>';
+
         if(file_exists(dirname(__FILE__).'/../' . $repertoire . '/' . $controller . '.php')){
             include_once(dirname(__FILE__).'/../' . $repertoire . '/' . $controller.'.php');
             if(!$alias){
                 $controller = strtolower($controller);
                 $this->$controller = New $controller();
-                //echo $controller."<br>";
                 return $this->$controller;
             }else{
                 $alias = strtolower($alias);
@@ -148,6 +144,17 @@ class Controller{
         }
     }
     
+    /**
+     * Vue Plugin
+     * Affichage de la vue et envoi de données 
+     * @param string $path : fichier php
+     * @param array $data : données à transferer dans la vue
+     * @param boolean $error
+     */
+    public function viewPlugin($name,$path,$data = false, $error = false){      
+        require "plugins/$name/views/$path.php";
+    }
+
     /**
      * Redirection en se basant sur le mode rewrite
      * on : réécriture de l'url

@@ -6,6 +6,7 @@ class Menu extends Controller{
     Public function __construct(){
         parent::__construct();
         $this->load('core/Session');
+        $this->load('core/Plugin');
         require dirname(__FILE__).'/../locales/'.$this->langage.'/menu.php';
     }
     
