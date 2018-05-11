@@ -70,7 +70,11 @@ Class Plugins extends Controller{
 			if(isset($_POST["desinstaller"])){
 				$this->model->table = "plugins";
 				if($this->model->delete(array('nom'=>$_POST['desinstaller']))){
-					$this->view('app/succes/notification','Le plugin a bien été désinstallé');
+					if($this->plugin->uninstall($_POST['desinstaller'])){
+						$this->view('app/succes/notification','Le plugin a bien été désinstallé');
+					}else{
+						$this->view('app/erreurs/erreur','Erreur d\'installation, vérifier le fichier setup.php de votre plugin');
+					}
 				}else{
 					$this->view('app/erreurs/erreur','Erreur lors de la désinstallation du plugin');
 				}
