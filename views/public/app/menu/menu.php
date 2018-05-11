@@ -10,7 +10,7 @@
           <a class="nav-link" href="<?php echo $this->echoRedirect('accueil');?>"><i class="fa fa-home" aria-hidden="true"></i>  Home</a>
         </li>
       <?php endif;?>
-      <?php if($this->session->CheckRightMain('plugins',LECTURE)):
+      <?php if($this->session->CheckRightMainPlugins('plugin_',LECTURE)):
         if($this->plugin->nb() >= 1){
           ?>
           <li class="nav-item dropdown">

@@ -230,6 +230,12 @@ class Groupes extends Controller {
         //C'est  une VUE
         $this->model->table = "droits_groupes";
         $data['droits'] = $this->model->lecture(array('*'),array('id_groupe'=>$id));
+        $plugins = $this->model->lecture(array('*'),array('controller'=>'plugin_%','id_groupe'=>$id),'AND');
+        $data['droitsPlugins'] = array();
+        foreach($plugins as $plugin){
+            $data['droitsPlugins'][$plugin['controller']] = $plugin['droit'];
+        }
+        $data['plugins'] = scandir('./plugins');
         $this->viewPrivate('groupes/groupe',$data);
     }
 

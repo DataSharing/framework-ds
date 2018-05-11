@@ -1,7 +1,7 @@
-<?php
+ <?php
 
-class Session extends Controller {
-    
+ class Session extends Controller {
+
     Public $id;
     Public $nom;
     Public $prenom;
@@ -76,34 +76,44 @@ class Session extends Controller {
         7777    : Administrateur/Big BOSS
 
     */
-    public function CheckRight(string $controller, int $right){
-        $id_groupe = $_SESSION['id_groupe'];
-        $this->model->table = "droits";
-        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
-        if(!count($data['verification']) == 1){
-            $this->view('app/erreurs/index','Vous n\'avez pas les droits nécessaire!');
-            exit;
+        public function CheckRight(string $controller, int $right){
+            $id_groupe = $_SESSION['id_groupe'];
+            $this->model->table = "droits";
+            $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+            if(!count($data['verification']) == 1){
+                $this->view('app/erreurs/index','Vous n\'avez pas les droits nécessaire!');
+                exit;
+            }
+            return true;
         }
-        return true;
-    }
 
-     public function CheckRightType(string $controller, int $right){
-        $id_groupe = $_SESSION['id_groupe'];
-        $this->model->table = "droits";
-        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
-        if(!count($data['verification']) == 1){
+        public function CheckRightType(string $controller, int $right){
+            $id_groupe = $_SESSION['id_groupe'];
+            $this->model->table = "droits";
+            $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+            if(!count($data['verification']) == 1){
+                return false;
+            }
+            return true;
+        }
+
+        public function CheckRightMain($controller, $right){
+            $id_groupe = $_SESSION['id_groupe'];
+            $this->model->table = "droits";
+            $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+            if(!count($data['verification']) == 1){
+                return false;
+            }
+            return true;
+        }
+
+        public function CheckRightMainPlugins($controller, $right){
+            $id_groupe = $_SESSION['id_groupe'];
+            $this->model->table = "droits";
+            $data['verification'] = $this->model->lecture(array('id'),array('controller'=>"%".$controller."%",'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+            if(count($data['verification']) >= 1){
+                return true;
+            }
             return false;
         }
-        return true;
     }
-
-    public function CheckRightMain($controller, $right){
-        $id_groupe = $_SESSION['id_groupe'];
-        $this->model->table = "droits";
-        $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
-        if(!count($data['verification']) == 1){
-            return false;
-        }
-        return true;
-    }
-}

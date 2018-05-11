@@ -11,15 +11,16 @@ Class Plugins extends Controller{
 		$this->load('core/Model');
 		$this->load('core/Formulaire','form');
 		$this->load('core/Session');	
-		$this->load('core/Plugin');
-		$this->session->CheckRight('plugins',LECTURE);
+		$this->load('core/Plugin');	
 	}
 
 	public function index($id = NULL,$arg = NULL){
 		$this->traitement($id,$arg);
 		if($id != null){
+			$this->session->CheckRight('plugin_'.strtolower($id),LECTURE);
 			$this->pluginForm($id,$arg);
 		}else{
+			$this->session->CheckRight('plugins',LECTURE);
 			$this->indexForm();
 		}
 	}
