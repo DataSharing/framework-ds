@@ -5,7 +5,7 @@
 
 # Basic usage
 ### Controller
-link : https://app.com/users/1
+link : https://example.com/users/1
 $id : users
 $arg : 1
 ```php
@@ -52,3 +52,10 @@ public function indexForm(){
 </div>
 ```
   
+# Generer une page
+
+Generer automatiquement un controller avec une vue via le dossier "scripts/generate/run.php".<br/>
+Lancer la commande sur un dos ou linux :
+- php run.php arg1 arg2
+- arg1 : nameController
+- arg2 : public ou private view
