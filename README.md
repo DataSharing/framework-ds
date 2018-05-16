@@ -5,7 +5,7 @@
 
 # Basic usage
 ### Controller
-link : https://example.com/users/1
+link : https://example.com/users/1<br/>
 $id : users
 $arg : 1
 ```php
