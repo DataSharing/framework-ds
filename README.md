@@ -6,7 +6,7 @@
 # Basic usage
 ### Controller
 link : https://example.com/users/1<br/>
-$id : users
+$id : users<br/>
 $arg : 1
 ```php
 public function traitement($id,$arg){
