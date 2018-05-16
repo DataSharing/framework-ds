@@ -1,7 +1,7 @@
 # Database
 
-Default tables (utilisateurs, groupes, logs, droits, plugins)
-Default views (droits_groupes)
+- Default tables (utilisateurs, groupes, logs, droits, plugins)
+- Default views (droits_groupes)
 
 # Basic usage
 ### Controller
