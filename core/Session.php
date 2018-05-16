@@ -87,14 +87,14 @@
             return true;
         }
 
-        public function CheckRightType(string $controller, int $right){
-            $id_groupe = $_SESSION['id_groupe'];
+        public function CheckRightPlugin(string $controller, int $right){
+            $id_groupe = $_SESSION['id_groupe'] ?? "";
             $this->model->table = "droits";
-            $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
-            if(!count($data['verification']) == 1){
-                return false;
+            $count = $this->model->count(array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
+            if($count >= 1){
+                return true;
             }
-            return true;
+            return false;
         }
 
         public function CheckRightMain($controller, $right){

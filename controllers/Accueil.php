@@ -24,7 +24,7 @@ Class Accueil extends Controller{
     	$donnees = array('nom','prenom');
 
     	if($_POST){
-	    	if($this->form->validate($donnees) == true){
+	    	if($this->form->validate($donnees,['nom','prenom']) == true){
 	    		if($submit == "ajouter"){
 	    			$this->session->CheckRight('accueil',MODIFICATION);
 	    			var_dump($_POST);

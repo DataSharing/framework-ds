@@ -109,7 +109,8 @@ Class Model extends DB {
          }
       }
       $nb->execute($data);
-      //echo $query;
+      //var_dump($data);
+      //echo $query."<br>";
       return $nb->RowCount();
    }
 

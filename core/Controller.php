@@ -65,7 +65,7 @@ class Controller{
         if (!defined('MODIFICATION')) define('MODIFICATION',77);
         if (!defined('SUPPRESSION')) define('SUPPRESSION',777);
         if (!defined('ADMINISTRATEUR')) define('ADMINISTRATEUR',7777);
-       
+        
         //Chargement de la librairie CAS si Auth activé
         if($this->mode_authentification == 'cas'){
             include_once(dirname(__FILE__)."/../lib/cas/CAS.php");
@@ -128,7 +128,7 @@ class Controller{
     public function view($path,$data = false, $error = false){      
         require "views/public/$path.php";
     }
-	
+    
     /**
      * Vue Privée
      * Affichage de la vue et envoi de données 
@@ -152,7 +152,8 @@ class Controller{
      * @param boolean $error
      */
     public function viewPlugin($name,$path,$data = false, $error = false){      
-        require "plugins/$name/views/$path.php";
+        $view = strtolower("plugins/$name/views/$path.php");
+        require $view;
     }
 
     /**

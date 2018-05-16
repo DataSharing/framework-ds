@@ -88,6 +88,10 @@ Class Plugins extends Controller{
 	}
 
 	public function pluginForm($plugin,$ctrl){
+		$dp = $this->plugin->dataPlugin($plugin);
+		if(isset($dp['noHTML'])){
+			$this->redirect();
+		}
 		$ex = explode('&',$ctrl);
 		$ctrl = $ex[0];
 		if($ctrl == '404'){

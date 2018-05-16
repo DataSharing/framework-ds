@@ -12,13 +12,21 @@ Class Formulaire extends Controller{
     }
     
     /* Validation des données */
-
-    public function validate($donnees) {
+    public function validate($donnees, $valueRequired = array()) {
         $valid = true;
         foreach ($donnees as $donnee) {
-            if(!isset($_POST[$donnee])){
+            /* Valeur post non défini */
+            if (!isset($_POST[$donnee])) {
                 $valid = false;
                 $this->errors[] = "Variable <b>$donnee</b> non défini";
+            } else {
+                /* Valeur null ou vide non acceptée */
+                if (in_array($donnee, $valueRequired)) {
+                    if ($_POST[$donnee] == "" || $_POST[$donnee] == null) {
+                        $valid = false;
+                        $this->errors[] = "Champ obligatoire - <b>$donnee</b>";
+                    }
+                }
             }
         }
         return $valid;
@@ -106,7 +114,7 @@ Class Formulaire extends Controller{
      * @param string $option
      [A-Za-z0-9 ]*
      */
-    public function inputGroup($name,$type,$placeholder,$error = '',$value = '', $class = "form-control", $pattern = "",$option = ''){
+     public function inputGroup($name,$type,$placeholder,$error = '',$value = '', $class = "form-control", $pattern = "",$option = ''){
         $input2 = '';
         $input3 = '';
         if(!$pattern == ''){
@@ -156,7 +164,7 @@ Class Formulaire extends Controller{
      * @param string $option
      [A-Za-z0-9 ]*
      */
-    public function btn($name,$text, $class = "btn btn-default", $option = ''){
+     public function btn($name,$text, $class = "btn btn-default", $option = ''){
         $btn = '<button '
         . 'type="submit" '
         . 'id="'.$name.'" '
@@ -177,7 +185,7 @@ Class Formulaire extends Controller{
      * @param string $option
      [A-Za-z0-9 ]*
      */
-    public function btnModal($name,$text, $class = "btn btn-default", $target = '',$option = ""){
+     public function btnModal($name,$text, $class = "btn btn-default", $target = '',$option = ""){
         $btn = '<button '
         . 'type="button" '
         . 'id="'.$name.'" '
@@ -224,25 +232,25 @@ Class Formulaire extends Controller{
      */
     public function pagination($table = '',$page,$par_page,$where = array(),$operateur = NULL){
         echo "<div class='container'>";
-            echo "<div class='col-md-12'>";
-                echo "<ul class='pagination pagination-sm'>";
-                    $this->model->table = $table;
-                    $total_records = $this->model->count($where,$operateur); 
-                    $total_pages = ceil($total_records / $par_page); 
-                    if($total_records <= $par_page){return '';}
+        echo "<div class='col-md-12'>";
+        echo "<ul class='pagination pagination-sm'>";
+        $this->model->table = $table;
+        $total_records = $this->model->count($where,$operateur); 
+        $total_pages = ceil($total_records / $par_page); 
+        if($total_records <= $par_page){return '';}
 
-                    for ($i=1; $i<=$total_pages; $i++) { 
-                        echo "<li ";
-                            if($page == $i){
-                                echo "class='active'";
-                            }
-                        echo ">";
-                            $url = str_replace('/?p=','',$_SERVER['REQUEST_URI']);
-                            echo "<a href='".$this->echoRedirect($url.'?page='.$i)."'>".$i."</a>";
-                        echo "</li>";
-                    }   
-               echo "</ul>";
-            echo "</div>";
-       echo "</div>";
+        for ($i=1; $i<=$total_pages; $i++) { 
+            echo "<li ";
+            if($page == $i){
+                echo "class='active'";
+            }
+            echo ">";
+            $url = str_replace('/?p=','',$_SERVER['REQUEST_URI']);
+            echo "<a href='".$this->echoRedirect($url.'?page='.$i)."'>".$i."</a>";
+            echo "</li>";
+        }   
+        echo "</ul>";
+        echo "</div>";
+        echo "</div>";
     }
 }

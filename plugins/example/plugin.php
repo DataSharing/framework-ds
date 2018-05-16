@@ -2,4 +2,5 @@
 
 $plugin['name'] = "Example";
 $plugin['version'] = "1";
-$plugin['auteur'] = "Walid H.";
+$plugin['auteur'] = "Walid Heddaji";
+//$plugin['noHTML'] = 1;

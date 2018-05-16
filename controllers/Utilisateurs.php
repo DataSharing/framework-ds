@@ -5,6 +5,7 @@
  * @author Walid Heddaji
  */
 Class Utilisateurs extends Controller{
+	Public $errors;
 
 	public function __construct(){
 		parent::__construct();
@@ -16,7 +17,7 @@ Class Utilisateurs extends Controller{
 		$this->session->CheckRight('utilisateurs',LECTURE);
 		$this->model->table = "utilisateurs";
 	}
-					
+
 	public function index($id = NULL,$arg = NULL){
 		if(isset($_GET['page'])){$arg = NULL;}
 		$this->traitement($id,$arg);
@@ -34,30 +35,34 @@ Class Utilisateurs extends Controller{
 		if($id == "archives"){
 			$this->FormListeUtilisateurs($id);
 		}elseif(!$id == NULL){
-			//ENREGISTRER FORMULAIRE UTILISATEUR
+//ENREGISTRER FORMULAIRE UTILISATEUR
 			if($submit == "enregistrer" || $submit == "enregistrerEtFermer"){
-                            $data = array('nom'=>$post['nom'],
-                                                      'prenom'=>$post['prenom'],
-                                                      'mail'=>$post['email'],
-                                                      'telephone'=>$post['telephone']);
-                            if($this->model->maj(array('id'=>$id),$data)){
-                                if($submit == "enregistrerEtFermer"){
-                                    $this->redirect("utilisateurs");
-                                }
-                                $this->view('app/succes/notification','Les données sont bien enregistrées!');
-                            }else{
-                                $this->view('app/erreurs/erreur','Erreur lors de l\'enregistrement des données');
-                            }
-			//REINITIALISER MOT DE PASSE
+				$donnees = array('nom','prenom','email','telephone');
+				$required = array('nom','prenom','email');
+				$data = array('nom'=>$post['nom'],
+					'prenom'=>$post['prenom'],
+					'mail'=>$post['email'],
+					'telephone'=>$post['telephone']);
+				if($this->form->validate($donnees,$required)){
+					if($this->model->maj(array('id'=>$id),$data)){
+						if($submit == "enregistrerEtFermer"){
+							$this->redirect("utilisateurs");
+						}
+						$this->view('app/succes/notification','Les données sont bien enregistrées!');
+					}else{
+						$this->view('app/erreurs/erreur','Erreur lors de l\'enregistrement des données');
+					}
+				}
+//REINITIALISER MOT DE PASSE
 			}elseif($submit == 'reinitialiser'){
 				if($post['pwd'] == $post['pwd2'] && !$post['pwd'] == "" && !$post['pwd2'] == ""){
 					$salage = $this->security->generer_salage();
 					$data = array('password'=>sha1($post['pwd']).$salage,
-								  'salage'=>$salage);
+						'salage'=>$salage);
 					if($this->model->maj(array('id'=>$id),$data)){
 						$this->view('app/succes/notification','Le mot de passe a bien été réinitialisé!');
 					}else{
-						//ERREUR
+//ERREUR
 					}
 				}else{
 					if($post['pwd'] == "" || $post['pwd2'] == ""){
@@ -66,8 +71,8 @@ Class Utilisateurs extends Controller{
 						$this->view('app/erreurs/erreur','Les mots de passe ne sont pas identiques!');
 					}
 				}
-			//ACTIVE OU DESACTIVE LE COMPTE
-			//ACCES UTILISATEUR
+//ACTIVE OU DESACTIVE LE COMPTE
+//ACCES UTILISATEUR
 			}elseif($submit == 'acces'){
 				$mdp = $this->model->onerow('password',array('id'=>$id));
 				if(!$mdp == NULL){
@@ -80,63 +85,74 @@ Class Utilisateurs extends Controller{
 						$notif = array('Accès '.$post['groupes' ]. ' a bien été enregistré.','Le compte à bien été '.$active);
 						$this->view('app/succes/notification',$notif);
 					}else{
-						//ERREUR
+//ERREUR
 					}
 				}else{
 					$this->view('app/erreurs/erreur',"Definir un mot de passe pour l'utilisateur!");
 				}
-			//SUPPRIMER UTILISATEUR
+//SUPPRIMER UTILISATEUR
 			}elseif($submit == 'supprimer'){
 				$this->session->CheckRight('utilisateurs',SUPPRESSION);
 				if($this->model->delete(array('id'=>$id))){
-                    $this->redirect('utilisateurs');
+					$this->redirect('utilisateurs');
 				}
-			//FERMER, REVENIR A LA LISTE USERS
+//FERMER, REVENIR A LA LISTE USERS
 			}elseif($submit == 'fermer'){
-                            $this->redirect('utilisateurs');
+				$this->redirect('utilisateurs');
 			}
-			//FORMULAIRE PRINCIPAL
+//FORMULAIRE PRINCIPAL
 			$this->FormUtilisateur($id);
 		}else{
-			//** FORM ADD USER **// 
+//** FORM ADD USER **// 
 			if($submit == "AjouterUtilisateur"){
+				$donnees = array('nom','prenom','email','telephone','groupes');
+				$required = array('nom','prenom','email','groupes');
 				$data = array('nom'=>$post['nom'],
-							  'prenom'=>$post['prenom'],
-							  'mail'=>$post['email'],
-							  'telephone'=>$post['telephone'],
-							  'id_groupe'=>$post['groupes'],
-							  'date_creation'=>$this->date_du_jour,
-							  'active'=>0);
-				if($this->model->insertion($data)){
-					//MSG OK
-					$this->view('app/succes/notification',"L'utilisateur a bien été créé!");
-				}else{
-					//MSG ERREUR
+					'prenom'=>$post['prenom'],
+					'mail'=>$post['email'],
+					'telephone'=>$post['telephone'],
+					'id_groupe'=>$post['groupes'],
+					'date_creation'=>$this->date_du_jour,
+					'active'=>0);
+				if($this->form->validate($donnees,$required)){
+					if($this->model->insertion($data)){
+//MSG OK
+						$this->view('app/succes/notification',"L'utilisateur a bien été créé!");
+					}else{
+//MSG ERREUR
+					}
 				}
 			}
-			//TOUJOURS AFFICHER LE FORMULAIRE PRINCIPAL
+//TOUJOURS AFFICHER LE FORMULAIRE PRINCIPAL
 			$this->FormListeUtilisateurs($id);
+		}
+		if (count($this->errors) >= 1) {
+			$this->view('app/erreurs/erreurs', $this->errors);
+		}
+
+		if (count($this->form->errors) >= 1) {
+			$this->view('app/erreurs/erreurs', $this->form->errors);
 		}
 	}
 
 	public function FormListeUtilisateurs($archives){
 		$operateur  = "";
-        $data['r'] = "";
-        $operateur = "";
-        $get = $this->form->ProtectionFormulaire($_GET);
+		$data['r'] = "";
+		$operateur = "";
+		$get = $this->form->ProtectionFormulaire($_GET);
 		if($archives == "archives"){
-            $data['archives'] = 1;
-            $recherche['est_archive'] = 1;
-        }else{
-            $data['archives'] = 0;
-            $recherche['est_archive'] = 0;
-        }
-     	if(isset($get['r'])){
-            $data['r'] = $get['r'];
-            $recherche['nom'] = "%".$get['r']."%";
+			$data['archives'] = 1;
+			$recherche['est_archive'] = 1;
+		}else{
+			$data['archives'] = 0;
+			$recherche['est_archive'] = 0;
+		}
+		if(isset($get['r'])){
+			$data['r'] = $get['r'];
+			$recherche['nom'] = "%".$get['r']."%";
             //$recherche['prenom'] = "%".$get['r']."%";
-            $operateur  = "AND";
-        }
+			$operateur  = "AND";
+		}
 		$data['all'] = $this->model->lecture(array('*'),$recherche,$operateur);
 		$this->model->table = "groupes";
 		$data['groupes'] = $this->model->lecture();

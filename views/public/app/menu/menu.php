@@ -20,9 +20,11 @@
             <div class="dropdown-menu" aria-labelledby="dropdown02">
               <?php
               foreach($this->plugin->allPlugins() as $data){
-                echo "<a href='".$this->echoRedirect('plugins/'.$data['name'])."' class='dropdown-item' >";
+                if($this->session->CheckRightPlugin('plugin_'.strtolower($data['directory']),LECTURE)){
+                  echo "<a href='".$this->echoRedirect('plugins/'.strtolower($data['directory']))."' class='dropdown-item' >";
                   echo $data['name'];
-                echo "</a>";
+                  echo "</a>";
+                }
               }
               ?>
             </div>
