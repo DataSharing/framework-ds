@@ -9,12 +9,25 @@ class DB {
    private $userbdd;
    private $passbdd;
    Public $base_url;
+   Public $rewrite;
+   
    public function __construct() {
       $this->infosBDD();
    }
-   private function __clone() {
-
-   }
+   /**
+     * Redirection en se basant sur le mode rewrite
+     * on : réécriture de l'url
+     * off : variable url
+     * 
+     * @param string $url
+     */
+    Public function redirect($url = NULL){
+        if($this->rewrite == 'on'){
+            header('location:' . $this->base_url . $url);
+        }else{
+            header('location:' . $this->base_url . "?p=" . $url);
+        }
+    }
    Private function infosBDD() {
       include dirname(__FILE__) . '/../config/database.php';
       include dirname(__FILE__) . '/../config/config.php';
@@ -24,6 +37,7 @@ class DB {
       $this->userbdd = $database['userbdd'];
       $this->passbdd = $database['passbdd'];
       $this->base_url = $config['base_url'];
+      $this->rewrite = $config['rewrite'];
       $this->nom_du_site = $config['nom_du_site'];
       $this->controller_principal = $config['controller_principal'];
       $this->date_du_jour = $config['date_du_jour'];

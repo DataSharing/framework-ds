@@ -24,17 +24,14 @@ Class Erreur extends Controller{
     }
     
     public function errorLogin(){  
-        echo "<div class='container' style='width:350px;background:transparent'>";
-        echo "<div class='alert alert-danger'>Login ou mot de passe incorrect!</div></div>";
+        $this->view("app/erreurs/erreur","Login ou mot de passe incorrect!");
     }
     
     public function errorPwd(){
-        echo "<div class='container' style='width:350px;background:transparent'>";
-        echo "<div class='alert alert-danger'>Login ou mot de passe incorrect!</div></div>";
+        $this->view("app/erreurs/erreur","Login ou mot de passe incorrect!");
     }
     
     public function errorActivation(){
-        echo "<div class='container' style='width:350px;background:transparent'>";
-        echo "<div class='alert alert-danger'>Votre compte est désactivé, veuillez contacter l'administrateur du site!</div></div>";
+        $this->view("app/erreurs/erreur","Votre compte est désactivé, veuillez contacter l'administrateur du site!");
     }
 }
