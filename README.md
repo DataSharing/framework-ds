@@ -9,6 +9,7 @@ A l'installation , création des tables suivantes:
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 # Basic usage
 ### Controller
@@ -20,4 +21,6 @@ public function traitement($id,$arg){
   $submit = $_POST['submit'] ?? "";
   $post = $this->form->protectionFormulaire($_POST);
 >>>>>>> parent of 4b093af... Update README.md
+=======
+>>>>>>> parent of a8b773c... Update README.md
   
