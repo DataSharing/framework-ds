@@ -5,6 +5,7 @@ Class Model extends DB {
    Public $table;
    Public $leftjoin;
    Public $groupby;
+   Public $having;
    Public $limite;
    Public $ordre;
    Public $prefixebdd;
@@ -40,11 +41,13 @@ Class Model extends DB {
               . $this->leftjoin($this->leftjoin)
               . ' ' . $this->where($where, $operateur)
               . ' ' . $this->groupby($this->groupby)
+              . ' ' . $this->having($this->having)
               . ' ' . $this->orderby($order)
               . ' ' . $this->limit($limit));
       /* Reset  */
       $this->leftjoin = null;
       $this->groupby = null;
+      $this->having = null;
       //echo $query . "<br/>";
       return $this->query($query, array_merge($where, $limit));
    }
@@ -89,10 +92,21 @@ Class Model extends DB {
     *  Compter le nombre d'enregistrement
     *
     */
-   public function count($where = array(), $operateur = NULL) {
+   public function count($where = array(), $operateur = NULL,$other = NULL) {
       $data = array();
-      $query = $this->select('*', $this->prefixebdd . $this->table
-              . $this->where($where, $operateur));
+      
+      if($other == NULL)
+      {
+        $where_select = $this->where($where, $operateur);
+      }else{
+        $where_select = " where ". $other;
+        $query = $this->select('*', $this->prefixebdd . $this->table . $where_select );
+        $nb = $this->prepare($query);
+        $nb->execute();
+        return $nb->RowCount();
+      }
+
+      $query = $this->select('*', $this->prefixebdd . $this->table . $where_select );
       $nb = $this->prepare($query);
       if ($where) {
          foreach ($where as $key => $value) {
@@ -112,6 +126,15 @@ Class Model extends DB {
       //var_dump($data);
       //echo $query."<br>";
       return $nb->RowCount();
+   }
+
+   /**
+      Nombre de row avec un LIMIT
+   */
+   public function foundRows()
+   {
+    $rows = $this->query('select FOUND_ROWS() as nb;');
+    return $rows[0]['nb'];
    }
 
    /*

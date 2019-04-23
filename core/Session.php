@@ -76,7 +76,7 @@
         7777    : Administrateur/Big BOSS
 
     */
-        public function CheckRight(string $controller, int $right){
+        public function CheckRight($controller, $right){
             $id_groupe = $_SESSION['id_groupe'];
             $this->model->table = "droits";
             $data['verification'] = $this->model->lecture(array('id'),array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
@@ -87,8 +87,8 @@
             return true;
         }
 
-        public function CheckRightPlugin(string $controller, int $right){
-            $id_groupe = $_SESSION['id_groupe'] ?? "";
+        public function CheckRightPlugin($controller,$right){
+            $id_groupe = $_SESSION['id_groupe'];
             $this->model->table = "droits";
             $count = $this->model->count(array('controller'=>$controller,'droit'=>$right,'id_groupe'=>$id_groupe),'AND');
             if($count >= 1){
