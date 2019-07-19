@@ -1,20 +1,22 @@
 <?php
 include_once dirname(__FILE__) . '/../core/Db.php';
 
-Class Model extends DB {
-   Public $table;
-   Public $leftjoin;
-   Public $groupby;
-   Public $having;
-   Public $limite;
-   Public $ordre;
-   Public $prefixebdd;
-   Public $errors = array();
-   Private $db;
+class Model extends DB
+{
+   public $table;
+   public $leftjoin;
+   public $groupby;
+   public $having;
+   public $limite;
+   public $ordre;
+   public $prefixebdd;
+   public $errors = array();
+   private $db;
    /**
     *  Insère une nouvelle ligne dans la base de données.
     */
-   public function insertion($donnees = array()) {
+   public function insertion($donnees = array())
+   {
       $query = $this->insert($donnees, $this->prefixebdd . $this->table);
       return $this->query($query, $donnees);
    }
@@ -36,14 +38,15 @@ Class Model extends DB {
     *              array('suivant'=>0,'fin'=>5),
      'id');
     */
-   public function lecture($select = array('*'), $where = array(), $operateur = null, $order = array(), $limit = array()) {
+   public function lecture($select = array('*'), $where = array(), $operateur = null, $order = array(), $limit = array())
+   {
       $query = $this->select($select, $this->prefixebdd . $this->table
-              . $this->leftjoin($this->leftjoin)
-              . ' ' . $this->where($where, $operateur)
-              . ' ' . $this->groupby($this->groupby)
-              . ' ' . $this->having($this->having)
-              . ' ' . $this->orderby($order)
-              . ' ' . $this->limit($limit));
+         . $this->leftjoin($this->leftjoin)
+         . ' ' . $this->where($where, $operateur)
+         . ' ' . $this->groupby($this->groupby)
+         . ' ' . $this->having($this->having)
+         . ' ' . $this->orderby($order)
+         . ' ' . $this->limit($limit));
       /* Reset  */
       $this->leftjoin = null;
       $this->groupby = null;
@@ -55,9 +58,10 @@ Class Model extends DB {
     *  Récupère une information dans la base de données.
     *
     */
-   public function onerow($select, $where = array(), $operateur = null) {
+   public function onerow($select, $where = array(), $operateur = null)
+   {
       $query = 'select ' . $select . ' from ' . $this->prefixebdd . $this->table
-              . $this->where($where, $operateur);
+         . $this->where($where, $operateur);
       $nb = $this->prepare($query, $where);
       foreach ($where as $key => $value) {
          $nb->bindValue(':' . $key, $value);
@@ -75,7 +79,8 @@ Class Model extends DB {
    /**
     *  Modifie une ou plusieurs lignes dans la base de données.
     */
-   public function maj($where, $donnees = array(), $operateur = NULL) {
+   public function maj($where, $donnees = array(), $operateur = NULL)
+   {
       $query = $this->update($donnees, $this->prefixebdd . $this->table, $where, $operateur);
       //echo $query;
       return $this->query($query, $donnees + $where);
@@ -83,30 +88,51 @@ Class Model extends DB {
    /**
     *  Supprime une ou plusieurs lignes de la base de données.
     */
-   public function delete($where = array(), $operateur = '') {
+   public function delete($where = array(), $operateur = '')
+   {
       $query = 'delete from ' . $this->prefixebdd . $this->table
-              . $this->where($where, $operateur);
+         . $this->where($where, $operateur);
       return $this->query($query, $where);
    }
+   /**
+    * Dupliquer un enregistrement
+    * $this->dupliquer('nom,prenom,age','id=1');
+    */
+   public function dupliquer($colonnes = "", $where = "", $otherTable = "", $otherColonnes = "")
+   {
+      if (empty($otherTable)) {
+         $otherTable = $this->prefixebdd . $this->table;
+      }
+
+      if(empty($otherColonnes))
+      {
+         $otherColonnes = $colonnes;
+      }
+      $query = "INSERT INTO " . $this->prefixebdd . $this->table . " (" . $colonnes . ") ";
+      $query .= "SELECT " . $otherColonnes . " FROM " . $otherTable . " ";
+      $query .= "WHERE " . $where;
+      return $this->query($query);
+   }
+
    /**
     *  Compter le nombre d'enregistrement
     *
     */
-   public function count($where = array(), $operateur = NULL,$other = NULL) {
+   public function count($where = array(), $operateur = NULL, $other = NULL)
+   {
       $data = array();
-      
-      if($other == NULL)
-      {
-        $where_select = $this->where($where, $operateur);
-      }else{
-        $where_select = " where ". $other;
-        $query = $this->select('*', $this->prefixebdd . $this->table . $where_select );
-        $nb = $this->prepare($query);
-        $nb->execute();
-        return $nb->RowCount();
+
+      if ($other == NULL) {
+         $where_select = $this->where($where, $operateur);
+      } else {
+         $where_select = " where " . $other;
+         $query = $this->select('*', $this->prefixebdd . $this->table . $where_select);
+         $nb = $this->prepare($query);
+         $nb->execute();
+         return $nb->RowCount();
       }
 
-      $query = $this->select('*', $this->prefixebdd . $this->table . $where_select );
+      $query = $this->select('*', $this->prefixebdd . $this->table . $where_select);
       $nb = $this->prepare($query);
       if ($where) {
          foreach ($where as $key => $value) {
@@ -130,20 +156,21 @@ Class Model extends DB {
 
    /**
       Nombre de row avec un LIMIT
-   */
+    */
    public function foundRows()
    {
-    $rows = $this->query('select FOUND_ROWS() as nb;');
-    return $rows[0]['nb'];
+      $rows = $this->query('select FOUND_ROWS() as nb;');
+      return $rows[0]['nb'];
    }
 
    /*
    * Installation table pour PLugin
    * 
    */
-   public function createTable($table){
-      if($this->query($table)){
-        return true;
+   public function createTable($table)
+   {
+      if ($this->query($table)) {
+         return true;
       }
       return false;
    }
@@ -151,9 +178,10 @@ Class Model extends DB {
    * Drop table pour PLugin
    * 
    */
-   public function dropTable($table){
-      if($this->query($table)){
-        return true;
+   public function dropTable($table)
+   {
+      if ($this->query($table)) {
+         return true;
       }
       return false;
    }
@@ -166,7 +194,8 @@ Class Model extends DB {
 
     *
     */
-   public function doublons($donnees = array(), $id = array()) {
+   public function doublons($donnees = array(), $id = array())
+   {
       $operateur = "";
       $return = 0;
       foreach ($donnees as $key => $value) {
@@ -191,18 +220,23 @@ Class Model extends DB {
    /**
     *  Authentification
     */
-   public function auth($mail, $password, $mode = "app") {
+   public function auth($mail, $password, $mode = "app")
+   {
       if ($mode == "public") {
          $controller_connexion = "connexion/";
       } else {
          $controller_connexion = "erreur/";
+      }
+      $explodeMail = explode('@', $mail);
+      if (!isset($explodeMail[1])) {
+         $mail = $mail . "@univ-lyon3.fr";
       }
       $y = $this->prepare('SELECT COUNT(*) FROM ' . $this->prefixebdd . 'utilisateurs WHERE mail = ?');
       $y->execute(array($mail));
       $x = $y->fetch();
 
       if ($x[0] == 0) {
-        $this->redirect($controller_connexion."login");
+         $this->redirect($controller_connexion . "login");
       } else {
          //Si adresse email existe alors on vérifie la combinaison
          $e = $this->prepare('SELECT id,password,salage,active,nom,prenom FROM ' . $this->prefixebdd . 'utilisateurs WHERE mail = ?');
@@ -213,30 +247,32 @@ Class Model extends DB {
          if ($passe == $rep['password']) {
             //COMPTE DESACTIVE
             if ($rep['active'] == 0) {
-              $this->redirect($controller_connexion."activation");
+               $this->redirect($controller_connexion . "activation");
             } else {
                $_SESSION['id'] = $rep['id'];
                $this->log($rep['nom'] . ' ' . $rep['prenom'], 'auth', LOG_CONNEXION . "[" . $this->date_du_jour . "]", 0, $rep['id']);
                $this->redirect();
             }
          } else {
-          $this->redirect($controller_connexion . 'pwd');
+            $this->redirect($controller_connexion . 'pwd');
          }
       }
    }
    /**
     * Dernier Id inséré
     */
-   public function lastInsertId() {
+   public function lastInsertId()
+   {
       return $this->dernierID();
    }
    /**
     * Logs app
     */
-   public function log($utilisateur, $controller, $action, $id = 0, $id_user = 0) {
+   public function log($utilisateur, $controller, $action, $id = 0, $id_user = 0)
+   {
       $controller = strtolower($controller);
       $query = 'insert into ' . $this->prefixebdd . 'logs(id_element,controller,modifie_par,date_modification,action,id_utilisateur) '
-              . 'values(:id_element,:controller,:modifier_par,:date_modification,:action,:id_utilisateur)';
+         . 'values(:id_element,:controller,:modifier_par,:date_modification,:action,:id_utilisateur)';
       $req = $this->prepare($query);
       $req->bindValue(':id_element', $id, PDO::PARAM_INT);
       $req->bindValue(':controller', $controller, PDO::PARAM_STR);
