@@ -65,7 +65,6 @@ Class Email Extends PHPMailer{
          */
        
     	//$this->SMTPDebug = 1;
-        $this->CharSet = 'UTF-8';
     	$this->SetFrom($this->expediteur,$this->alias);
         foreach($destinataires as $destinataire){
            $this->AddAddress($destinataire); 

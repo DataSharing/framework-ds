@@ -23,7 +23,7 @@
  You should have received a copy of the GNU General Public License
  along with Framework DS. If not, see <http://www.gnu.org/licenses/>.
  --------------------------------------------------------------------------
- * @author Walid H. <datasharing7@gmail.com>
+ * @author Walid Heddaji <datasharing7@gmail.com>
  */
 
 session_start();   

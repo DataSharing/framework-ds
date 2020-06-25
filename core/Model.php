@@ -104,8 +104,7 @@ class Model extends DB
          $otherTable = $this->prefixebdd . $this->table;
       }
 
-      if(empty($otherColonnes))
-      {
+      if (empty($otherColonnes)) {
          $otherColonnes = $colonnes;
       }
       $query = "INSERT INTO " . $this->prefixebdd . $this->table . " (" . $colonnes . ") ";
@@ -152,6 +151,11 @@ class Model extends DB
       //var_dump($data);
       //echo $query."<br>";
       return $nb->RowCount();
+   }
+
+   public function libre($requete)
+   {
+      return $this->query($requete);
    }
 
    /**
@@ -250,7 +254,7 @@ class Model extends DB
                $this->redirect($controller_connexion . "activation");
             } else {
                $_SESSION['id'] = $rep['id'];
-               $this->log($rep['nom'] . ' ' . $rep['prenom'], 'auth', LOG_CONNEXION . "[" . $this->date_du_jour . "]", 0, $rep['id']);
+               $this->log($rep['nom'] . ' ' . $rep['prenom'], 'auth', LOG_CONNEXION, 0, $rep['id']);
                $this->redirect();
             }
          } else {
@@ -258,6 +262,7 @@ class Model extends DB
          }
       }
    }
+
    /**
     * Dernier Id inséré
     */
@@ -265,14 +270,15 @@ class Model extends DB
    {
       return $this->dernierID();
    }
+
    /**
     * Logs app
     */
-   public function log($utilisateur, $controller, $action, $id = 0, $id_user = 0)
+   public function log($utilisateur, $controller, $action, $id = 0, $id_user = 0, $id_description = 0)
    {
       $controller = strtolower($controller);
-      $query = 'insert into ' . $this->prefixebdd . 'logs(id_element,controller,modifie_par,date_modification,action,id_utilisateur) '
-         . 'values(:id_element,:controller,:modifier_par,:date_modification,:action,:id_utilisateur)';
+      $query = 'insert into ' . $this->prefixebdd . 'logs(id_element,controller,modifie_par,date_modification,action,id_utilisateur,id_description) '
+         . 'values(:id_element,:controller,:modifier_par,:date_modification,:action,:id_utilisateur,:id_description)';
       $req = $this->prepare($query);
       $req->bindValue(':id_element', $id, PDO::PARAM_INT);
       $req->bindValue(':controller', $controller, PDO::PARAM_STR);
@@ -280,6 +286,7 @@ class Model extends DB
       $req->bindValue(':date_modification', $this->date_du_jour);
       $req->bindValue(':action', $action, PDO::PARAM_STR);
       $req->bindValue(':id_utilisateur', $id_user, PDO::PARAM_INT);
+      $req->bindValue(':id_description', $id_description, PDO::PARAM_INT);
       return $req->execute();
    }
 }

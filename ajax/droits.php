@@ -1,41 +1,46 @@
 <?php
 
+include_once '../core/Controller.php';
 include_once '../core/Model.php';
 
-$model = New Model();
+$ctrl = new Controller();
+$model = new Model();
+
 $model->table = "droits";
 
 if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
     $lecture = array('id_groupe' => $_POST['id_groupe'], 'droit' => 7, 'controller' => $_POST['controller']);
     if ($model->count($lecture, 'AND') == 0) {
         if ($model->insertion($lecture)) {
-            echo '<br/><div id=""notif class="notif" style="border-left:5px solid #5cb85c">';
-            echo '<p style="color:#FFF;margin-top: -17px;padding: 0.5em">Les droits en lecture ont bien été ajouté';
-            echo '<a class="close notif-close" onclick="NotifClose()" aria-label="Close" data-dismiss="modal" type="button">';
+            $notif = 'Les droits en lecture ont bien été ajouté';
+            echo '<div id="notif" class="notif notif0" style="background: #5cb85c">';
+            echo '<p style="color:#FFF;margin:0;padding: 1em">' . $notif;
+            echo '<a class="close notif-close" onclick="NotifClose(0)" aria-label="Close" data-dismiss="modal" type="button">';
             echo '<span aria-hidden="true">×</span>';
             echo '</a></p>';
-            echo "</div>";
+            echo "</div>";;
         }
     } else {
-        echo '<br/><div id=""notif class="notif" style="border-left:5px solid #d9534f">';
-        echo '<p style="color:#FFF;margin-top: -17px;padding: 0.5em">Le controlleur existe déjà!';
-        echo '<a class="close notif-close" onclick="NotifClose()" aria-label="Close" data-dismiss="modal" type="button">';
+        $notif = 'Le controlleur est déjà présent';
+        echo '<br><div id="notif" class="notif notif0" style="background: #e0a800">';
+        echo '<p style="color:#FFF;margin:0;padding: 1em">' . $notif;
+        echo '<a class="close notif-close" onclick="NotifClose(0)" aria-label="Close" data-dismiss="modal" type="button">';
         echo '<span aria-hidden="true">×</span>';
         echo '</a></p>';
-        echo '</div>';
+        echo "</div>";
     }
     $droits = array();
     $model->table = "droits_groupes";
     $droits = $model->lecture(array('*'), array('id_groupe' => $_POST['id_groupe']));
 
-    echo '<table class="table table-striped">';
+    echo '<table class="table table-striped border">';
     echo '<tr>';
     echo '<th>Controller</th>';
     echo '<th>Lecture</th>';
     echo '<th>Modification</th>';
     echo '<th>Suppression/Archivage</th>';
     echo '</tr>';
-    foreach ($droits as $droit):
+    foreach ($droits as $droit) :
         $selectType = strpos($droit['controller'], 'type_');
         if ($selectType !== FALSE) {
             continue;
@@ -50,7 +55,7 @@ if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
         $nbDroits = count($droits);
 
         //LECTURE
-        for ($i = 0; $i < $nbDroits; $i++):
+        for ($i = 0; $i < $nbDroits; $i++) :
             if ($droits[$i] == 7) {
                 echo "<td>";
                 echo "<input type='checkbox' name='lecture_" . $droit['controller'] . "' id='lecture_" . $droit['controller'] . "' checked/>";
@@ -67,7 +72,7 @@ if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
         }
 
         //MODIFICATION
-        for ($i = 0; $i < $nbDroits; $i++):
+        for ($i = 0; $i < $nbDroits; $i++) :
             if ($droits[$i] == 77) {
                 echo "<td>";
                 echo "<input type='checkbox' name='modification_" . $droit['controller'] . "' id='modification_" . $droit['controller'] . "' checked/>";
@@ -84,7 +89,7 @@ if (isset($_POST['controller']) && isset($_POST['id_groupe'])) {
         }
 
         //SUPPRESSION
-        for ($i = 0; $i < $nbDroits; $i++):
+        for ($i = 0; $i < $nbDroits; $i++) :
             if ($droits[$i] == 777) {
                 echo "<td>";
                 echo "<input type='checkbox' name='suppression_" . $droit['controller'] . "' id='suppression_" . $droit['controller'] . "' checked/>";
@@ -125,7 +130,7 @@ if (isset($_POST['nom_type']) && isset($_POST['id_groupe'])) {
     $droits = array();
     $model->table = $database['prefixe'] . "droits_groupes";
     $droits = $model->lecture(array('*'), array('id_groupe' => $_POST['id_groupe']));
-    foreach ($droits as $droit):
+    foreach ($droits as $droit) :
         $selectType = strpos($droit['controller'], 'type_');
         if ($selectType === FALSE) {
             continue;
@@ -159,7 +164,7 @@ if (isset($_POST['type']) && isset($_POST['id_groupe'])) {
     $droits = array();
     $model->table = "droits_groupes";
     $droits = $model->lecture(array('*'), array('id_groupe' => $_POST['id_groupe']));
-    foreach ($droits as $droit):
+    foreach ($droits as $droit) :
         $selectType = strpos($droit['controller'], 'type_');
         if ($selectType === FALSE) {
             continue;
@@ -170,4 +175,3 @@ if (isset($_POST['type']) && isset($_POST['id_groupe'])) {
         echo "</tr>";
     endforeach;
 }
-?>

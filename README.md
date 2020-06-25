@@ -1,4 +1,6 @@
--- Default tables (utilisateurs, groupes, logs, droits, plugins)
+# Database
+
+- Default tables (utilisateurs, groupes, logs, droits, plugins)
 - Default views (droits_groupes)
 
 # Basic usage

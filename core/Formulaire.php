@@ -99,7 +99,7 @@ class Formulaire extends Controller
             . 'id="' . $name . '" '
             . 'name="' . $name . '" '
             . 'placeholder="' . $placeholder . '" '
-            . 'class="form-control" '
+            . 'class="form-control d-block mb-2 w-100" '
             . 'value="' . $value . '" '
             . $input2
             . $input3
@@ -248,7 +248,8 @@ class Formulaire extends Controller
         $filtre = "";
         $recherche = "";
         $pagination .= "<span class='btn btn-sm btn-secondary'>" . $total_records . " résultat(s)</span>";
-        if ($total_records <= $par_page) { } else {
+        if ($total_records <= $par_page) {
+        } else {
             if (isset($_GET['filtre'])) {
                 $filtre = "&filtre=" . $_GET['filtre'];
             }
@@ -260,6 +261,9 @@ class Formulaire extends Controller
             }
             if (isset($_GET['old_value'])) {
                 $recherche .= "&old_value=" . htmlentities($_GET['old_value']);
+            }
+            if (isset($_GET['types_m'])) {
+                $recherche .= "&types_m=" . htmlentities($_GET['types_m']);
             }
             if (isset($_GET['mode']) && isset($_GET['orderby'])) {
                 $tri = $recherche . "&orderby=" . $_GET['orderby'] . "&mode=" . $_GET['mode'] . $filtre;
@@ -310,6 +314,10 @@ class Formulaire extends Controller
             $filtre = "&filtre=" . $_GET['filtre'];
         }
 
+        if (isset($_GET['types_m'])) {
+            $recherche .= "&types_m=" . htmlentities($_GET['types_m']);
+        }
+
         if (isset($_GET['select-recherche'])) {
             $recherche = "&select-recherche=" . htmlentities($_GET['select-recherche']);
         }
@@ -317,11 +325,11 @@ class Formulaire extends Controller
         if (isset($_GET['recherche'])) {
             $recherche .= "&recherche=" . htmlentities($_GET['recherche']);
         }
-        
+
         if (isset($_GET['old_value'])) {
             $recherche .= "&old_value=" . htmlentities($_GET['old_value']);
         }
-        
+
         return $this->echoRedirect($section . $recherche . "&orderby=" . $colonne . "&mode=" . $mode . $page . $filtre);
     }
 }

@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <?php 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <?php
 
-            // *** CSS *** //
+    // *** CSS *** //
     echo '<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">';
-            //echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
-    echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">';
-    if(is_array($data['css'])){
-        foreach($data['css'] as $css){
+
+    if (is_array($data['css'])) {
+        foreach ($data['css'] as $css) {
             echo '<link rel="stylesheet" ';
             echo 'type="text/css" ';
             echo 'media="screen" ';
-            echo 'href="'.$data['base_url'].'template/bootstrap/css/'.$css.'" />';
+            echo 'href="' . $data['base_url'] . 'template/bootstrap/css/' . $css . '" />';
         }
-    }else{
+    } else {
         echo '<link rel="stylesheet" ';
         echo 'type="text/css" ';
         echo 'media="screen" ';
-        echo 'href="'.$data['base_url'].'template/bootstrap/css/'.$data['css'].'" />';
+        echo 'href="' . $data['base_url'] . 'template/bootstrap/css/' . $data['css'] . '" />';
     }
     // *** OTHERS **** //
-    if(count($data['others']) >= 1){
-        foreach($data['others'] as $other){
+    if (count($data['others']) >= 1) {
+        foreach ($data['others'] as $other) {
             echo '<link rel="stylesheet" ';
             echo 'type="text/css" ';
             echo 'media="screen" ';
-            echo 'href="'.$data['base_url'].'template/'.$other.'" />';
+            echo 'href="' . $data['base_url'] . 'template/' . $other . '" />';
         }
     }
 
     //CSS Plugins
-    if(!empty($data['cssPlugins'])){
-        foreach($data['cssPlugins'] as $cssPlugin){
+    if (!empty($data['cssPlugins'])) {
+        foreach ($data['cssPlugins'] as $cssPlugin) {
             echo '<link rel="stylesheet" ';
             echo 'type="text/css" ';
             echo 'media="screen" ';
-            echo 'href="'.$data['base_url'].$cssPlugin.'" />';
+            echo 'href="' . $data['base_url'] . $cssPlugin . '" />';
         }
     }
     // *** JS *** //
     echo '<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>';
-    if(is_array($data['js'])){
-        foreach($data['js'] as $js){
+    if (is_array($data['js'])) {
+        foreach ($data['js'] as $js) {
             echo '<script type="text/javascript" ';
-            echo 'src="'.$data['base_url'].'template/bootstrap/js/'.$js.'"></script>';
+            echo 'src="' . $data['base_url'] . 'template/bootstrap/js/' . $js . '"></script>';
         }
-    }else{
+    } else {
         echo '<script type="text/javascript" ';
-        echo 'src="'.$data['base_url'].'template/bootstrap/js/'.$data['js'].'"></script>';
+        echo 'src="' . $data['base_url'] . 'template/bootstrap/js/' . $data['js'] . '"></script>';
     }
     //JS Plugins
-    if(!empty($data['jsPlugins'])){
-        foreach($data['jsPlugins'] as $jsPlugin){
+    if (!empty($data['jsPlugins'])) {
+        foreach ($data['jsPlugins'] as $jsPlugin) {
             echo '<script type="text/javascript" ';
-            echo 'src="'.$data['base_url'].$jsPlugin.'"></script>';
+            echo 'src="' . $data['base_url'] . $jsPlugin . '"></script>';
         }
     }
-    ?>	
-    <title><?php echo $data['nom_du_site'];?></title>
+    ?>
+    <title><?php echo $data['nom_du_site']; ?></title>
 </head>
+
 <body>

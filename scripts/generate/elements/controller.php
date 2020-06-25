@@ -103,9 +103,8 @@ Class Generate extends Controller{
     }
 
     public function generateForm($id){
-        $data['id'] = $id;
-        //$this->model->table = "";
-        //$data[""] = $this->model->lecture(array('*'),array('id'=>$id));
+        $this->model->table = "";
+        $data[""] = $this->model->lecture(array('*'),array('id'=>$id));
         $this->viewPrivate('generate/generate',$data);
     }
 }

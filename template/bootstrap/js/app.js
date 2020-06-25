@@ -4,6 +4,11 @@ $(document).ready(function () {
         return false;
     });
 
+    var btncopy = document.querySelector('.js-copy');
+    if(btncopy) {
+        btncopy.addEventListener('click', docopy);
+    }
+
     setTimeout(function () {
         $(".notif").remove();
     }, 15000);
@@ -19,6 +24,33 @@ $(document).ready(function () {
 
 function NotifClose(i) {
     $('.notif'+i).remove();
+}
+
+function logs(recherche = '')
+{
+    var id = $('#id').val();
+    var controller = $('#controller').val();
+    var par_page = $("#par_page").val();
+    var col = $('#col').val();
+
+    if (typeof recherche.value === 'undefined')
+    {
+        v_recherche = '';
+    }else{
+        v_recherche = recherche.value;
+    }
+
+    $("#par_page").val(parseInt(par_page)*2);
+
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "ajax/logs.php",
+        data: "logs&controller=" + controller + "&id=" + id + "&par_page=" + par_page + "&recherche=" + v_recherche + "&col=" + col,
+        success: function(html) {
+            $("#logs").html(html);
+        }
+    });
 }
 
 function Droits() {
@@ -78,4 +110,40 @@ function cocherOuDecocherTout(cochePrincipale) {
         }
     }
     return true;
+}
+
+function docopy() {
+
+    // Cible de l'élément qui doit être copié
+    var target = this.dataset.target;
+    var fromElement = document.querySelector(target);
+    if(!fromElement) return;
+
+    // Sélection des caractères concernés
+    var range = document.createRange();
+    var selection = window.getSelection();
+    range.selectNode(fromElement);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    try {
+        // Exécution de la commande de copie
+        var result = document.execCommand('copy');
+        if (result) {
+            // La copie a réussi
+            alert('Copié !');
+        }
+    }
+    catch(err) {
+        // Une erreur est surevnue lors de la tentative de copie
+        alert(err);
+    }
+
+    // Fin de l'opération
+    selection = window.getSelection();
+    if (typeof selection.removeRange === 'function') {
+        selection.removeRange(range);
+    } else if (typeof selection.removeAllRanges === 'function') {
+        selection.removeAllRanges();
+    }
 }

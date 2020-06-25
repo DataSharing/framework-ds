@@ -101,6 +101,7 @@ class DB
             $key = str_replace('<', '', $key);
             $key = str_replace('!=', '', $key);
             $key = str_replace('.', '', $key);
+            
 
             $verif_in = strpos($key, '(in)');
             if ($verif_in !== false) {
@@ -112,6 +113,9 @@ class DB
                $countIn++;
             }
 
+            $key = str_replace('(', '', $key);
+            $key = str_replace(')', '', $key);
+            
             $verif_I = strpos($key, '?');
             if ($verif_I !== false) {
                $key = str_replace('?', '', $key);
@@ -128,7 +132,7 @@ class DB
             } else {
                if ($key == 'suivant' || $key == 'par_page' || $countIn >= 1) {
                   //Ne rien faire
-               } elseif (is_numeric($value)) {
+               } elseif (is_numeric($value) && !is_float($value)) {
                   $req->bindValue(":" . $key, $value, PDO::PARAM_INT);
                } else {
                   $req->bindValue(":" . $key, $value, PDO::PARAM_STR);
@@ -136,7 +140,6 @@ class DB
             }
          }
       }
-      //var_dump($newDonnees);
 
       if (strtolower($type_requete[0]) == 'select') {
          if ($countAction == 1) {
@@ -208,7 +211,7 @@ class DB
       endforeach;
       return $this->db->prepare($query, $newWhere);
    }
-   
+
    public function dernierID()
    {
       return $this->db->lastinsertid();
@@ -262,8 +265,12 @@ class DB
          $verif_pasegal = strpos($key, '!=');
          $verif_in = strpos($key, '(in)');
          $verif_i = strpos($key, '?');
+         $verif_parenthese_ouverte = strpos($key, '(');
+         $verif_parenthese_fermee = strpos($key, ')');
          $parenthese_o = "";
          $parenthese_f = "";
+         $po = "";
+         $pf = "";
 
          /* Verification case */
          $case = false;
@@ -300,6 +307,15 @@ class DB
             $signe = "=";
          }
 
+         //Parenthese OR AND
+         if ($verif_parenthese_ouverte !== false) {
+            $po = "(";
+         }
+
+         if ($verif_parenthese_fermee !== false) {
+            $pf = ")";
+         }
+
          //Respecter l'ordre
          if ($case == false) {
             $key = str_replace('<>', '', $key);
@@ -310,6 +326,8 @@ class DB
             $key = str_replace('!=', '', $key);
             $key = str_replace('(in)', '', $key);
             $key = str_replace('?', '', $key);
+            $key = str_replace('(', '', $key);
+            $key = str_replace(')', '', $key);
          }
 
          $valeur = $parenthese_o;
@@ -335,7 +353,7 @@ class DB
             $signe = "=";
          }
 
-         $conditions = $conditions . ' ' . $operateur . ' ' . $key . " " . $signe . $valeur;
+         $conditions = $conditions . ' ' . $operateur . ' ' . $po . $key . " " . $signe . $valeur . $pf;
          $count++;
       }
       //echo $conditions."<br>";

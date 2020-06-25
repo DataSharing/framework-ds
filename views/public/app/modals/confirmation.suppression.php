@@ -1,7 +1,7 @@
 <form action="" method="post">
 	<div class="modal fade bs-confirmation-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 	  <div class="modal-dialog modal-sm" role="document">
-	    <div class="modal-content col-md-12"><br>
+	    <div class="modal-content p-4"><br>
 	    	<center>
 	      		<p><b>Êtes-vous sûr de vouloir supprimer <?php echo $data['element'];?>?</b></p>
 	      	</center><br>
