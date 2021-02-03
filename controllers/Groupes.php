@@ -8,7 +8,7 @@
  */
 class Groupes extends Controller
 {
-    public $errors;
+    public $errors = [];
 
     public function __construct()
     {
@@ -144,7 +144,7 @@ class Groupes extends Controller
             }
         }
 
-        if (count($this->errors) >= 1) {
+        if (!empty($this->errors) && count($this->errors) >= 1) {
             $this->view('app/erreurs/erreurs', $this->errors);
         }
 
