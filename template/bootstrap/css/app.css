@@ -1,9 +1,9 @@
-body{
-  background: #f1f1f1;
+body {
+    background: #f1f1f1;
 }
 
-.bordeline{
-    border:1px solid #DDD;
+.bordeline {
+    border: 1px solid #DDD;
     margin-bottom: 1em;
 }
 
@@ -39,62 +39,66 @@ body{
     width: 100%;
 }
 
-.form-signin{
-    margin:1em auto;
-    padding:1em;
-    width:350px;
+.form-signin {
+    margin: 1em auto;
+    padding: 1em;
+    width: 350px;
 }
 
 .input-group {
     margin-bottom: 1em;
 }
 
-.form-control{
+.form-control {
     margin-bottom: 1em;
 }
 
-.p-mobile,.h1-mobile{
+.p-mobile,
+.h1-mobile {
     display: none;
 }
 
-.container{
-  background: #fff;
+.container {
+    background: #fff;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
 
-#notif-block{
-    position:fixed;
+#notif-block {
+    position: fixed;
     z-index: 9999;
     width: 100%;
-    top:0;
+    top: 0;
 }
 
-.notif{
+.notif {
     height: auto;
     width: 100%;
 }
 
-.notif-ok{
-    float:right;
-    color:#5cb85c;
-    font-size:2em;
+.notif-ok {
+    float: right;
+    color: #5cb85c;
+    font-size: 2em;
 }
 
-.notif-close{
-    float:right;
-    font-size:2em;
+.notif-close {
+    float: right;
+    font-size: 2em;
     margin-top: -4px;
     cursor: pointer;
 }
 
 /* AFFICHAGE ERREUR */
-.xdebug-error,.xe-warning,.xe-uncaught-exception{
+.xdebug-error,
+.xe-warning,
+.xe-uncaught-exception {
     margin: 5em auto;
 }
+
 .xdebug-var-dump {
     margin: 5em auto;
 }
@@ -102,43 +106,63 @@ body{
 /*
    MOBILE
    */
-   @media screen and (max-width: 640px) {
-      .btn {
+@media screen and (max-width: 640px) {
+    .btn {
         width: 100%
     }
-    
-    .mobile-hidden{
+
+    .container-app {
+        background: #fff none repeat scroll 0 0;
+        display: block;
+        height: 100%;
+        margin: 3em auto;
+        padding-top: 1.5em;
+        padding-bottom: 1.5em;
+        padding-right:.5em;
+        padding-left:.5em;
+        position: absolute;
+        width: 100%;
+    }
+
+    .mobile-hidden {
         display: none;
     }
 
-    .form-signin{
-        width:100%;
+    .form-signin {
+        width: 100%;
     }
 
-    .container,.col-md-9,.col-md-3,.col-md-12,.col-md-6,.col-md-10,.col-md-11,.col-md-1,.col-md-2 {
-        padding:0.3em;
+    .container,
+    .col-md-9,
+    .col-md-3,
+    .col-md-12,
+    .col-md-6,
+    .col-md-10,
+    .col-md-11,
+    .col-md-1,
+    .col-md-2 {
+        padding: 0.3em;
     }
-    
-    .p-mobile{
-      color:#000;
-      display: block;
-      background: #555 none repeat scroll 0 0;
-      color: #fff;
-      display: block;
-      font-weight: bold;
-      text-align: center;
-  }
-  
-  .h1-mobile {
-    background: #555 none repeat scroll 0 0;
-    color: #fff;
-    font-size: 2em;
-    margin: -1.02em auto;
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    z-index: 1;
-    display: block
-}
-}
 
+    .p-mobile {
+        color: #000;
+        display: block;
+        background: #555 none repeat scroll 0 0;
+        color: #fff;
+        display: block;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .h1-mobile {
+        background: #555 none repeat scroll 0 0;
+        color: #fff;
+        font-size: 2em;
+        margin: -1.02em auto;
+        position: fixed;
+        text-align: center;
+        width: 100%;
+        z-index: 1;
+        display: block
+    }
+}
