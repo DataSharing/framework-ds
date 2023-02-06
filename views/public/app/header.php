@@ -7,7 +7,7 @@
     <?php
 
     // *** CSS *** //
-    echo '<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">';
+    //echo '<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">';
 
     if (is_array($data['css'])) {
         foreach ($data['css'] as $css) {
@@ -42,7 +42,7 @@
         }
     }
     // *** JS *** //
-    echo '<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>';
+    echo '<script src="https://code.jquery.com/jquery-3.6.3.min.js"  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>';
     if (is_array($data['js'])) {
         foreach ($data['js'] as $js) {
             echo '<script type="text/javascript" ';

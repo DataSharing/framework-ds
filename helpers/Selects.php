@@ -19,7 +19,7 @@ class Selects extends Controller
             return $this->model->onerow('nom', ['id' => $id_selected]);
         }
 
-        echo "<select name='groupes' class='custom-select w-100' required>";
+        echo "<select name='groupes' class='form-select w-100' required>";
         echo "<option value=''>>>> Groupes</option>";
         foreach ($groupes as $groupe) {
             $selected = "";

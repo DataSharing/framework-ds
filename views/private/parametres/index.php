@@ -16,10 +16,14 @@ if ($data['page'] == 0) {
         <div class="row">
             <div class="col-12 col-lg-4">
                 <div class="card" style="min-height:27em;">
-                    <div class="card-header badge-dark">
-                        <h5><i class='fas fa-info'></i><span class='float-right'>Général</span></h5>
-                    </div>
                     <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-user-info"></i> Général
+                            <a href='index.php' class="btn btn-sm btn-dark w-auto float-end">
+                                <i class="fas fa-times" aria-hidden="true"></i> Fermer
+                            </a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Informations application</h6>
+                        <hr>
                         <?= $this->FormGeneral(); ?>
                     </div>
                     <div class="card-footer">
@@ -30,10 +34,10 @@ if ($data['page'] == 0) {
 
             <div class="col-12 col-lg-4">
                 <div class="card" style="min-height:27em;">
-                    <div class="card-header badge-dark">
-                        <h5><i class='fas fa-database'></i><span class='float-right'>Base de données</span></h5>
-                    </div>
                     <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-database"></i> Base de données</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Informations de connexion</h6>
+                        <hr>
                         <?= $this->FormBdd(); ?>
                     </div>
                     <div class="card-footer">
@@ -45,10 +49,10 @@ if ($data['page'] == 0) {
 
             <div class="col-12 col-lg-4">
                 <div class="card" style="min-height:27em;">
-                    <div class="card-header badge-dark">
-                        <h5><i class='fas fa-sign-in-alt'></i><span class='float-right'>Authentification</span></h5>
-                    </div>
                     <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-sign-in-alt"></i> Authentification</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Informations d'authentification</h6>
+                        <hr>
                         <?= $this->FormAuth(); ?>
                     </div>
                     <div class="card-footer">
@@ -59,10 +63,10 @@ if ($data['page'] == 0) {
 
             <div class="col-12 mt-4 mb-4">
                 <div class="card">
-                    <div class="card-header badge-dark">
-                        <h5><i class='fas fa-history'></i><span class='float-right'>Logs</span></h5>
-                    </div>
-                    <div class="card-body  p-0">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-history"></i> Logs</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Connexion/déconnexion utilisateurs</h6>
+                        <hr>
                         <?= $this->FormLogs(); ?>
                     </div>
                 </div>

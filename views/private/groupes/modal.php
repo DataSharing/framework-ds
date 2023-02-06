@@ -20,9 +20,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Ajouter un groupe</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<small class="text-muted">Nom du groupe</small>
@@ -37,12 +35,11 @@
 						<option value="1">Administrateur</option>
 						<option value="2">Modérateur</option>
 					</select>
-					<small class="text-muted" >Description</small>
+					<small class="text-muted">Description</small>
 					<textarea name="description" class="form-control"></textarea>
 				</div>
 				<div class="card-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-					<button type="submit" name="submit" id="submit" value="ajouter" class="btn btn-success">
+					<button type="submit" name="submit" id="submit" value="ajouter" class="btn btn-success float-end">
 						<i class="fas fa-plus" aria-hidden="true"></i> Ajouter
 					</button>
 				</div>

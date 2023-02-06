@@ -4,12 +4,16 @@ $G = $data['groupe'][0];
 <form action="" method="post" class="row">
     <div class="container-app bg-transparent">
         <div class="row">
-            <div class="col-12 col-lg-4">
+            <div class="col-12 col-lg-4 mb-2">
                 <div class="card">
-                    <div class="card-header badge-dark">
-                        <h5><i class="fas fa-info"></i><span class="float-right">Informations groupe</span></h5>
-                    </div>
                     <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-cog"></i> Général
+                            <a href="<?php echo $this->echoRedirect('groupes'); ?>" class="btn btn-sm btn-dark w-auto float-end">
+                                <i class="fas fa-times"></i> Fermer
+                            </a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Informations groupe</h6>
+                        <hr>
                         <small class="text-muted">Nom</small>
                         <input type="text" class="form-control" name="nom" id="nom" value="<?php echo $G['nom']; ?>" />
                         <small class="text-muted">Description</small>
@@ -26,20 +30,12 @@ $G = $data['groupe'][0];
                             echo "<span class='badge badge-warning'>Aucun utilisateur dans ce groupe</span>";
                         }
                         ?>
-                    </div>
-                    <div class="card-footer">
-                        <!-- ACTIONS -->
-                        <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-sm btn-success">
+                        <hr>
+                        <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success w-auto">
                             <i class="fa fa-hdd" aria-hidden="true"></i> Enregistrer
                         </button>
-                        <button type="submit" name="submit" id="submit" value="enregistreretfermer" class="btn btn-sm btn-success">
-                            <i class="fa fa-hdd" aria-hidden="true"></i> Enregistrer &amp; Fermer
-                        </button>
-                        <a href="<?php echo $this->echoRedirect('groupes'); ?>" class="btn btn-sm btn-secondary">
-                            <i class="fas fa-times"></i> Fermer
-                        </a>
-                        <div class="float-right">
-                            <button type="button" data-toggle="modal" data-target=".bs-confirmation-modal-sm" class="btn btn-sm btn-danger" style="float:right">
+                        <div class="float-end">
+                            <button type="button" data-bs-toggle="modal" data-bs-target=".bs-confirmation-modal-sm" class="btn btn-danger w-auto">
                                 <span class="fas fa-trash" aria-hidden="true"></span> Supprimer
                             </button>
                         </div>
@@ -51,11 +47,11 @@ $G = $data['groupe'][0];
             <input type="hidden" name="id_groupe" id="id_groupe" value="<?php echo $data['id']; ?>" />
             <div class="col-12 col-lg-8 pr-0">
                 <div class="card">
-                    <div class="card-header badge-dark">
-                        <h5><i class="fa fa-lock" aria-hidden="true"></i><span class="float-right">Droits d'accès aux controlleurs</span></h5>
-                    </div>
                     <div class="card-body">
-                        <select name="controller" id="controller" class="custom-select">
+                        <h5 class="card-title"><i class="fas fa-lock"></i> Accès</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Droits d'accès aux controlleurs</h6>
+                        <hr>
+                        <select name="controller" id="controller" class="form-select w-auto d-inline">
                             <?php
                             $TousLesControlleurs = scandir('./controllers');
                             foreach ($TousLesControlleurs as $ctrl) :
@@ -68,10 +64,10 @@ $G = $data['groupe'][0];
                             endforeach;
                             ?>
                         </select>
-                        <button type="button" class="btn btn-success mt-2" onclick="Droits();">
+                        <button type="button" class="btn btn-success mt-1" onclick="Droits();">
                             <i class="fa fa-plus" aria-hidden="true"></i> Ajouter le controller
                         </button>
-                        <div id="tab_acces">
+                        <div id="tab_acces" class="table-responsive">
                             <table class="table table-striped border">
                                 <tr>
                                     <th>Controller</th>
@@ -146,20 +142,19 @@ $G = $data['groupe'][0];
                                 ?>
                                 </tr>
                             </table>
+                            <hr>
+                            <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success">
+                                <i class="fa fa-hdd" aria-hidden="true"></i> Enregistrer
+                            </button>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-sm btn-success">
-                            <i class="fa fa-hdd" aria-hidden="true"></i> Enregistrer
-                        </button>
                     </div>
                 </div>
 
-                <div class="card mt-4">
-                    <div class="card-header badge-dark">
-                        <h5><i class="fas fa-plug"></i><span class="float-right">Droits d'accès aux plugins</span></h5>
-                    </div>
-                    <div class="card-body">
+                <div class="card mt-2">
+                    <div class="card-body table-responsive">
+                        <h5 class="card-title"><i class="fas fa-plug"></i> Accès plugin</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Droits d'accès aux plugin</h6>
+                        <hr>
                         <table class="table table-striped border">
                             <tr>
                                 <th>Controller</th>
@@ -209,9 +204,8 @@ $G = $data['groupe'][0];
                             }
                             ?>
                         </table>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-sm btn-success">
+                        <hr>
+                        <button type="submit" name="submit" id="submit" value="enregistrer" class="btn btn-success">
                             <i class="fa fa-hdd" aria-hidden="true"></i> Enregistrer
                         </button>
                     </div>
