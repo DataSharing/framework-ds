@@ -233,7 +233,7 @@ class Model extends DB
       }
       $explodeMail = explode('@', $mail);
       if (!isset($explodeMail[1])) {
-         $mail = $mail . "@univ-lyon3.fr";
+         $mail = $mail . "@gmail.com";
       }
       $y = $this->prepare('SELECT COUNT(*) FROM ' . $this->prefixebdd . 'utilisateurs WHERE mail = ?');
       $y->execute(array($mail));
